@@ -1,0 +1,49 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="org.snsoffice.base">
+
+  <i18n:registerTranslations directory="locales" />
+
+  <includeDependencies package="." />
+
+  <include package=".browser" />
+
+
+  <genericsetup:registerProfile
+      name="default"
+      title="org.snsoffice.base"
+      directory="profiles/default"
+      description="Installs the org.snsoffice.base add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="org.snsoffice.base-postInstall"
+      title="org.snsoffice.base post_install import step"
+      description="Post install import step from org.snsoffice.base"
+      handler=".setuphandlers.post_install">
+  </genericsetup:importStep>
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="org.snsoffice.base"
+      directory="profiles/uninstall"
+      description="Uninstalls the org.snsoffice.base add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:importStep
+      name="org.snsoffice.base-uninstall"
+      title="org.snsoffice.base uninstall import step"
+      description="Import step run during ininstalling org.snsoffice.base"
+      handler=".setuphandlers.uninstall">
+  </genericsetup:importStep>
+
+  <utility
+      factory=".setuphandlers.HiddenProfiles"
+      name="org.snsoffice.base-hiddenprofiles" />
+
+</configure>
