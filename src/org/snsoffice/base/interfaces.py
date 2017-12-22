@@ -13,7 +13,7 @@ class IHouse(model.Schema):
     """Schema for House content type."""
     
     anchor = schema.TextLine(
-        title=_(u'label_house_anchor', defalut=u'Username of the anchor'),
+        title=_(u'label_house_anchor', default=u'Username of the anchor'),
         description=_(u"Anchor for this house"),
         required=False,
 
