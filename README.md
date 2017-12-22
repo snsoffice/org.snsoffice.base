@@ -1,2 +1,2 @@
 # org.snsoffice.base
-Initial data to run snsoffice.
+Base content type and views.
