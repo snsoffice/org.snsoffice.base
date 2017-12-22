@@ -31,7 +31,7 @@
   <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
   <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>
   <element value="plone.app.dexterity.behaviors.id.IShortName"/>
-  <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle"/>
+  <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousEnabled"/>
   <element value="org.snsoffice.base.geo.IGeoFeature"/>
  </property>
  <alias from="(Default)" to="(dynamic view)"/>

@@ -14,26 +14,27 @@ class IOrgSnsofficeBaseLayer(IDefaultBrowserLayer):
 class IHouse(model.Schema):
     """Schema for House content type."""
     
-    anchor = schema.TextLine(
-        title=_(u'label_house_anchor', default=u'Anchor'),
-        description=_(u"Anchor for this house"),
+    anchors = schema.Tuple(
+        title=_(u'label_anchors', u'Anchors'),
+        description=_(
+            u'help_anchors',
+            default=u"Persons responsible for living this house."
+        ),
+        value_type=schema.TextLine(),
         required=False,
-
+        missing_value=(),
     )
     directives.widget(
-        'anchor',
+        'anchors',
         AjaxSelectFieldWidget,
         vocabulary='plone.app.vocabularies.Users'
     )
 
     source = schema.URI(
-        title=_(u'label_house_source', default=u'Source URI'),
-        description=_(u"External url of house resource"),
+        title=_(u'label_house_source', default=u'Source'),
+        description=_(u"External url of this house resource"),
         required=False,
     )
-
-    # def getAnchor():
-    # """Get anchor of this house, None if no available anchor."""
 
 class IOrganization(IHouse):
     """Schema for Organization content type."""

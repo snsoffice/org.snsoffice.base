@@ -17,4 +17,12 @@
       directory="static"
       />
 
+  <browser:page
+      name="getAnchor"
+      for="org.snsoffice.base.interfaces.IHouse"
+      class=".helper.AnchorHelperViewer"
+      layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer"
+      permission="zope2.View"
+      />
+
 </configure>

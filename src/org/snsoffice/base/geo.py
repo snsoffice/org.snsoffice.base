@@ -25,7 +25,7 @@ class IGeoFeature(model.Schema):
     )
 
     geostyle = schema.TextLine(
-        title=_(u'label_geostyle', default=u'Geo Style'),
+        title=_(u'label_geostyle', default=u'Style'),
         description=_(u"Feature style in JSON format"),
         required=False,
     )

@@ -3,7 +3,7 @@
  <property name="title">Controls the available content types in your portal</property>
 
  <object meta_type="Dexterity FTI" name="Collection" remove="True" />
- <object meta_type="Dexterity FTI" name="Collection" />
+ <!-- <object meta_type="Dexterity FTI" name="Collection" /> -->
 
  <object meta_type="Dexterity FTI" name="Organization" />
  <object meta_type="Dexterity FTI" name="House" />
