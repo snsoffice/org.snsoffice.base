@@ -8,13 +8,8 @@
  <property name="add_view_expr">string:${folder_url}/++add++House</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
- <property name="global_allow">True</property>
- <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-   <element value="Building" />
-   <element value="Floor" />
-   <element value="Room" />
- </property>
+ <property name="global_allow">False</property>
+ <property name="filter_content_types">False</property>
  <property name="allow_discussion">False</property>
  <property name="default_view">listing_view</property>
  <property name="view_methods">
@@ -34,6 +29,8 @@
  <property name="behaviors" purge="false">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
+  <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>
+  <element value="plone.app.dexterity.behaviors.id.IShortName"/>
   <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle"/>
   <element value="org.snsoffice.base.geo.IGeoFeature"/>
  </property>

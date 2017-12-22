@@ -11,6 +11,7 @@
  <property name="global_allow">True</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
+   <element value="Organization" />
    <element value="Building" />
    <element value="Floor" />
    <element value="Room" />
@@ -34,6 +35,8 @@
  <property name="behaviors" purge="false">
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
+  <element value="plone.app.dexterity.behaviors.discussion.IAllowDiscussion"/>
+  <element value="plone.app.dexterity.behaviors.id.IShortName"/>
   <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle"/>
   <element value="org.snsoffice.base.geo.IGeoFeature"/>
  </property>
