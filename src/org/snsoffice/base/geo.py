@@ -2,17 +2,17 @@
 from org.snsoffice.base import _
 
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.autoform.directives import form
+from plone.autoform import directives as form
 from plone.supermodel import model
 from zope.interface import provider
-
+from zope import schema
 
 @provider(IFormFieldProvider)
 class IGeoFeature(model.Schema):
     """GeoFeature interface to store geometry and style of feature.
     """
 
-    form.fieldset(
+    model.fieldset(
         'geofeature',
         label=_(u"label_tab_geofeture", default=u'Geography'),
         fields=['geometry', 'geostyle']

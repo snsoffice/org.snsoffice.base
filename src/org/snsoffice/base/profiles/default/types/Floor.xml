@@ -35,6 +35,7 @@
   <element value="plone.app.dexterity.behaviors.metadata.IDublinCore"/>
   <element value="plone.app.dexterity.behaviors.exclfromnav.IExcludeFromNavigation"/>
   <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousToggle"/>
+  <element value="org.snsoffice.base.geo.IGeoFeature"/>
  </property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>
