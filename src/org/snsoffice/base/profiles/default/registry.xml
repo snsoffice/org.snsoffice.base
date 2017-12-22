@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+          i18n:domain="org.snsoffice.base">
+  <record name="org.snsoffice.base.resource_base_url">
+    <field type="plone.registry.field.ASCIILine">
+      <title i18n:translate="label_resource_base_url_title">URL of houses resources:</title>
+      <description i18n:translate="label_resource_base_url_description">The url prefix of external resource for houses</description>
+    </field>
+    <value>http://owtayt1td.bkt.clouddn.com</value>
+  </record>
+</registry>
