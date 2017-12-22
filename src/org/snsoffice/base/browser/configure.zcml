@@ -18,9 +18,25 @@
       />
 
   <browser:page
-      name="getAnchor"
+      name="get-anchor"
       for="org.snsoffice.base.interfaces.IHouse"
       class=".helper.AnchorHelperView"
+      layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
+      name="ajax-house-search"
+      class=".helper.AjaxHouseSearch"
+      permission="zope2.View"
+      for="plone.app.layout.navigation.interfaces.INavigationRoot"
+      />
+
+  <!-- plone.app.contenttypes.behaviors.collection.ISyndicatableCollection -->
+  <browser:page
+      name="ajax-house-view"
+      for="plone.app.contenttypes.interfaces.ICollection"
+      class=".helper.CollectionHouseView"
       layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer"
       permission="zope2.View"
       />

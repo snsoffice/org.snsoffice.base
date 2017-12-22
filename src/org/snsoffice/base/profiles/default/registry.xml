@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
           i18n:domain="org.snsoffice.base">
+
   <record name="org.snsoffice.base.resource_base_url">
     <field type="plone.registry.field.ASCIILine">
       <title i18n:translate="label_resource_base_url_title">URL of houses resources:</title>
@@ -8,4 +9,15 @@
     </field>
     <value>http://owtayt1td.bkt.clouddn.com</value>
   </record>
+
+  <records prefix="plone.bundles/snsoffice.base"
+            interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+    <value key="enabled">True</value>
+    <value key="jscompilation"></value>
+    <value key="csscompilation">++resource++org.snsoffice.base/css/snsoffice.base.css</value>
+    <value key="last_compilation">2017-12-23 07:07:20</value>
+    <value key="compile">False</value>
+    <value key="depends">plone</value>
+  </records>
+
 </registry>

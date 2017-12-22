@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
 <registry xmlns:i18n="http://xml.zope.org/namespaces/i18n"
           i18n:domain="org.snsoffice.base">
+
   <record name="org.snsoffice.base.resource_base_url" remove="true" />
+
+  <records prefix="plone.bundles/snsoffice.base"
+           interface='Products.CMFPlone.interfaces.IBundleRegistry'
+           remove="true" />
+
 </registry>
