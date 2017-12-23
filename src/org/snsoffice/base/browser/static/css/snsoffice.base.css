@@ -1,0 +1,6 @@
+/* Fix collection menu item error indentation in factory menu
+ *   It changed by default.css and use !important
+ */
+#collection.contenttype-collection {
+    padding-left: 50px !important;
+}
