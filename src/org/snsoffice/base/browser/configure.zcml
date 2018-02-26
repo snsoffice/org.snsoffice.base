@@ -41,4 +41,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="importhelper"
+      for="org.snsoffice.base.interfaces.IHouse"
+      class=".helper.ImportHelperView"
+      layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer"
+      permission="zope2.View"
+      />
+
 </configure>

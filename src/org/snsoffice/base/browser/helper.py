@@ -74,3 +74,28 @@ class CollectionHouseView(CollectionView):
             'prefix': prefix,
             'items': items
         })
+
+class ImportHelperView(BrowserView):
+    """Import outer resource."""
+
+    def __call__(self):
+        self.request['_authenticator'] = createToken()
+        context = aq_base(self.context)
+        form = self.request.form
+        status = form.get('status')
+        if status is not None:
+            context.status = status
+
+        layers = form.get('layers')
+        patterns = form.get('patterns')
+        res = getAdapter(self.context, IGeoResources)
+        if res:
+            if layers is not None:
+                res.setGeoLayers(json_loads(layers))
+            if patterns is not None:
+                res.setGeoPatterns(json_loads(patterns))
+
+        self.request.response.setHeader("Content-Type", "application/json")
+        return json_dumps({
+            'result': 'OK'
+        })
