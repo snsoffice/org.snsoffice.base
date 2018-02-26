@@ -46,7 +46,7 @@ class AjaxHouseSearch(Search):
         results = self.results(batch=False, use_content_listing=False)
         batch = Batch(results, per_page, start=(page - 1) * per_page)
         for item in batch:
-            if IHouse.provideBy(item):
+            if IHouse.providedBy(item):
                 items.append(dump_house(item, prefix))
 
         prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url', '')
