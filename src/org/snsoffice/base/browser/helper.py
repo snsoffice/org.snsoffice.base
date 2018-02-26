@@ -74,11 +74,11 @@ class AjaxHouseSearch(Search):
         prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url')
         self.request.response.setHeader("Access-Control-Allow-Origin", "*")
         self.request.response.setHeader("Content-Type", "application/json")
-        return {
+        return json_dumps({
             'total': len(items),
             'prefix': prefix,
             'items': items
-        }
+        })
 
 class CollectionHouseView(CollectionView):
 
