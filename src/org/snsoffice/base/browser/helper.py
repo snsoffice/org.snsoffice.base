@@ -49,7 +49,7 @@ class AjaxHouseSearch(Search):
             if IHouse.providedBy(item):
                 items.append(dump_house(item, prefix))
 
-        prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url', '')
+        prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url')
         self.request.response.setHeader("Content-Type", "application/json")
         return json.dumps({
             'total': len(results),
