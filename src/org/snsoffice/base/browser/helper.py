@@ -42,12 +42,12 @@ def cropText(text, length, ellipsis='...'):
 def dump_house(item):
     return {
         'id': item.UID,
-        'title': item.Title,
-        'description': cropText(item.Description, 256),
+        'title': item.Title(),
+        'description': cropText(item.Description(), 256),
         'source': '/'.join(item.getPhysicalPath()),
         'geometry': item.geometry,
         'geostyle': item.geostyle,
-        'state': item.review_state if item.review_state else None,
+        'state': item.review_state if hasattr(item, "review_state") else None,
     }
 
 class AjaxHouseSearch(Search):
@@ -73,11 +73,11 @@ class AjaxHouseSearch(Search):
 
         prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url')
         self.request.response.setHeader("Content-Type", "application/json")
-        return json_dumps({
-            'total': len(results),
+        return {
+            'total': len(items),
             'prefix': prefix,
             'items': items
-        })
+        }
 
 class CollectionHouseView(CollectionView):
 
