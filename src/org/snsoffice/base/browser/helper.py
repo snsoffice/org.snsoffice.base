@@ -41,10 +41,10 @@ def cropText(text, length, ellipsis='...'):
 
 def dump_house(item):
     return {
-        'id': item.UID,
+        'id': item.UID(),
         'title': item.Title(),
         'description': cropText(item.Description(), 256),
-        'source': '/'.join(item.getPhysicalPath()),
+        'source': '/'.join(item.getPhysicalPath()[1:]),
         'geometry': item.geometry,
         'geostyle': item.geostyle,
         'state': item.review_state if hasattr(item, "review_state") else None,
@@ -72,6 +72,7 @@ class AjaxHouseSearch(Search):
                 items.append(dump_house(obj))
 
         prefix = api.portal.get_registry_record('org.snsoffice.base.resource_base_url')
+        self.request.response.setHeader("Access-Control-Allow-Origin", "*")
         self.request.response.setHeader("Content-Type", "application/json")
         return {
             'total': len(items),
