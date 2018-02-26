@@ -3,7 +3,7 @@ from org.snsoffice.base import _
 from org.snsoffice.base.interfaces import IHouse
 
 from Products.Five.browser import BrowserView
-from plone.app.content.utils import json_dumps
+from plone.app.content.utils import json_dumps, json_loads
 from plone.app.contenttypes.browser.collection import CollectionView
 from Products.CMFPlone.browser.search import Search
 from Products.CMFPlone.PloneBatch import Batch
