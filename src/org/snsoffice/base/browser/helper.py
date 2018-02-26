@@ -44,7 +44,7 @@ def dump_house(item):
         'id': item.UID(),
         'title': item.Title(),
         'description': cropText(item.Description(), 256),
-        'source': '/'.join(item.getPhysicalPath()[1:]),
+        'source': '/'.join(item.getPhysicalPath()[2:]),
         'geometry': item.geometry,
         'geostyle': item.geostyle,
         'state': item.review_state if hasattr(item, "review_state") else None,
