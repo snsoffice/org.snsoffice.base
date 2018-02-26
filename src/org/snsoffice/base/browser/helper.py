@@ -2,6 +2,7 @@
 from org.snsoffice.base import _
 from org.snsoffice.base.interfaces import IHouse
 
+from Products.CMFPlone import utils
 from Products.Five.browser import BrowserView
 from plone.app.content.utils import json_dumps, json_loads
 from plone.app.contenttypes.browser.collection import CollectionView
@@ -18,11 +19,31 @@ class AnchorHelperView(BrowserView):
             'anchors': self.context.anchors
         })
 
+def cropText(text, length, ellipsis='...'):
+    """Crop text on a word boundary
+    """
+    if not length:
+        return text
+    converted = False
+    if not isinstance(text, unicode):
+        text = utils.safe_unicode(text)
+        converted = True
+    if len(text) > length:
+        text = text[:length]
+        l = text.rfind(' ')
+        if l > length / 2:
+            text = text[:l + 1]
+        text += ellipsis
+    if converted:
+        # encode back from unicode
+        text = text.encode('utf-8')
+    return text
+
 def dump_house(item):
     return {
         'id': item.UID,
         'title': item.Title,
-        'description': plone_view.cropText(item.Description, length),
+        'description': cropText(item.Description, 256),
         'source': '/'.join(item.getPhysicalPath()),
         'geometry': item.geometry,
         'geostyle': item.geostyle,
