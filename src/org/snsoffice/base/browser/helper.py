@@ -143,6 +143,11 @@ def getSiteRootRelativePath(context, request):
     relative_path = context_path[len(site_path):]
     return '/'.join(relative_path)
 
+class AnchorHelperView(BrowserView):
+
+    def __call__(self):
+        return super(AnchorHelperView, self).__call__()
+    
 class ImportView(BrowserView):
 
     def __call__(self):
