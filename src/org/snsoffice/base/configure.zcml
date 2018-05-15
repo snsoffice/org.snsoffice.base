@@ -43,6 +43,8 @@
       handler=".setuphandlers.uninstall">
   </genericsetup:importStep>
 
+  <interface interface=".interfaces.IHouse" />
+
   <utility
       factory=".setuphandlers.HiddenProfiles"
       name="org.snsoffice.base-hiddenprofiles" />
