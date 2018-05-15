@@ -7,5 +7,7 @@
  <object meta_type="Dexterity FTI" name="Building" remove="True" />
  <object meta_type="Dexterity FTI" name="Floor" remove="True" />
  <object meta_type="Dexterity FTI" name="Room" remove="True" />
+ <object meta_type="Dexterity FTI" name="HouseView" remove="True" />
+ <object meta_type="Dexterity FTI" name="HouseFeature" remove="True" />
  <!-- -*- extra stuff goes here -*- -->
 </object>

@@ -1,19 +1,15 @@
 <?xml version="1.0"?>
-<object name="Room" meta_type="Dexterity FTI" i18n:domain="org.snsoffice.base"
+<object name="HouseView" meta_type="Dexterity FTI" i18n:domain="org.snsoffice.base"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title" i18n:translate="">Room</property>
+ <property name="title" i18n:translate="">House View</property>
  <property name="description" i18n:translate=""></property>
  <property name="icon_expr"></property>
- <property name="factory">Room</property>
- <property name="add_view_expr">string:${folder_url}/++add++Room</property>
+ <property name="factory">HouseView</property>
+ <property name="add_view_expr">string:${folder_url}/++add++HouseView</property>
  <property name="link_target"></property>
- <property name="immediate_view">view</property>
+ <property name="immediate_view">upload</property>
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-   <element value="HouseView" />
-   <element value="HouseFeature" />
- </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">listing_view</property>
  <property name="view_methods">
@@ -25,8 +21,8 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">org.snsoffice.base.content.Room</property>
- <property name="schema">org.snsoffice.base.interfaces.IRoom</property>
+ <property name="klass">org.snsoffice.base.content.HouseView</property>
+ <property name="schema">org.snsoffice.base.interfaces.IHouseView</property>
  <property name="model_source"></property>
  <property name="model_file"></property>
  <property name="schema_policy">dexterity</property>
@@ -52,18 +48,13 @@
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>
- <action title="Import" action_id="import" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/import"
+ <action title="Upload" action_id="upload" category="object" condition_expr=""
+    icon_expr="" link_target="" url_expr="string:${object_url}/upload"
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>
  <action title="Geometry" action_id="geoedit" category="object" condition_expr=""
     icon_expr="" link_target="" url_expr="string:${object_url}/geoedit"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Build" action_id="build" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/build"
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>

@@ -8,12 +8,12 @@
  <property name="add_view_expr">string:${folder_url}/++add++Floor</property>
  <property name="link_target"></property>
  <property name="immediate_view">view</property>
- <property name="global_allow">True</property>
+ <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
-   <element value="Building" />
-   <element value="Floor" />
    <element value="Room" />
+   <element value="HouseView" />
+   <element value="HouseFeature" />
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">listing_view</property>
@@ -26,7 +26,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">plone.app.contenttypes.content.Folder</property>
+ <property name="klass">org.snsoffice.base.content.Floor</property>
  <property name="schema">org.snsoffice.base.interfaces.IFloor</property>
  <property name="model_source"></property>
  <property name="model_file"></property>
@@ -50,6 +50,21 @@
  </action>
  <action title="Edit" action_id="edit" category="object" condition_expr=""
     icon_expr="" link_target="" url_expr="string:${object_url}/edit"
+    visible="True" i18n:attributes="title">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Import" action_id="import" category="object" condition_expr=""
+    icon_expr="" link_target="" url_expr="string:${object_url}/import"
+    visible="True" i18n:attributes="title">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Geometry" action_id="geoedit" category="object" condition_expr=""
+    icon_expr="" link_target="" url_expr="string:${object_url}/geoedit"
+    visible="True" i18n:attributes="title">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Build" action_id="build" category="object" condition_expr=""
+    icon_expr="" link_target="" url_expr="string:${object_url}/build"
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>

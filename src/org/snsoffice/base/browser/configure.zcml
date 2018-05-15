@@ -17,6 +17,65 @@
       directory="static"
       />
 
+  <browser:resource
+      name="geohelper.js"
+      file="static/geohelper.js"
+      />
+
+  <browser:resource
+      name="cloudhelper.js"
+      file="static/cloudhelper.js"
+      />
+
+ <!--  <browser:page -->
+ <!--      name="geoedit" -->
+ <!--      for="org.snsoffice.base.interfaces.ISpot" -->
+ <!--      class=".helper.GeoView" -->
+ <!--      template="geoedit.pt" -->
+ <!--      layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer" -->
+ <!--      permission="zope2.View" -->
+ <!--      /> -->
+
+ <!-- <browser:page -->
+ <!--      for="org.snsoffice.base.interfaces.ISpot" -->
+ <!--      name="import" -->
+ <!--      template="import.pt" -->
+ <!--      permission="zope2.View" -->
+ <!--      class=".helper.ImportView" -->
+ <!--      /> -->
+
+ <browser:page
+      for="org.snsoffice.base.interfaces.ISpot"
+      name="upload"
+      template="upload.pt"
+      permission="cmf.ModifyPortalContent"
+      class=".helper.UploadView"
+      />
+
+ <browser:page
+      for="org.snsoffice.base.interfaces.ISpot
+           org.snsoffice.base.interfaces.IHouseView
+           org.snsoffice.base.interfaces.IHouseFeature"
+      name="removeResource"
+      permission="zope2.DeleteObjects"
+      class=".helper.RemoveResourceView"
+      />
+
+ <browser:page
+      for="org.snsoffice.base.interfaces.ISpot"
+      name="getUploadToken"
+      permission="zope2.View"
+      class=".helper.UploadTokenView"
+      />
+
+ <browser:page
+      for="org.snsoffice.base.interfaces.ISpot"
+      name="build"
+      template="build.pt"
+      permission="cmf.ModifyPortalContent"
+      class=".helper.BuildView"
+      />
+
   <browser:page
       name="get-anchor"
       for="org.snsoffice.base.interfaces.IHouse"
