@@ -17,6 +17,12 @@
       directory="static"
       />
 
+  <plone:static
+    directory="appview"
+    type="theme"
+    name="appview"
+    />
+
   <browser:resource
       name="geohelper.js"
       file="static/geohelper.js"
