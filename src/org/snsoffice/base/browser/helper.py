@@ -167,7 +167,7 @@ class GeoView(BrowserView):
 class BuildView(BrowserView):
 
     def __call__(self):
-        self.upload(self.build()):
+        self.upload(self.build())
         return super(BuildView, self).__call__()
 
     def upload(self, data):
@@ -182,7 +182,7 @@ class BuildView(BrowserView):
         result = {
             'name': context.getId(),
             'title': context.title,
-            'origin': [0.f, 0.f],
+            'origin': [0, 0],
             'views': list(),
             'features': list(),
             'children': list(),

@@ -23,10 +23,10 @@
     name="appview"
     />
 
-  <browser:resource
-      name="geohelper.js"
-      file="static/geohelper.js"
-      />
+  <!-- <browser:resource -->
+  <!--     name="geohelper.js" -->
+  <!--     file="static/geohelper.js" -->
+  <!--     /> -->
 
   <browser:resource
       name="cloudhelper.js"
