@@ -74,7 +74,7 @@
 
   <browser:page
      for="org.snsoffice.base.interfaces.ISpot"
-     name="buildConfig"
+     name="config.json"
      permission="cmf.ModifyPortalContent"
      class=".helper.BuildView"
      />

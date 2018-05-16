@@ -195,9 +195,9 @@ class BuildView(BrowserView):
         }
 
         if IGeoFeature.providedBy(context):
-            if hasattr(context, 'geoextent'):
+            if hasattr(context, 'geoextent') and context.geoextent is not None:
                 result['extent'] = [float(x) for x in context.geoextent.split(',')]
-            if hasattr(context, 'geolocation'):
+            if hasattr(context, 'geolocation') and context.geolocation is not None:
                 result['origin'] = [float(x) for x in context.geolocation.split(',')]
 
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
