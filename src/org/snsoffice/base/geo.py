@@ -21,7 +21,7 @@ class IGeoFeature(model.Schema):
     geolocation = schema.TextLine(
         title=_(u'label_geolocation', default=u'Location'),
         description=_(u"Location of this spot in projection ESPG:3857"),
-        required=True,
+        required=False,
     )
 
     # geometry = schema.TextLine(

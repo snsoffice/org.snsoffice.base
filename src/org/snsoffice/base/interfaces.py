@@ -58,11 +58,11 @@ class ISpot(model.Schema):
         vocabulary='plone.app.vocabularies.Users'
     )
 
-    source = schema.URI(
-        title=_(u'label_spot_source', default=u'Source'),
-        description=_(u"External url of this spot"),
-        required=False,
-    )
+    # source = schema.URI(
+    #     title=_(u'label_spot_source', default=u'Source'),
+    #     description=_(u"External url of this spot"),
+    #     required=False,
+    # )
 
 
 class IOrganization(ISpot):
@@ -107,7 +107,7 @@ class IRoom(IHouse):
 class IHouseView(model.Schema):
     """Schema for HouseView content type."""
 
-    fieldset(_(u'View'), fields=['view_type', 'source', 'opacity'])
+    # fieldset(_(u'View'), fields=['view_type', 'source', 'opacity'])
 
     view_type = schema.Choice(
         title=_(u'Type'),
@@ -115,17 +115,16 @@ class IHouseView(model.Schema):
         required=True
     )
 
-    source = schema.URI(
-        title=_(u'label_view_source', default=u'Source'),
-        description=_(u"External resource of this view"),
-        required=False,
-    )
-
     opacity = schema.Float(
         title=_(u'label_opacity', default=u'Opacity'),
         required=False,
     )
 
+    # source = schema.URI(
+    #     title=_(u'label_view_source', default=u'Source'),
+    #     description=_(u"External resource of this view"),
+    #     required=False,
+    # )
 
 class IPlanView(IHouseView):
     """Schema for PlanView content type."""
@@ -145,11 +144,11 @@ class IPhase(model.Schema):
         required=True
     )
 
-    source = schema.URI(
-        title=_(u'label_phase_source', default=u'Source'),
-        description=_(u"External url of this phase"),
-        required=False,
-    )
+    # source = schema.URI(
+    #     title=_(u'label_phase_source', default=u'Source'),
+    #     description=_(u"External url of this phase"),
+    #     required=False,
+    # )
 
 class IHouseFeature(IPhase):
     """Schema for HouseFeature content type."""
