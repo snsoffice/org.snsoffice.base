@@ -5,7 +5,23 @@ from plone.autoform.interfaces import IFormFieldProvider
 from plone.autoform import directives as form
 from plone.supermodel import model
 from zope.interface import provider
+from z3c.form.interfaces import IFieldWidget, INPUT_MODE, DISPLAY_MODE, HIDDEN_MODE
 from zope import schema
+from z3c.form.browser.text import TextWidget
+from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+
+class GeoFieldWidget(TextWidget):
+    """Geo feature input field."""
+
+    input_template = ViewPageTemplateFile("browser/text_input.pt")
+
+    def render(self):
+        """See z3c.form.interfaces.IWidget."""
+
+        if self.mode == INPUT_MODE:
+            template = self.input_template
+
+        return TextWidget.render(self)
 
 @provider(IFormFieldProvider)
 class IGeoFeature(model.Schema):
@@ -46,4 +62,9 @@ class IGeoFeature(model.Schema):
         title=_(u'label_angel', default=u'Angle'),
         description=_(u"North in degree"),
         required=False,
+    )
+
+    form.widget(
+        'geolocation',
+        GeoFieldWidget
     )

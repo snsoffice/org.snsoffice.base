@@ -20,4 +20,16 @@
     <value key="depends">plone</value>
   </records>
 
+  <records prefix="plone.bundles/geoedit"
+         interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+  <value key="enabled">True</value>
+  <value key="expression">python:context.restrictedTraverse('@@plone_interface_info').provides('org.snsoffice.base.geo.IGeoFeature')</value>
+  <value key="jscompilation">++resource++geohelper.js</value>
+  <value key="csscompilation"></value>
+  <value key="last_compilation">2018-05-16 00:00:00</value>
+  <value key="compile">False</value>
+  <value key="depends">plone</value>
+</records>
+
+
 </registry>
