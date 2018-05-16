@@ -8,7 +8,7 @@ from zope.interface import provider
 from z3c.form.interfaces import IFieldWidget, INPUT_MODE, DISPLAY_MODE, HIDDEN_MODE
 from zope import schema
 from z3c.form.browser.text import TextWidget
-from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
+from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 class GeoFieldWidget(TextWidget):
     """Geo feature input field."""
