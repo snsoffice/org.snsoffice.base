@@ -172,8 +172,9 @@ class GeoView(BrowserView):
 class BuildView(BrowserView):
 
     def __call__(self):
-        self.upload(self.build())
-        return super(BuildView, self).__call__()
+        # self.upload(self.build())
+        # return super(BuildView, self).__call__()
+        return json_dumps(self.build())
 
     def upload(self, data):
         bucket_name = 'plone-house'

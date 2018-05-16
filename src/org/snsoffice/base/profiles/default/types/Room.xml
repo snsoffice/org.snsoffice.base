@@ -13,6 +13,9 @@
  <property name="allowed_content_types">
    <element value="HouseView" />
    <element value="HouseFeature" />
+   <element value="File" />
+   <element value="Image" />
+   <element value="Document" />
  </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">listing_view</property>
@@ -49,21 +52,6 @@
  </action>
  <action title="Edit" action_id="edit" category="object" condition_expr=""
     icon_expr="" link_target="" url_expr="string:${object_url}/edit"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Import" action_id="import" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/import"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Geometry" action_id="geoedit" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/geoedit"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Build" action_id="build" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/build"
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>

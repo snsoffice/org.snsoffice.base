@@ -15,7 +15,7 @@ class IGeoFeature(model.Schema):
     model.fieldset(
         'geofeature',
         label=_(u"label_tab_geofeture", default=u'Geography'),
-        fields=['geometry', 'geostyle']
+        fields=['geolocation', 'geostyle', 'geoextent', 'geoangle']
     )
 
     geolocation = schema.TextLine(
@@ -24,11 +24,11 @@ class IGeoFeature(model.Schema):
         required=True,
     )
 
-    geometry = schema.TextLine(
-        title=_(u'label_geometry', default=u'Geometry'),
-        description=_(u"Feature geometry in WKT format"),
-        required=False,
-    )
+    # geometry = schema.TextLine(
+    #     title=_(u'label_geometry', default=u'Geometry'),
+    #     description=_(u"Feature geometry in WKT format"),
+    #     required=False,
+    # )
 
     geostyle = schema.TextLine(
         title=_(u'label_geostyle', default=u'Style'),

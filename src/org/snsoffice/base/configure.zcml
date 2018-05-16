@@ -53,7 +53,7 @@
       title="Geo Feature"
       description="Add geometry and style to related item"
       provides=".geo.IGeoFeature"
-      for=".interfaces.IOrganization"
+      
       />
 
 </configure>

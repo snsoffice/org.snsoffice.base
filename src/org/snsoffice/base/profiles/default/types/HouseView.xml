@@ -10,6 +10,11 @@
  <property name="immediate_view">upload</property>
  <property name="global_allow">False</property>
  <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+   <element value="File" />
+   <element value="Image" />
+   <element value="Document" />
+ </property>
  <property name="allow_discussion">False</property>
  <property name="default_view">listing_view</property>
  <property name="view_methods">
@@ -45,16 +50,6 @@
  </action>
  <action title="Edit" action_id="edit" category="object" condition_expr=""
     icon_expr="" link_target="" url_expr="string:${object_url}/edit"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Upload" action_id="upload" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/upload"
-    visible="True" i18n:attributes="title">
-  <permission value="Modify portal content"/>
- </action>
- <action title="Geometry" action_id="geoedit" category="object" condition_expr=""
-    icon_expr="" link_target="" url_expr="string:${object_url}/geoedit"
     visible="True" i18n:attributes="title">
   <permission value="Modify portal content"/>
  </action>

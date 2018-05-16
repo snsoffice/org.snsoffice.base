@@ -37,16 +37,14 @@ class Room(House):
     def getGeoJson(self):
         pass
 
-class HouseView(Item):
+class HouseView(Folder):
     """Class for HouseView"""
 
     def getGeoJson(self):
         pass
 
-class HouseFeature(Item):
+class HouseFeature(Folder):
     """Class for HouseFeature"""
 
     def getGeoJson(self):
         pass
-
-
