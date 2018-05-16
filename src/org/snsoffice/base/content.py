@@ -11,40 +11,30 @@ from zope.component import getAdapter
 from zope.annotation.interfaces import IAnnotations
 from persistent.dict import PersistentDict
 
-class Organization(Folder):
+class Organization(Container):
     """Class for Organization"""
     pass
 
-class House(Folder):
+class House(Container):
     """Class for House"""
     pass
 
 class Building(House):
     """Class for Building"""
-
-    def getGeoJson(self):
-        pass
-
+    pass
+    
 class Floor(House):
     """Class for Floor"""
-
-    def getGeoJson(self):
-        pass
+    pass
 
 class Room(House):
     """Class for Room"""
+    pass
 
-    def getGeoJson(self):
-        pass
-
-class HouseView(Folder):
+class HouseView(Container):
     """Class for HouseView"""
+    pass
 
-    def getGeoJson(self):
-        pass
-
-class HouseFeature(Folder):
+class HouseFeature(Container):
     """Class for HouseFeature"""
-
-    def getGeoJson(self):
-        pass
+    pass

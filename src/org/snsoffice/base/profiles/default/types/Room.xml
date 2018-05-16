@@ -17,18 +17,14 @@
    <element value="Image" />
    <element value="Document" />
  </property>
- <property name="allow_discussion">False</property>
- <property name="default_view">listing_view</property>
+ <property name="allow_discussion">True</property>
+ <property name="default_view">view</property>
  <property name="view_methods">
-  <element value="listing_view"/>
-  <element value="summary_view"/>
-  <element value="tabular_view"/>
-  <element value="full_view"/>
-  <element value="album_view"/>
+  <element value="view"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">org.snsoffice.base.content.Room</property>
+ <property name="klass">plone.dexterity.content.Container</property>
  <property name="schema">org.snsoffice.base.interfaces.IRoom</property>
  <property name="model_source"></property>
  <property name="model_file"></property>
