@@ -14,15 +14,17 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href=""
+          tal:attributes="href string:${portal_url}/++resource++org.snsoffice.base/css/ol.css;">
   </head>
 
   <body>
-
+    <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
     <div id="content">
-      <div id="geo-map" class="embed-responsive"></div>
+      <div id="geo-map" class="map"></div>
       <div id="geo-mouse-position"></div>
       <script type="text/javascript" src=""
-              tal:attributes="src string:${portal_url}/++resource++geoeditor.js">
+              tal:attributes="src string:${portal_url}/++resource++geoeditor.js;">
       </script>
     </div>
 
