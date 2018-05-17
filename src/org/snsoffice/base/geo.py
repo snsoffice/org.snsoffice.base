@@ -19,7 +19,7 @@ class GeoFieldWidget(TextWidget):
         """See z3c.form.interfaces.IWidget."""
 
         if self.mode == INPUT_MODE:
-            template = self.input_template
+            self.template = self.input_template
 
         return TextWidget.render(self)
 

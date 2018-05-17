@@ -1,39 +1,51 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:omit-tag="">
-    <input id="" name="" class="" title="" lang="" disabled=""
-           readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
-           style="" value="" type="text"
-           tal:attributes="id view/id;
-                           name view/name;
-                           class view/klass;
-                           style view/style;
-                           title view/title;
-                           lang view/lang;
-                           onclick view/onclick;
-                           ondblclick view/ondblclick;
-                           onmousedown view/onmousedown;
-                           onmouseup view/onmouseup;
-                           onmouseover view/onmouseover;
-                           onmousemove view/onmousemove;
-                           onmouseout view/onmouseout;
-                           onkeypress view/onkeypress;
-                           onkeydown view/onkeydown;
-                           onkeyup view/onkeyup;
-                           value view/value;
-                           disabled view/disabled;
-                           tabindex view/tabindex;
-                           onfocus view/onfocus;
-                           onblur view/onblur;
-                           onchange view/onchange;
-                           readonly view/readonly;
-                           alt view/alt;
-                           accesskey view/accesskey;
-                           onselect view/onselect;
-                           size view/size;
-                           maxlength view/maxlength;
-                           placeholder view/placeholder;
-                           autocapitalize view/autocapitalize;" />
-    <button class="float-left">...</button>
+      tal:omit-tag="">  
+
+  <div class="row">
+    <div class="col-sm-11">
+      <input id="" name="" class="" title="" lang="" disabled=""
+             readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
+             style="" value="" type="text"
+             tal:attributes="id view/id;
+                             name view/name;
+                             class view/klass;
+                             style view/style;
+                             title view/title;
+                             lang view/lang;
+                             onclick view/onclick;
+                             ondblclick view/ondblclick;
+                             onmousedown view/onmousedown;
+                             onmouseup view/onmouseup;
+                             onmouseover view/onmouseover;
+                             onmousemove view/onmousemove;
+                             onmouseout view/onmouseout;
+                             onkeypress view/onkeypress;
+                             onkeydown view/onkeydown;
+                             onkeyup view/onkeyup;
+                             value view/value;
+                             disabled view/disabled;
+                             tabindex view/tabindex;
+                             onfocus view/onfocus;
+                             onblur view/onblur;
+                             onchange view/onchange;
+                             readonly view/readonly;
+                             alt view/alt;
+                             accesskey view/accesskey;
+                             onselect view/onselect;
+                             size view/size;
+                             maxlength view/maxlength;
+                             placeholder view/placeholder;
+                             autocapitalize view/autocapitalize;" />
+    </div>
+    <div class="col-sm-1">
+      <button type="button" class="btn btn-danger btn-xs edit-geofeature">
+        <span class="glyphicon glyphicon-map-marker"></span>
+      </button>
+    </div>
+  </div>
+    
+  <script type="text/javascript" src=""
+          tal:attributes="src string:${view/portal_url}/++resource++geohelper.js;" />
 </html>
 
