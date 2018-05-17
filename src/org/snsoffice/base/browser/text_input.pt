@@ -39,18 +39,15 @@
                              autocapitalize view/autocapitalize;" />
     </div>
     <div class="col-sm-1">
-      <button type="button" class="btn btn-danger btn-xs edit-geofeature">
+      <button type="button" class="btn btn-danger btn-xs edit-geofeature pat-plone-modal" href="view">
         <span class="glyphicon glyphicon-map-marker"></span>
+        <div id="test-modal" style="display: none">
+          <h1>Basic modal</h1>
+          <p>Indeed. Whoa whoa whoa whoa. Wait.</p>
+        </div>
       </button>
     </div>
   </div>
-
-
-  <!-- <tal:def define="context            nocall:view/form/context; -->
-  <!--                  portal_url         nocall:context/portal_url;">     -->
-  <!--   <script type="text/javascript" src="" -->
-  <!--           tal:attributes="src string:${portal_url}/++resource++geohelper.js;" /> -->
-  <!-- </tal:def> -->
 
 </html>
 
