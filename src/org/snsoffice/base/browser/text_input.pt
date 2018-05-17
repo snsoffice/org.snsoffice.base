@@ -1,6 +1,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:omit-tag="">  
+      tal:omit-tag="">
 
   <div class="row">
     <div class="col-sm-11">
@@ -39,7 +39,9 @@
                              autocapitalize view/autocapitalize;" />
     </div>
     <div class="col-sm-1">
-      <a class="pat-plone-modal" href="geoeditor">
+      <a class="pat-plone-modal"
+         data-pat-plone-modal="height: 80%; width: 80%"
+         href="geoeditor">
         <button type="button" class="btn btn-info btn-xs">
           <span class="glyphicon glyphicon-map-marker"></span>
         </button>
@@ -48,4 +50,3 @@
   </div>
 
 </html>
-

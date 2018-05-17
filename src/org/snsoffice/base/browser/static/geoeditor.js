@@ -16,7 +16,6 @@ require([ // jshint ignore:line
     $(document).ready(function() {
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
-            alert('ol is ' + ol);
             var mousePositionControl = new ol.control.MousePosition({
                 coordinateFormat: ol.coordinate.createStringXY(4),
                 projection: 'EPSG:3857',
