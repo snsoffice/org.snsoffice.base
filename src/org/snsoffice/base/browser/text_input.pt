@@ -46,11 +46,11 @@
   </div>
 
 
-  <tal:def define="context            nocall:view/form/context;
-                   portal_url         nocall:context/portal_url;">    
-    <script type="text/javascript" src=""
-            tal:attributes="src string:${portal_url}/++resource++geohelper.js;" />
-  </tal:def>
+  <!-- <tal:def define="context            nocall:view/form/context; -->
+  <!--                  portal_url         nocall:context/portal_url;">     -->
+  <!--   <script type="text/javascript" src="" -->
+  <!--           tal:attributes="src string:${portal_url}/++resource++geohelper.js;" /> -->
+  <!-- </tal:def> -->
 
 </html>
 
