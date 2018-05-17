@@ -11,8 +11,14 @@ from z3c.form.browser.text import TextWidget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 class GeoFieldWidget(TextWidget):
-    """Geo feature input field."""
+    """Geo feature input field.
 
+    <tal:def define="context            nocall:view/form/context;
+                     portal_url         nocall:context/portal_url;">
+      <script type="text/javascript" src=""
+              tal:attributes="src string:${portal_url}/++resource++geohelper.js;" />
+    </tal:def>
+    """
     input_template = ViewPageTemplateFile("browser/text_input.pt")
 
     def render(self):
