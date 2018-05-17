@@ -39,13 +39,11 @@
                              autocapitalize view/autocapitalize;" />
     </div>
     <div class="col-sm-1">
-      <button type="button" class="btn btn-danger btn-xs edit-geofeature pat-plone-modal" href="view">
-        <span class="glyphicon glyphicon-map-marker"></span>
-        <div id="test-modal" style="display: none">
-          <h1>Basic modal</h1>
-          <p>Indeed. Whoa whoa whoa whoa. Wait.</p>
-        </div>
-      </button>
+      <a class="pat-plone-modal" href="geoeditor">
+        <button type="button" class="btn btn-info btn-xs">
+          <span class="glyphicon glyphicon-map-marker"></span>
+        </button>
+      </a>
     </div>
   </div>
 

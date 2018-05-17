@@ -1,0 +1,37 @@
+<tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      tal:define="portal_state context/@@plone_portal_state;
+                  context_state context/@@plone_context_state;
+                  plone_view context/@@plone;
+                  lang portal_state/language;
+                  view nocall:view | nocall: plone_view;
+                  dummy python: plone_layout.mark_view(view);
+                  portal_url portal_state/portal_url;
+                  checkPermission nocall: context/portal_membership/checkPermission;
+                  site_properties context/portal_properties/site_properties;
+                  isAnon context/@@plone_portal_state/anonymous;"
+      i18n:domain="org.snsoffice.base"
+      tal:attributes="lang lang;">
+
+  <metal:cache tal:replace="structure provider:plone.httpheaders" />
+
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  </head>
+
+  <body>
+
+    <div id="content">
+      <div id="geo-map" class="embed-responsive"></div>
+      <div id="geo-mouse-position"></div>
+      <script type="text/javascript" src=""
+              tal:attributes="src string:${portal_url}/++resource++geoeditor.js">
+      </script>
+    </div>
+
+</body>
+</html>

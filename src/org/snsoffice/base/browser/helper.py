@@ -164,10 +164,10 @@ class UploadView(BrowserView):
     def __call__(self):
         return super(UploadView, self).__call__()
 
-class GeoView(BrowserView):
+class GeoEditor(BrowserView):
 
     def __call__(self):
-        return super(GeoView, self).__call__()
+        return super(GeoEditor, self).__call__()
 
 class BuildView(BrowserView):
 
