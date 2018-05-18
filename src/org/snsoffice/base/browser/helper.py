@@ -169,6 +169,10 @@ class GeoEditor(BrowserView):
     def __call__(self):
         return super(GeoEditor, self).__call__()
 
+    def default_geolocation(self):
+        
+        return '123,245'
+
 class BuildView(BrowserView):
 
     def __call__(self):

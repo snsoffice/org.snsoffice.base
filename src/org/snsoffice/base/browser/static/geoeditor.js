@@ -69,9 +69,9 @@ require([ // jshint ignore:line
                 target: 'geo-map',
                 view: new ol.View({
                     enableRotation: false,
-                    resolutions: [10000, 5000, 1200, 300, 76, 20, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.1],
+                    resolutions: [10000, 5000, 1200, 300, 76, 20, 10, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.1],
                     center: center,
-                    resolution: 1200,
+                    resolution: 10,
                 })
             });
 

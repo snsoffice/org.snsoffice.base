@@ -20,6 +20,7 @@
     <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
     <div id="content">
       <div id="geo-map" class="map"></div>
+      <input type="hidden" id="parent-geolocation" value="">
       <script type="text/javascript" src=""
               tal:attributes="src string:${portal_url}/++resource++geoeditor.js;">
       </script>
