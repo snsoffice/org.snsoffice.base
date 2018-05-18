@@ -77,7 +77,7 @@ require([ // jshint ignore:line
                 positioning: 'bottom-center',
                 stopEvent: false,
             });
-            
+
             map.addOverlay( locator );
 
             var drawInteraction = new ol.interaction.Draw({
@@ -94,21 +94,23 @@ require([ // jshint ignore:line
 
             drawInteraction.on('drawend', function (e) {
                 var extent = e.feature.getGeometry().getExtent();
-                if (geoextent !== undefined)
-                    geoextent.value = extent.join(',');
+                geoextent.value = extent.join(',');
             });
 
             map.on('click', function(evt) {
                 var coordinate = evt.coordinate;
                 var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
-                    coordinate, 'EPSG:3857', 'EPSG:4326'));                
+                    coordinate, 'EPSG:3857', 'EPSG:4326'));
                 locator.setPosition(coordinate);
-                if (geolocation !== undefined)
-                    geolocation.value = ol.coordinate.createStringXY(4);
+                geolocation.value = coordinate.join(',');
                 return true;
             });
-            
-            if (geoextent.value !== undefined) {
+
+            if (geolocation.value.trim() !== '') {
+                locator.setPosition(map.getView().getCenter());
+            }
+
+            if (geoextent.value.trim() !== '') {
                 var extent = getFloatArray(geoextent.value);
                 var feature = new ol.Feature({
                     geometry: ol.geom.Polygon.fromExtent(extent)
