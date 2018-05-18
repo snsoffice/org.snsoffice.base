@@ -9,6 +9,24 @@
 /** 
  * ol style
  */
+.ol-box {
+  box-sizing: border-box;
+  border-radius: 2px;
+  border: 2px solid blue;
+}
+.ol-mouse-position {
+  top: 8px;
+  right: 8px;
+  position: absolute;
+  padding: .3em;
+  background: rgba(255,255,255,0.8);
+}
+.ol-overlay-container {
+  will-change: left,right,top,bottom;
+}
+.ol-unsupported {
+  display: none;
+}
 .ol-viewport, .ol-unselectable {
   -webkit-touch-callout: none;
   -webkit-user-select: none;

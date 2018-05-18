@@ -20,11 +20,10 @@
     <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
     <div id="content">
       <div id="geo-map" class="map"></div>
-      <div id="geo-mouse-position"></div>
       <script type="text/javascript" src=""
               tal:attributes="src string:${portal_url}/++resource++geoeditor.js;">
       </script>
     </div>
+  </body>
 
-</body>
 </html>
