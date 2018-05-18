@@ -53,6 +53,7 @@ require([ // jshint ignore:line
             });
 
             var element = document.createElement( 'DIV' );
+            element.className = 'ol-geo-locator';
             element.innerHTML = '<span class="glyphicon glyphicon-map-marker"></span>';
 
             var locator = new ol.Overlay({
