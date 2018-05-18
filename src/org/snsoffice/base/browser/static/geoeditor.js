@@ -134,6 +134,11 @@ require([ // jshint ignore:line
                 });
                 feature.setStyle(style);
                 source.addFeature(feature);
+                map.getView().fit(extent, {
+                    size: [100, 100],
+                    constrainResolution: false,
+                    duration: 500,
+                });                    
             }
 
         });
