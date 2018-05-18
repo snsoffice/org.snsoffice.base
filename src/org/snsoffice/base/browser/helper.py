@@ -201,6 +201,8 @@ class BuildView(BrowserView):
         if IGeoFeature.providedBy(context):
             if hasattr(context, 'geoextent') and context.geoextent is not None:
                 result['extent'] = [float(x) for x in context.geoextent.split(',')]
+            if hasattr(context, 'geometry') and context.geometry is not None:
+                result['geometry'] = context.geometry
             if hasattr(context, 'geolocation') and context.geolocation is not None:
                 result['origin'] = [float(x) for x in context.geolocation.split(',')]
 
@@ -237,7 +239,7 @@ class BuildView(BrowserView):
                         # 例如 ../rooms/1701
                         'name': v.getId(),
                         'origin': [float(x) for x in v.geolocation.split(',')],
-                        'extent': [float(x) for x in v.geoextent.split(',')],
+                        'geometry': v.geometry
                     }
                     result['children'].append(item)
 

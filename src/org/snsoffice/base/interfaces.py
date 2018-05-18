@@ -58,12 +58,17 @@ class ISpot(model.Schema):
         vocabulary='plone.app.vocabularies.Users'
     )
 
-    # source = schema.URI(
-    #     title=_(u'label_spot_source', default=u'Source'),
-    #     description=_(u"External url of this spot"),
-    #     required=False,
-    # )
+    geometry = schema.TextLine(
+        title=_(u'label_geometry', default=u'Geometry'),
+        description=_(u"Building geometry in WKT format"),
+        required=False,
+    )
 
+    geostyle = schema.TextLine(
+        title=_(u'label_geostyle', default=u'Style'),
+        description=_(u"Building style in JSON format"),
+        required=False,
+    )
 
 class IOrganization(ISpot):
     """Schema for Organization content type."""
@@ -115,16 +120,22 @@ class IHouseView(model.Schema):
         required=True
     )
 
+    geoextent = schema.TextLine(
+        title=_(u'label_geoextent', default=u'Extent'),
+        description=_(u"Extent of the view"),
+        required=False,
+    )
+
     opacity = schema.Float(
         title=_(u'label_opacity', default=u'Opacity'),
         required=False,
     )
 
-    # source = schema.URI(
-    #     title=_(u'label_view_source', default=u'Source'),
-    #     description=_(u"External resource of this view"),
-    #     required=False,
-    # )
+    source = schema.TextLine(
+        title=_(u'label_view_source', default=u'Source'),
+        description=_(u"Resource of this view"),
+        required=False,
+    )
 
 class IPlanView(IHouseView):
     """Schema for PlanView content type."""
@@ -144,11 +155,17 @@ class IPhase(model.Schema):
         required=True
     )
 
-    # source = schema.URI(
-    #     title=_(u'label_phase_source', default=u'Source'),
-    #     description=_(u"External url of this phase"),
-    #     required=False,
-    # )
+    source = schema.TextLine(
+        title=_(u'label_phase_source', default=u'Source'),
+        description=_(u"Resource of this phase"),
+        required=False,
+    )
+
+    geoangle = schema.TextLine(
+        title=_(u'label_angel', default=u'Angle'),
+        description=_(u"North in degree"),
+        required=False,
+    )
 
 class IHouseFeature(IPhase):
     """Schema for HouseFeature content type."""

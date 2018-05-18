@@ -31,8 +31,9 @@ require([ // jshint ignore:line
 
     $(document).ready(function() {
 
-        var geoextent = document.getElementById('form-widgets-IGeoFeature-geoextent');
         var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
+        var geometry = document.getElementById('form-widgets-IGeoFeature-geometry');
+        var geoextent = document.getElementById('form-widgets-IGeoFeature-geoextent');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -102,7 +103,16 @@ require([ // jshint ignore:line
 
             drawInteraction.on('drawend', function (e) {
                 var extent = e.feature.getGeometry().getExtent();
-                geoextent.value = getStringFromArray(extent, 2);
+                if (geoextent !== undefined)
+                    geoextent.value = getStringFromArray(extent, 2);
+            });
+
+            var modifyInteraction = new ol.interaction.Modify({source: source});
+            // map.addInteraction(modify);
+
+            var polygon = new ol.interaction.Draw({
+                source: source,
+                type: 'Polygon', // Point
             });
 
             map.on('click', function(evt) {
@@ -118,7 +128,7 @@ require([ // jshint ignore:line
                 locator.setPosition(map.getView().getCenter());
             }
 
-            if (geoextent.value.trim() !== '') {
+            if (geoextent !== undefined && geoextent.value !== undefined && geoextent.value.trim() !== '') {
                 var extent = getArrayFromString(geoextent.value);
                 var feature = new ol.Feature({
                     geometry: ol.geom.Polygon.fromExtent(extent)
