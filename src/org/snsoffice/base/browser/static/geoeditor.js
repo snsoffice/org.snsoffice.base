@@ -13,12 +13,20 @@ require([ // jshint ignore:line
 ], function($) {
     'use strict';
 
-    function getFloatArray(s) {
+    function getArrayFromString(s) {
         var a = [];
         s.split(',').forEach( function (v) {
             a.push(parseFloat(v));
         } );
         return a;
+    }
+
+    function getStringFromArray(arr, opt_fractionDigits) {
+        var result = [];
+        arr.forEach( function (v) {
+            result.push(v.toFixed(opt_fractionDigits));
+        });
+        return result;
     }
 
     $(document).ready(function() {
@@ -50,7 +58,7 @@ require([ // jshint ignore:line
                 layers: [baseLayer],
             });
 
-            var center = geolocation.value.trim() === '' ? [12119628.52, 4055386.0] : getFloatArray(geolocation.value);
+            var center = geolocation.value.trim() === '' ? [12119628.52, 4055386.0] : getArrayFromString(geolocation.value);
             var map = new ol.Map({
                 controls: ol.control.defaults({
                     attributionOptions: {
@@ -61,7 +69,7 @@ require([ // jshint ignore:line
                 target: 'geo-map',
                 view: new ol.View({
                     enableRotation: false,
-                    resolutions: [10000, 5000, 1200, 300, 76, 20, 5, 1, 0.1],
+                    resolutions: [10000, 5000, 1200, 300, 76, 20, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.1],
                     center: center,
                     resolution: 1200,
                 })
@@ -94,7 +102,7 @@ require([ // jshint ignore:line
 
             drawInteraction.on('drawend', function (e) {
                 var extent = e.feature.getGeometry().getExtent();
-                geoextent.value = extent.join(',');
+                geoextent.value = getStringFromArray(extent, 2);
             });
 
             map.on('click', function(evt) {
@@ -102,7 +110,7 @@ require([ // jshint ignore:line
                 var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
                     coordinate, 'EPSG:3857', 'EPSG:4326'));
                 locator.setPosition(coordinate);
-                geolocation.value = coordinate.join(',');
+                geolocation.value = ol.coordinate.toStringXY(coordinate, 2);
                 return true;
             });
 
@@ -111,7 +119,7 @@ require([ // jshint ignore:line
             }
 
             if (geoextent.value.trim() !== '') {
-                var extent = getFloatArray(geoextent.value);
+                var extent = getArrayFromString(geoextent.value);
                 var feature = new ol.Feature({
                     geometry: ol.geom.Polygon.fromExtent(extent)
                 });
@@ -127,6 +135,7 @@ require([ // jshint ignore:line
                 feature.setStyle(style);
                 source.addFeature(feature);
             }
+
         });
 
     });
