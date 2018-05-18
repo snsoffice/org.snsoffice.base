@@ -37,7 +37,7 @@ class IGeoFeature(model.Schema):
     model.fieldset(
         'geofeature',
         label=_(u"label_tab_geofeture", default=u'Geography'),
-        fields=['geolocation', 'geometry', 'geoextent', 'geostyle', 'geoangle']
+        fields=['geolocation']
     )
 
     geolocation = schema.TextLine(

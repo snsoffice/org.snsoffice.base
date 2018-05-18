@@ -70,6 +70,12 @@ class ISpot(model.Schema):
         required=False,
     )
 
+    model.fieldset(
+        'geofeature',
+        label=_(u"label_tab_geofeture", default=u'Geography'),
+        fields=['geometry', 'geostyle']
+    )
+
 class IOrganization(ISpot):
     """Schema for Organization content type."""
 
@@ -137,6 +143,12 @@ class IHouseView(model.Schema):
         required=False,
     )
 
+    model.fieldset(
+        'geofeature',
+        label=_(u"label_tab_geofeture", default=u'Geography'),
+        fields=['geoextent']
+    )
+
 class IPlanView(IHouseView):
     """Schema for PlanView content type."""
 
@@ -159,6 +171,12 @@ class IPhase(model.Schema):
         title=_(u'label_phase_source', default=u'Source'),
         description=_(u"Resource of this phase"),
         required=False,
+    )
+
+    model.fieldset(
+        'geofeature',
+        label=_(u"label_tab_geofeture", default=u'Geography'),
+        fields=['geoangle']
     )
 
     geoangle = schema.TextLine(
