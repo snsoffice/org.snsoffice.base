@@ -13,7 +13,18 @@ require([ // jshint ignore:line
 ], function($) {
     'use strict';
 
+    function getFloatArray(s) {
+        var a = [];
+        s.split(',').forEach( function (v) {
+            a.push(parseFloat(v));
+        } );
+        return a;
+    }
+
     $(document).ready(function() {
+
+        var geoextent = document.getElementById('form-widgets-IGeoFeature-geoextent');
+        var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -28,27 +39,31 @@ require([ // jshint ignore:line
             });
 
             var source = new ol.source.Vector({wrapX: false});
+            var baseLayer = new ol.layer.Tile({
+                source: new ol.source.OSM()
+            });
+            var vectorLayer = new ol.layer.Vector({
+                source: source
+            });
 
+            var overviewControl = new ol.control.OverviewMap({
+                layers: [baseLayer],
+            });
+
+            var center = geolocation.value.trim() === '' ? [12119628.52, 4055386.0] : getFloatArray(geolocation.value);
             var map = new ol.Map({
                 controls: ol.control.defaults({
                     attributionOptions: {
                         collapsible: false
                     }
-                }).extend([mousePositionControl]),
-                layers: [
-                    new ol.layer.Tile({
-                        source: new ol.source.OSM()
-                    }),
-                    new ol.layer.Vector({
-                        source: source
-                    })
-                ],
+                }).extend([mousePositionControl, overviewControl]),
+                layers: [baseLayer, vectorLayer],
                 target: 'geo-map',
                 view: new ol.View({
                     enableRotation: false,
                     resolutions: [10000, 5000, 1200, 300, 76, 20, 5, 1, 0.1],
-                    center: [12119628.52, 4055386.0],
-                    zoom: 2
+                    center: center,
+                    resolution: 1200,
                 })
             });
 
@@ -79,9 +94,8 @@ require([ // jshint ignore:line
 
             drawInteraction.on('drawend', function (e) {
                 var extent = e.feature.getGeometry().getExtent();
-                var element = document.getElementById('form-widgets-IGeoFeature-geoextent');
-                if (element)
-                    element.value = extent.join(',');
+                if (geoextent !== undefined)
+                    geoextent.value = extent.join(',');
             });
 
             map.on('click', function(evt) {
@@ -89,12 +103,28 @@ require([ // jshint ignore:line
                 var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
                     coordinate, 'EPSG:3857', 'EPSG:4326'));                
                 locator.setPosition(coordinate);
-                var element = document.getElementById('form-widgets-IGeoFeature-geolocation');
-                if (element)
-                    element.value = coordinate.join(',');
+                if (geolocation !== undefined)
+                    geolocation.value = ol.coordinate.createStringXY(4);
                 return true;
             });
             
+            if (geoextent.value !== undefined) {
+                var extent = getFloatArray(geoextent.value);
+                var feature = new ol.Feature({
+                    geometry: ol.geom.Polygon.fromExtent(extent)
+                });
+                var style = new ol.style.Style({
+                    fill: new ol.style.Fill({
+                        color: [255, 255, 255, 0.5]
+                    }),
+                    stroke: new ol.style.Stroke({
+                        color: [0, 153, 255, 1],
+                        width: 1.0,
+                    }),
+                });
+                feature.setStyle(style);
+                source.addFeature(feature);
+            }
         });
 
     });
