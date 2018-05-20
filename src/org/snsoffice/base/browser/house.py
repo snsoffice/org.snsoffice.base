@@ -7,6 +7,7 @@ from zipfile import ZipFile
 from Acquisition import aq_inner
 from zope.component import getAdapter
 from Products.Five import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.protect import CheckAuthenticator
 from zope.publisher.browser import BrowserPage
 from Products.statusmessages.interfaces import IStatusMessage
@@ -73,13 +74,13 @@ class INewHouseWizard(Interface):
         required=False
     )
 
-class NewHouseWizard(form.Form):
+class NewHouseWizardForm(form.Form):
 
-    label = _(u'Import Map Resource')
+    label = _(u'New House Wizard')
     fields = field.Fields(INewHouseWizard)
     ignoreContext = True
 
-    @button.buttonAndHandler(_('Save'), name='save')
+    @button.buttonAndHandler(_('Import'), name='save')
     def handleAdd(self, action):
         data, errors = self.extractData()
         if errors:
@@ -96,10 +97,12 @@ class NewHouseWizard(form.Form):
         self.status = _(u'Import resource operation cancelled')
         notify(AddCancelledEvent(self.context))
 
-# class NewHouseWizard(BrowserView):
+class NewHouseWizard(BrowserView):
 
-#     def __call__(self):
-#         return super(NewHouseWizard, self).__call__()
+    index = ViewPageTemplateFile("new_house_wizard.pt")
+
+    def __call__(self):
+        return super(NewHouseWizard, self).__call__()
 
 class ImportHouseView(BrowserView):
     """导入SweetHome3D生成的房屋结构图，是一个压缩文件，内容如下
