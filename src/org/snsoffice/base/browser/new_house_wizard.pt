@@ -10,22 +10,22 @@
 
   <article id="content">
 
-    <h1 class="documentFirstHeading" i18n:translate="">Import Map Resource</h1>
+    <h1 class="documentFirstHeading" i18n:translate="">New House Wizard</h1>
 
     <div id="content-core">
 
       <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-            class="rowlike enableUnloadProtection   kssattr-formname-new-house-wizard"
+            class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard"
             action="http://snsoffice.com:9098/future/new-house-wizard"
             method="post" enctype="multipart/form-data" id="form">
 
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
-             class="field pat-inlinevalidation kssattr-fieldname-form.widgets.title empty error"
+             class="field pat-inlinevalidation kssattr-fieldname-form.widgets.title empty"
              data-fieldname="form.widgets.title" id="formfield-form-widgets-title">
           <label for="form-widgets-title" class="horizontal">Title
-            <span class="required horizontal" title="必填">&nbsp;</span>
+            <span class="required horizontal" title="required">&nbsp;</span>
           </label>
-          <div class="fieldErrorBox">缺少必需的输入</div>
+          <div class="fieldErrorBox"></div>
           <input id="form-widgets-title" name="form.widgets.title" class="text-widget required textline-field" value="" type="text">
         </div>
 
@@ -37,8 +37,7 @@
           <div class="fieldErrorBox"></div>
 
           <div class="pattern-relateditems-container" style="width: 100%;">
-            <input type="text" class="pat-relateditems" id="form-widgets-village" name="form.widgets.village"
-                   data-pat-relateditems='{"selectableTypes": ["Building", "Organization"], "maximumSelectionSize": 1, "basePath": "/future/data/villages"}' />
+            <input type="text" id="form-widgets-village" name="form.widgets.village"/>
           </div>
         </div>
 
@@ -51,9 +50,11 @@
           <input id="form-widgets-location" name="form.widgets.location" class="text-widget textline-field" value="" type="text">
         </div>
 
+        <div id="geo-map" class="map"></div>
+
         <div class="formControls">
-          <input id="form-buttons-save" name="form.buttons.save" class="submit-widget button-field" value="Save" type="submit">
-          <input id="form-buttons-cancel" name="form.buttons.cancel" class="submit-widget button-field" value="Cancel" type="submit">
+          <input id="form-buttons-save" name="form.buttons.import" class="submit-widget button-field" value="Import" type="submit">
+          <input id="form-buttons-cancel" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit">
         </div>
 
         <input name="_authenticator" type="hidden" value="ae0b1bb97f89fceffb85cfb7f1f6fa4af0e255c5">
@@ -64,6 +65,10 @@
 
 
   </article>
+
+  <script type="text/javascript" src=""
+          tal:attributes="src string:${portal_url}/++resource++org.snsoffice.base/geohouse.js;">
+  </script>
 
   </metal:content>
 
