@@ -100,6 +100,7 @@ require([ // jshint ignore:line
                     drawInteraction = new ol.interaction.Draw({
                         source: source,
                         type: 'Circle',
+                        stopClick: true,
                         // condition: ol.events.condition.shiftKeyOnly,
                         geometryFunction: ol.interaction.Draw.createBox()
                     });
@@ -107,6 +108,7 @@ require([ // jshint ignore:line
                 else {
                     drawInteraction = new ol.interaction.Draw({
                         source: source,
+                        stopClick: true,
                         type: 'Polygon', // Point
                     });
                 }
@@ -122,7 +124,7 @@ require([ // jshint ignore:line
                     }
                     if (typeof geometry !== 'undefined') {
                         var fmt = new ol.format.WKT();
-                        georesult.value = fmt.writeGeometry(e.feature.getGeometry(), { decimals: 2 }); 
+                        georesult.value = fmt.writeGeometry(e.feature.getGeometry(), { decimals: 2 });
                         geometry.value = georesult.value;
                     }
                 });

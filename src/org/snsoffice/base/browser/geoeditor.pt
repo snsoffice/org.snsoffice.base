@@ -20,7 +20,7 @@
     <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
     <div id="content">
       <input type="hidden" id="form-widgets-parent-location" value="">
-      <div class="row">
+      <div class="row geoFormControls">
         <div class="col-sm-4">
           <select id="form-widgets-geotype" name="form.widgets.geotype" class="select-widget required choice-field" size="1">
             <option value="location" selected="selected" i18n:translate="label_set_location">Location</option>
