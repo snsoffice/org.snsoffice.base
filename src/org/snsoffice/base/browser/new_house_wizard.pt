@@ -6,6 +6,12 @@
       i18n:domain="org.snsoffice.base"
       tal:attributes="lang lang;">
 
+  <metal:javascriptslot fill-slot="javascript_head_slot">
+    <script type="text/javascript" src=""
+            tal:attributes="src string:${portal_url}/++resource++org.snsoffice.base/geohouse.js;">
+    </script>
+  </metal:javascriptslot>
+
   <metal:content fill-slot="content">
 
   <article id="content">
@@ -65,10 +71,6 @@
 
 
   </article>
-
-  <script type="text/javascript" src=""
-          tal:attributes="src string:${portal_url}/++resource++org.snsoffice.base/geohouse.js;">
-  </script>
 
   </metal:content>
 
