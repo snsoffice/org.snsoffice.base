@@ -95,7 +95,7 @@ require([ // jshint ignore:line
                 geometryFunction: ol.interaction.Draw.createBox()
             });
 
-            var polygon = new ol.interaction.Draw({
+            var drawInteraction = new ol.interaction.Draw({
                 source: source,
                 type: 'Polygon', // Point
                 condition: ol.events.condition.shiftKeyOnly,
@@ -107,10 +107,10 @@ require([ // jshint ignore:line
             });
 
             drawInteraction.on('drawend', function (e) {
-                if (geoextent !== undefined) {
+                if (typeof geoextent !== 'undefined') {
                     geoextent.value = getStringFromArray(e.feature.getGeometry().getExtent(), 2);
                 }
-                if (geometry !== undefined) {
+                if (typeof geometry !== 'undefined') {
                     var fmt = new ol.format.WKT();
                     geometry.value = fmt.writeGeometry(e.feature.getGeometry());
                 }
