@@ -19,8 +19,20 @@
   <body>
     <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
     <div id="content">
+      <input type="hidden" id="form-widgets-parent-location" value="">
+      <div class="row">
+        <div class="col-sm-4">
+          <select id="form-widgets-geotype" name="form.widgets.geotype" class="select-widget required choice-field" size="1">
+            <option value="location" selected="selected" i18n:translate="label_set_location">Location</option>
+            <option value="box" i18n:translate="label_box_boundary">Boundary(box)</option>
+            <option value="polygon" i18n:translate="label_polygon_boundary">Boundary(polygon)</option>
+          </select>
+        </div>
+        <div class="col-sm-8">
+          <input id="form-widgets-georesult" name="form.widgets.georesult" class="text-widget textline-field" value="" type="text" readonly="readonly">
+        </div>
+      </div>
       <div id="geo-map" class="map"></div>
-      <input type="hidden" id="parent-geolocation" value="">
       <script type="text/javascript" src=""
               tal:attributes="src string:${portal_url}/++resource++geoeditor.js;">
       </script>

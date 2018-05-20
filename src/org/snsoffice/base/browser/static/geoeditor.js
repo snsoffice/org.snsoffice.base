@@ -33,6 +33,8 @@ require([ // jshint ignore:line
 
         var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
         var geometry = document.getElementById('form-widgets-geometry');
+        var geotype = document.getElementById('form-widgets-geotype');
+        var georesult = document.getElementById('form-widgets-georesult');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -88,45 +90,68 @@ require([ // jshint ignore:line
 
             map.addOverlay( locator );
 
-            var drawInteraction = new ol.interaction.Draw({
-                source: source,
-                type: 'Circle',
-                condition: ol.events.condition.shiftKeyOnly,
-                geometryFunction: ol.interaction.Draw.createBox()
-            });
+            // var modifyInteraction = new ol.interaction.Modify({source: source});
+            // map.addInteraction(modifyInteraction);
 
-            var drawInteraction = new ol.interaction.Draw({
-                source: source,
-                type: 'Polygon', // Point
-                condition: ol.events.condition.shiftKeyOnly,
-            });
-            map.addInteraction(drawInteraction);
+            var drawInteraction;
 
-            drawInteraction.on('drawstart', function (e) {
-                source.clear();
-            });
-
-            drawInteraction.on('drawend', function (e) {
-                if (typeof geoextent !== 'undefined') {
-                    geoextent.value = getStringFromArray(e.feature.getGeometry().getExtent(), 2);
+            function addInteraction(shape) {
+                if (shape === 'box') {
+                    drawInteraction = new ol.interaction.Draw({
+                        source: source,
+                        type: 'Circle',
+                        // condition: ol.events.condition.shiftKeyOnly,
+                        geometryFunction: ol.interaction.Draw.createBox()
+                    });
                 }
-                if (typeof geometry !== 'undefined') {
-                    var fmt = new ol.format.WKT();
-                    geometry.value = fmt.writeGeometry(e.feature.getGeometry());
+                else {
+                    drawInteraction = new ol.interaction.Draw({
+                        source: source,
+                        type: 'Polygon', // Point
+                    });
                 }
-            });
+                map.addInteraction(drawInteraction);
 
-            var modifyInteraction = new ol.interaction.Modify({source: source});
-            // map.addInteraction(modify);
+                drawInteraction.on('drawstart', function (e) {
+                    source.clear();
+                });
+
+                drawInteraction.on('drawend', function (e) {
+                    if (typeof geoextent !== 'undefined') {
+                        geoextent.value = getStringFromArray(e.feature.getGeometry().getExtent(), 2);
+                    }
+                    if (typeof geometry !== 'undefined') {
+                        var fmt = new ol.format.WKT();
+                        georesult.value = fmt.writeGeometry(e.feature.getGeometry(), { decimals: 2 }); 
+                        geometry.value = georesult.value;
+                    }
+                });
+            }
 
             map.on('click', function(evt) {
                 var coordinate = evt.coordinate;
                 var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
                     coordinate, 'EPSG:3857', 'EPSG:4326'));
                 locator.setPosition(coordinate);
-                geolocation.value = ol.coordinate.toStringXY(coordinate, 2);
+                georesult.value = ol.coordinate.toStringXY(coordinate, 2);
+                geolocation.value = georesult.value;
                 return true;
             });
+
+            geotype.addEventListener('change', function (event) {
+                if (!event.target.value)
+                    return;
+
+                if (typeof drawInteraction !== 'undefined') {
+                    map.removeInteraction(drawInteraction);
+                    drawInteraction = undefined;
+                }
+
+                var v = event.target.value;
+                if (v === 'box' || v === 'polygon') {
+                    addInteraction(v);
+                }
+            }, false);
 
             if (geolocation.value.trim() !== '') {
                 locator.setPosition(map.getView().getCenter());
@@ -137,7 +162,7 @@ require([ // jshint ignore:line
                 // var feature = new ol.Feature({
                 //     geometry: ol.geom.Polygon.fromExtent(extent)
                 // });
-                var fmt = new ol.format.WKT();                
+                var fmt = new ol.format.WKT();
                 var feature = fmt.readFeature(geometry.value);
                 var style = new ol.style.Style({
                     fill: new ol.style.Fill({
@@ -156,7 +181,7 @@ require([ // jshint ignore:line
                     size: [100, 100],
                     constrainResolution: false,
                     duration: 500,
-                });                    
+                });
             }
 
         });
