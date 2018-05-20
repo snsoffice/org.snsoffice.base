@@ -18,15 +18,15 @@
       />
 
   <plone:static
-    directory="appview"
-    type="theme"
-    name="appview"
-    />
+     directory="appview"
+     type="theme"
+     name="appview"
+     />
 
   <browser:resource
-      name="geoeditor.js"
-      file="static/geoeditor.js"
-      />
+     name="geoeditor.js"
+     file="static/geoeditor.js"
+     />
 
   <!-- <browser:resource -->
   <!--     name="cloudhelper.js" -->
@@ -102,7 +102,7 @@
 
   <browser:page
      name="edit-house-feature"
-     class=".house.ModifyHouseFeature"
+     class=".house.EditHouseFeature"
      permission="cmf.ModifyPortalContent"
      for="org.snsoffice.base.interfaces.IHouseFeature"
      />
