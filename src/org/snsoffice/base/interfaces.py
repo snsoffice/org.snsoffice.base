@@ -80,7 +80,7 @@ class IOrganization(ISpot):
     """Schema for Organization content type."""
 
     org_type = schema.Choice(
-        label=_(u"label_org_type", default=u'Type'),
+        title=_(u"label_org_type", default=u'Type'),
         vocabulary=OrganizationVocabulary,
         required=True
     )
