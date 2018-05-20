@@ -35,16 +35,21 @@ require([ // jshint ignore:line
         var geometry = document.getElementById('form-widgets-geometry');
         var geotype = document.getElementById('form-widgets-geotype');
 
-        var georesult = document.getElementById('form-widgets-georesult');
-        var controls = document.getElementById('geo-form-controls');
-        var footer = document.querySelector('.plone-modal-footer');
-        if (footer && controls) {
-            controls.remove();
-            footer.appendChild(controls);
-            georesult = document.getElementById('form-widgets-georesult');
-        }
-
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
+
+
+            var georesult = document.getElementById('form-widgets-georesult');
+            var controls = document.getElementById('geo-form-controls');
+            var footer = document.querySelector('.plone-modal-footer');
+            if (footer && controls) {
+                controls.remove();
+                footer.appendChild(controls);
+                georesult = document.getElementById('form-widgets-georesult');
+            }
+
+            if (typeof geometry === 'undefined') {
+                geotype.setAttribute('disabled', 'disabled');
+            }
 
             var mousePositionControl = new ol.control.MousePosition({
                 coordinateFormat: ol.coordinate.createStringXY(4),
