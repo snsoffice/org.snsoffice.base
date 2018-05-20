@@ -34,7 +34,15 @@ require([ // jshint ignore:line
         var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
         var geometry = document.getElementById('form-widgets-geometry');
         var geotype = document.getElementById('form-widgets-geotype');
+
         var georesult = document.getElementById('form-widgets-georesult');
+        var controls = document.getElementById('geo-form-controls');
+        var footer = document.querySelector('.plone-modal-footer');
+        if (footer && controls) {
+            controls.remove();
+            footer.appendChild(controls);
+            georesult = document.getElementById('form-widgets-georesult');
+        }
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -84,7 +92,7 @@ require([ // jshint ignore:line
             var locator = new ol.Overlay({
                 id: 'locator',
                 element: element,
-                positioning: 'bottom-center',
+                positioning: 'center-center',
                 stopEvent: false,
             });
 
@@ -102,6 +110,7 @@ require([ // jshint ignore:line
                         type: 'Circle',
                         stopClick: true,
                         // condition: ol.events.condition.shiftKeyOnly,
+                        freehandCondition: ol.events.condition.never,
                         geometryFunction: ol.interaction.Draw.createBox()
                     });
                 }
@@ -110,6 +119,7 @@ require([ // jshint ignore:line
                         source: source,
                         stopClick: true,
                         type: 'Polygon', // Point
+                        freehandCondition: ol.events.condition.never,
                     });
                 }
                 map.addInteraction(drawInteraction);
