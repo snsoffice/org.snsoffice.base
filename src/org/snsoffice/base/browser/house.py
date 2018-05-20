@@ -75,7 +75,26 @@ class INewHouseWizard(Interface):
 
 class NewHouseWizard(form.Form):
 
+    label = _(u'Import Map Resource')
     fields = field.Fields(INewHouseWizard)
+    ignoreContext = True
+
+    @button.buttonAndHandler(_('Save'), name='save')
+    def handleAdd(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+
+        resource = data['resource']
+        container = aq_inner(self.context)
+        # set success pattern includes new map url
+        self.status = _(u'Import resource operation successfully')
+
+    @button.buttonAndHandler(_(u'Cancel'))
+    def handleCancel(self, action):
+        self.status = _(u'Import resource operation cancelled')
+        notify(AddCancelledEvent(self.context))
 
 # class NewHouseWizard(BrowserView):
 
