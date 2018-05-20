@@ -33,7 +33,6 @@ require([ // jshint ignore:line
 
         var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
         var geometry = document.getElementById('form-widgets-geometry');
-        var geoextent = document.getElementById('form-widgets-geoextent');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -95,6 +94,12 @@ require([ // jshint ignore:line
                 condition: ol.events.condition.shiftKeyOnly,
                 geometryFunction: ol.interaction.Draw.createBox()
             });
+
+            var polygon = new ol.interaction.Draw({
+                source: source,
+                type: 'Polygon', // Point
+                condition: ol.events.condition.shiftKeyOnly,
+            });
             map.addInteraction(drawInteraction);
 
             drawInteraction.on('drawstart', function (e) {
@@ -114,11 +119,6 @@ require([ // jshint ignore:line
             var modifyInteraction = new ol.interaction.Modify({source: source});
             // map.addInteraction(modify);
 
-            var polygon = new ol.interaction.Draw({
-                source: source,
-                type: 'Polygon', // Point
-            });
-
             map.on('click', function(evt) {
                 var coordinate = evt.coordinate;
                 var hdms = ol.coordinate.toStringHDMS(ol.proj.transform(
@@ -132,11 +132,13 @@ require([ // jshint ignore:line
                 locator.setPosition(map.getView().getCenter());
             }
 
-            if (geoextent !== undefined && geoextent.value !== undefined && geoextent.value.trim() !== '') {
-                var extent = getArrayFromString(geoextent.value);
-                var feature = new ol.Feature({
-                    geometry: ol.geom.Polygon.fromExtent(extent)
-                });
+            if (geometry !== undefined && geometry.value !== undefined && geometry.value.trim() !== '') {
+                // var extent = getArrayFromString(geoextent.value);
+                // var feature = new ol.Feature({
+                //     geometry: ol.geom.Polygon.fromExtent(extent)
+                // });
+                var fmt = new ol.format.WKT();                
+                var feature = fmt.readFeature(geometry.value);
                 var style = new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: [255, 255, 255, 0.5]
@@ -148,6 +150,8 @@ require([ // jshint ignore:line
                 });
                 feature.setStyle(style);
                 source.addFeature(feature);
+
+                var extent = feature.getGeometry().getExtent();
                 map.getView().fit(extent, {
                     size: [100, 100],
                     constrainResolution: false,
