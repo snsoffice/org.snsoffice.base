@@ -102,7 +102,7 @@ class NewHouseWizard(BrowserView):
     index = ViewPageTemplateFile("new_house_wizard.pt")
 
     def __call__(self):
-        return super(NewHouseWizard, self).__call__()
+        return self.index()
 
 class ImportHouseView(BrowserView):
     """导入SweetHome3D生成的房屋结构图，是一个压缩文件，内容如下
