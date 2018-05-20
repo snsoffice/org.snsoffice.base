@@ -42,14 +42,6 @@
      permission="zope2.View"
      />
 
-  <!-- <browser:page -->
-  <!--    for="org.snsoffice.base.interfaces.ISpot" -->
-  <!--    name="import" -->
-  <!--    template="import.pt" -->
-  <!--    permission="zope2.View" -->
-  <!--    class=".helper.ImportView" -->
-  <!--    /> -->
-
   <browser:page
      for="org.snsoffice.base.interfaces.ISpot"
      name="upload"
@@ -77,6 +69,42 @@
      name="config.json"
      permission="cmf.ModifyPortalContent"
      class=".helper.BuildView"
+     />
+
+  <browser:page
+     name="new-house-wizard"
+     class=".house.NewHouseWizard"
+     permission="cmf.AddPortalContent"
+     for="plone.app.layout.navigation.interfaces.INavigationRoot"
+     />
+
+  <browser:page
+     name="import-house"
+     class=".house.ImportHouseView"
+     permission="cmf.AddPortalContent"
+     for="org.snsoffice.base.interfaces.IBuilding"
+     />
+
+  <browser:page
+     name="house-feature-editor"
+     class=".house.HouseFeatureEditor"
+     permission="cmf.AddPortalContent"
+     for="org.snsoffice.base.interfaces.ISpot"
+     />
+
+  <browser:page
+     name="new-house-feature"
+     class=".house.NewHouseFeature"
+     template="new_house_feature.pt"
+     permission="cmf.AddPortalContent"
+     for="org.snsoffice.base.interfaces.ISpot"
+     />
+
+  <browser:page
+     name="edit-house-feature"
+     class=".house.ModifyHouseFeature"
+     permission="cmf.ModifyPortalContent"
+     for="org.snsoffice.base.interfaces.IHouseFeature"
      />
 
   <!-- <browser:page -->

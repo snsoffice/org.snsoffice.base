@@ -80,7 +80,7 @@ class IOrganization(ISpot):
     """Schema for Organization content type."""
 
     org_type = schema.Choice(
-        title=_(u'Type'),
+        label=_(u"label_org_type", default=u'Type'),
         vocabulary=OrganizationVocabulary,
         required=True
     )
@@ -106,10 +106,28 @@ class IPark(IOrganization):
 class IHouse(ISpot):
     """Schema for House content type."""
 
-class IBuilding(IHouse):
+    house_type = schema.TextLine(
+        title=_(u'label_house_type', default=u'House Type'),
+        description=_(u"House type"),
+        required=False,
+    )
+
+    floor = schema.Int(
+        title=_(u'label_house_floor', default=u'Floor'),
+        description=_(u"House floor"),
+        required=False,
+    )
+
+    area = schema.Float(
+        title=_(u'label_house_area', default=u'Area'),
+        description=_(u"House area (square meters)"),
+        required=False,
+    )
+
+class IBuilding(ISpot):
     """Schema for Building content type."""
 
-class IFloor(IHouse):
+class IFloor(ISpot):
     """Schema for Floor content type."""
 
 class IRoom(IHouse):
@@ -118,19 +136,23 @@ class IRoom(IHouse):
 class IHouseView(model.Schema):
     """Schema for HouseView content type."""
 
-    # fieldset(_(u'View'), fields=['view_type', 'source', 'opacity'])
-
     view_type = schema.Choice(
         title=_(u'Type'),
         vocabulary=HouseViewVocabulary,
         required=True
     )
 
-    geoextent = schema.TextLine(
-        title=_(u'label_geoextent', default=u'Extent'),
-        description=_(u"Extent of the view"),
+    geometry = schema.TextLine(
+        title=_(u'label_geometry', default=u'Geometry'),
+        description=_(u"View boundary"),
         required=False,
     )
+
+    # geoextent = schema.TextLine(
+    #     title=_(u'label_geoextent', default=u'Extent'),
+    #     description=_(u"Extent of the view"),
+    #     required=False,
+    # )
 
     opacity = schema.Float(
         title=_(u'label_opacity', default=u'Opacity'),
@@ -146,7 +168,7 @@ class IHouseView(model.Schema):
     model.fieldset(
         'geofeature',
         label=_(u"label_tab_geofeture", default=u'Geography'),
-        fields=['geoextent']
+        fields=['geometry']
     )
 
 class IPlanView(IHouseView):
@@ -162,7 +184,7 @@ class IPhase(model.Schema):
     """Schema for Phase content type."""
 
     phase_type = schema.Choice(
-        title=_(u'Type'),
+        title=_(u'label_phase_type', default=u'Type'),
         vocabulary=PhaseTypeVocabulary,
         required=True
     )

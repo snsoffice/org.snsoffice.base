@@ -32,8 +32,8 @@ require([ // jshint ignore:line
     $(document).ready(function() {
 
         var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
-        var geometry = document.getElementById('form-widgets-IGeoFeature-geometry');
-        var geoextent = document.getElementById('form-widgets-IGeoFeature-geoextent');
+        var geometry = document.getElementById('form-widgets-geometry');
+        var geoextent = document.getElementById('form-widgets-geoextent');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -102,9 +102,13 @@ require([ // jshint ignore:line
             });
 
             drawInteraction.on('drawend', function (e) {
-                var extent = e.feature.getGeometry().getExtent();
-                if (geoextent !== undefined)
-                    geoextent.value = getStringFromArray(extent, 2);
+                if (geoextent !== undefined) {
+                    geoextent.value = getStringFromArray(e.feature.getGeometry().getExtent(), 2);
+                }
+                if (geometry !== undefined) {
+                    var fmt = new ol.format.WKT();
+                    geometry.value = fmt.writeGeometry(e.feature.getGeometry());
+                }
             });
 
             var modifyInteraction = new ol.interaction.Modify({source: source});
