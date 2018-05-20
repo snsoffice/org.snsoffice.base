@@ -75,7 +75,7 @@
      name="new-house-wizard"
      class=".house.NewHouseWizard"
      permission="cmf.AddPortalContent"
-     for="plone.app.layout.navigation.interfaces.INavigationRoot"
+     for="*"
      />
 
   <browser:page
