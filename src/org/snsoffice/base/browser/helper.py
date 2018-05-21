@@ -192,19 +192,17 @@ class BuildView(BrowserView):
         result = {
             'name': context.getId(),
             'title': context.title,
-            'origin': [0, 0],
+            'location': [0, 0],
             'views': list(),
             'features': list(),
             'children': list(),
         }
 
         if IGeoFeature.providedBy(context):
-            if hasattr(context, 'geoextent') and context.geoextent is not None:
-                result['extent'] = [float(x) for x in context.geoextent.split(',')]
             if hasattr(context, 'geometry') and context.geometry is not None:
                 result['geometry'] = context.geometry
             if hasattr(context, 'geolocation') and context.geolocation is not None:
-                result['origin'] = [float(x) for x in context.geolocation.split(',')]
+                result['location'] = [float(x) for x in context.geolocation.split(',')]
 
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             for v in context.contentValues():
@@ -212,7 +210,7 @@ class BuildView(BrowserView):
                     item = {
                         'type': v.view_type,
                         'opacity': v.opacity,
-                        'extent': [float(x) for x in v.geoextent.split(',')],
+                        'geometry': v.geometry,
                         'url': v.source,
                     }
                     result['views'].append(item)
@@ -238,7 +236,8 @@ class BuildView(BrowserView):
                         # 如果是一个链接，那么需要使用 .. 方式表示出来
                         # 例如 ../rooms/1701
                         'name': v.getId(),
-                        'origin': [float(x) for x in v.geolocation.split(',')],
+                        'title': v.title,
+                        'location': [float(x) for x in v.geolocation.split(',')],
                         'geometry': v.geometry
                     }
                     result['children'].append(item)

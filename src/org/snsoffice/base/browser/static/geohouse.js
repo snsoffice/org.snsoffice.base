@@ -15,6 +15,8 @@ require([ // jshint ignore:line
 ], function($, Relateditems, Dropzone) {
     'use strict';
 
+    var currentPath = null;
+
     var roptions = {
         selectableTypes: ["Organization", "Building"], 
         maximumSelectionSize: 1, 
@@ -37,13 +39,17 @@ require([ // jshint ignore:line
                 path = result[0].path;
             }
             // self.setPath(path);
+            currentPath = path;
         });
         return ri;
     }
 
     $(document).ready(function() {
 
-        var geometry = document.getElementById('form-widgets-geometry');
+        var geolocation = document.getElementById('form-widgets-location');
+        var geovillage = document.getElementById('form-widgets-village');
+
+        setupRelatedItems(geovillage);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -63,9 +69,6 @@ require([ // jshint ignore:line
             });
 
             var fmt = new ol.format.WKT();
-            var extent = fmt.readGeometry(geometry.value).getExtent();
-            var center = ol.extent.getCenter(extent);
-
             var map = new ol.Map({
                 controls: ol.control.defaults({
                     attributionOptions: {
@@ -77,48 +80,31 @@ require([ // jshint ignore:line
                 view: new ol.View({
                     enableRotation: false,
                     resolutions: [10, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1],
-                    center: center,
-                    resolution: 1,
                 })
             });
 
             var element = document.createElement( 'DIV' );
             element.className = 'ol-geo-locator';
-            element.innerHTML = '<span class="glyphicon glyphicon-screenshot"></span>';
-
+            element.innerHTML = '<span class="glyphicon glyphicon-map-marker"></span>';
             var locator = new ol.Overlay({
                 element: element,
                 positioning: 'center-center',
                 stopEvent: false,
             });
-
             map.addOverlay( locator );
-
-            var selectInteraction;
-            selectInteraction = new ol.interaction.Select();
-
-            selectInteraction.on('select', function (event) {
-                if (event.selected.length) {
-                    var feature = event.selected[0];
-                    // locator.setPosition(feature.getGeometry().);
-                }
-            });
-            map.addInteraction(selectInteraction);
-
-            var translateInteraction = new ol.interaction.Translate({
-                features: selectInteraction.getFeatures()
-            });
-            translateInteraction.on('translateend', function (event) {
-                var features = event.features;
-                var coordinate = event.coordinate;
-            });
-            map.addInteraction(translateInteraction);
 
             map.on('click', function(evt) {
                 var coordinate = evt.coordinate;
+                locator.setPosition(coordinate);
                 return true;
             });
 
+            geovillage.addEventListener('change', function (event) {
+                if (currentPath === null)
+                    return;
+                
+            });
+            
         });
 
     });
