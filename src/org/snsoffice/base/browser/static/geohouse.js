@@ -172,6 +172,7 @@ require([ // jshint ignore:line
                 };
                 request.open('GET', url, true);
                 request.send();
+            };
 
         });
 
