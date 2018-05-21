@@ -18,11 +18,11 @@ require([ // jshint ignore:line
     var currentPath = null;
 
     var roptions = {
-        selectableTypes: ["Organization", "Building"], 
-        maximumSelectionSize: 1, 
-        basePath: "/future/data/villages/",
-        closeOnSelect: true,
-        mode: 'browse',
+        // selectableTypes: ["Organization", "Building"], 
+        // maximumSelectionSize: 1, 
+        // basePath: "/data/villages",
+        // closeOnSelect: true,
+        // mode: 'browse',
     }
 
     var setupRelatedItems = function($input) {
@@ -49,7 +49,7 @@ require([ // jshint ignore:line
         var geolocation = document.getElementById('form-widgets-location');
         var geovillage = document.getElementById('form-widgets-village');
 
-        setupRelatedItems(geovillage);
+        setupRelatedItems($(geovillage));
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
