@@ -31,7 +31,7 @@ require([ // jshint ignore:line
         if (options.initialFolder) {
             $input.setAttribute('value', options.initialFolder);
         }
-        var ri = new RelatedItems($input, options);
+        var ri = new Relateditems($input, options);
         ri.$el.on('change', function() {
             var result = $(this).select2('data');
             var path = null;
