@@ -18,18 +18,18 @@ require([ // jshint ignore:line
     var currentPath = null;
 
     var roptions = {
-        // selectableTypes: ["Organization", "Building"], 
-        // maximumSelectionSize: 1, 
-        // basePath: "/data/villages",
-        // closeOnSelect: true,
-        // mode: 'browse',
+        selectableTypes: ["Organization", "Building"], 
+        maximumSelectionSize: 1, 
+        basePath: "/data/villages",
+        closeOnSelect: true,
+        vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog",
     }
 
     var setupRelatedItems = function($input) {
         // var $input = document.getElementById('form.widgets.village');
         var options = roptions;
         if (options.initialFolder) {
-            $input.setAttribute('value', options.initialFolder);
+            $input.attr('value', options.initialFolder);
         }
         var ri = new Relateditems($input, options);
         ri.$el.on('change', function() {
@@ -49,7 +49,7 @@ require([ // jshint ignore:line
         var geolocation = document.getElementById('form-widgets-location');
         var geovillage = document.getElementById('form-widgets-village');
 
-        // setupRelatedItems($(geovillage));
+        setupRelatedItems($(geovillage));
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
