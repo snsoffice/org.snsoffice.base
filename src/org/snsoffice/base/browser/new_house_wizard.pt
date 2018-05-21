@@ -70,9 +70,7 @@
           <!-- </div>           -->
         </div>
 
-        <div id="map-container" style="height:200px;">
-          <div id="geo-map" class="map"></div>
-        </div>
+        <div id="geo-map" class="map" style="position: relative; height: 200px;"></div>
 
         <div class="formControls">
           <input id="form-buttons-save" name="form.buttons.import" class="submit-widget button-field" value="Import" type="submit">

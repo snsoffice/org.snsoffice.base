@@ -141,6 +141,8 @@ require([ // jshint ignore:line
             });
 
             setOrganization = function (path) {
+                if (path === null)
+                    return;
                 var url = portal_url + path;
                 var request = new XMLHttpRequest();
 
@@ -170,7 +172,7 @@ require([ // jshint ignore:line
                         duration: 500,
                     });
                 };
-                request.open('GET', url, true);
+                request.open('GET', url + '/config.json', true);
                 request.send();
             };
 
