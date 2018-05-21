@@ -45,7 +45,7 @@
           <div class="pattern-relateditems-container" style="width: 100%;">
             <input type="text" id="form-widgets-village" name="form.widgets.village"
                    class="pat-relateditems"
-                   data-pat-relateditems='{"selectableTypes": ["Document"], "vocabularyUrl": "getVocabulary?name=plone.app.vocabularies.Catalog", "maximumSelectionSize": 1}' />
+                   data-pat-relateditems='{"selectableTypes": ["Organization", "House"], "vocabularyUrl": "getVocabulary?name=plone.app.vocabularies.Catalog", "maximumSelectionSize": 1}' />
           </div>
         </div>
 

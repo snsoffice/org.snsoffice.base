@@ -49,7 +49,7 @@ require([ // jshint ignore:line
         var geolocation = document.getElementById('form-widgets-location');
         var geovillage = document.getElementById('form-widgets-village');
 
-        setupRelatedItems($(geovillage));
+        // setupRelatedItems($(geovillage));
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
