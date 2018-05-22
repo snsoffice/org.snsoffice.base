@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from org.snsoffice.base import _
 
-from io import BytesIO
 from zipfile import ZipFile
 
 from Acquisition import aq_inner
@@ -32,6 +31,7 @@ from plone.app.dexterity.behaviors.nextprevious import INextPreviousEnabled
 from z3c.relationfield import RelationValue
 from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
+from plone.namedfile.utils import safe_basename
 
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
@@ -120,7 +120,7 @@ class ImportHouseView(BrowserView):
         container = api.content.get(path=self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
         geolocation = self.request.form['form.widgets.location']
-        data = self.get_file_data(self.request.form['form.widgets.file'])
+        data = self.request.form['form.widgets.file']
         house = self.import_entry_from_zip(container, title, geolocation, data)
         return json_dumps({ 'id': house.getId() })
 
@@ -138,7 +138,7 @@ class ImportHouseView(BrowserView):
         return data
 
     def import_entry_from_zip(self, container, title, geolocation, data):
-        f = ZipFile(BytesIO(data), 'r')
+        f = ZipFile(data, 'r')
         config = json_loads(f.read('config.json'))
         namelist = f.namelist()
         house = api.content.create(

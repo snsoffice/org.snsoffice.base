@@ -38,9 +38,7 @@
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.village empty"
              data-fieldname="form.widgets.village" id="formfield-form-widgets-village">
-          <label for="form-widgets-village" class="horizontal">Village
-            <span class="required horizontal" title="required">&nbsp;</span>
-          </label>
+          <label for="form-widgets-village" class="horizontal">Village</label>
 
           <div class="fieldErrorBox"></div>
 
