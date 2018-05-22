@@ -52,7 +52,9 @@
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.location empty"
              data-fieldname="form.widgets.location" id="formfield-form-widgets-location">
-          <label for="form-widgets-location" class="horizontal">Location</label>
+          <label for="form-widgets-location" class="horizontal">Location
+            <span class="required horizontal" title="required">&nbsp;</span>
+          </label>
           <div class="fieldErrorBox"></div>
           <input id="form-widgets-location" name="form.widgets.location" class="text-widget textline-field" value="" type="text">
           <!-- <div class="row"> -->

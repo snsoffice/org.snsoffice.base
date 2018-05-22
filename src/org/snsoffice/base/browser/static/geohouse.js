@@ -27,6 +27,7 @@ require([ // jshint ignore:line
         selectableTypes: ["Organization", "Building"],
         maximumSelectionSize: 1,
         rootPath: "/data/villages",
+        basePath: "/data/villages",
         closeOnSelect: true,
         vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog",
     }
@@ -74,8 +75,6 @@ require([ // jshint ignore:line
         function validateFields() {
             if (geovillage.value.trim() === '')
                 $('#formfield-form-widgets-village').addClass('error');
-            if (geolocation.value.trim() === '')
-                $('#formfield-form-widgets-location').addClass('error');
             if (geotitle.value.trim() === '')
                 $('#formfield-form-widgets-title').addClass('error');
             return currentPath === null || currentBuilding === null || geolocation.value.trim() === '' || geotitle.value.trim() === '';
@@ -150,9 +149,9 @@ require([ // jshint ignore:line
                 target: 'geo-map',
                 view: new ol.View({
                     enableRotation: false,
-                    resolutions: [1200, 10, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1],
+                    resolutions: [20000, 2000, 200, 20, 10, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1],
                     center: center,
-                    resolution: 1200,
+                    resolution: 20000,
                 })
             });
 
@@ -222,7 +221,7 @@ require([ // jshint ignore:line
                 // ajax post request
                 var url = portal_url + currentPath + '/' + currentBuilding;
                 var data = new FormData(document.getElementById('geoform'));
-                data.append('form-widgets-building', currentPath + '/' + currentBuilding);
+                data.append('form.widgets.building', currentPath + '/' + currentBuilding);
                 var xhr = new XMLHttpRequest();
                 xhr.onload = function (e) {
                     console.log("The transfer is complete.");

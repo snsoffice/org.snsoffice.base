@@ -117,10 +117,10 @@ class ImportHouseView(BrowserView):
     
     """
     def __call__(self):        
-        container = api.content.get(path=self.request.form['form-widgets-building'])
-        title = self.request.form['form-widgets-title']
-        geolocation = self.request.form['form-widgets-geolocation']
-        data = self.request.form['form-widgets-file']
+        container = api.content.get(path=self.request.form['form.widgets.building'])
+        title = self.request.form['form.widgets.title']
+        geolocation = self.request.form['form.widgets.geolocation']
+        data = self.request.form['form.widgets.file']
         house = import_entry_from_zip(self, container, title, geolocation, data)        
         return json_dumps({ 'id': house.getId() })
     
