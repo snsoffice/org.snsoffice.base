@@ -116,23 +116,29 @@ class ImportHouseView(BrowserView):
     其中 config.json 包含下列配置信息
     
     """
-    def __call__(self):
-        result = {}
-        container = self.request.form['form-widgets-container']
+    def __call__(self):        
+        container = api.content.get(path=self.request.form['form-widgets-building'])
         title = self.request.form['form-widgets-title']
         geolocation = self.request.form['form-widgets-geolocation']
-        data = self.request.form['form-widgets-data']
-        return json_dumps(result)
-
+        data = self.request.form['form-widgets-file']
+        house = import_entry_from_zip(self, container, title, geolocation, data)        
+        return json_dumps({ 'id': house.getId() })
     
-    def import_entry_from_zip(self, data):
+    def import_entry_from_zip(self, container, title, geolocation, data):
         f = ZipFile(BytesIO(data), 'r')
         config = json_loads(f.read('config.json'))
-
         namelist = f.namelist()
-        
+        house = api.content.create(
+            type='House',
+            container=container,
+            geolocation=geolocation,
+            title=title,
+            safe_id=True)
+        return house
 
 class HouseFeatureEditor(BrowserView):
+
+    index = ViewPageTemplateFile("house_feature_editor.pt")
 
     def __call__(self):
         return super(HouseFeatureEditor, self).__call__()

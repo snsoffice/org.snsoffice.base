@@ -1,0 +1,66 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/main_template/macros/master"
+      i18n:domain="org.snsoffice.base"
+      tal:attributes="lang lang;">
+
+  <metal:javascriptslot fill-slot="javascript_head_slot">
+    <script type="text/javascript" src=""
+            tal:attributes="src string:${portal_url}/++resource++org.snsoffice.base/geofeature.js;">
+    </script>
+  </metal:javascriptslot>
+
+  <metal:content fill-slot="content">
+
+  <article id="content">
+
+    <h1 class="documentFirstHeading" i18n:translate="">House Features Editor</h1>
+
+    <div id="content-core">
+
+      <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
+            class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard"
+            action="http://snsoffice.com:9098/future/new-house-wizard"
+            method="post" enctype="multipart/form-data" id="geofeatureform">
+
+        <div id="geo-map" class="map" style="position: relative; height: 300px;">
+          <div class="ol-overviewmap ol-control">
+            <div class="ol-overviewmap-map">
+              image preview
+            </div>
+          </div>
+        </div>
+
+        <div class="actions row formControls">
+          <div class="col-md-10">
+            <button id="form-buttons-add-photo" name="form.buttons.add.photo" type="button"
+                    class="btn btn-primary browse-button" i18n:translate="">Add Photo</button>
+            <button id="form-buttons-add-panorama" name="form.buttons.add.panorama" type="button"
+                    class="btn btn-primary browse-button" i18n:translate="">Add Panorama</button>
+            <button id="form-buttons-remove" name="form.buttons.remove" type="button"
+                    class="btn btn-danger browse-button" i18n:translate="">Remove</button>
+          </div>
+          <div class="col-md-2">
+            <button id="form-buttons-save" name="form.buttons.save" type="button" disabled="disabled"
+                    class="btn btn-primary edit-button" i18n:translate="">Save</button>
+            <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" disabled="disabled"
+                    class="btn btn-primary edit-button" i18n:translate="">Cancel</button>
+          </div>
+
+        </div>
+
+        <input type="file" id="form-widgets-file" name="form.widgets.file" style="display: none"/>
+        <input tal:replace="structure context/@@authenticator/authenticator" />
+
+      </form>
+
+    </div>
+
+
+  </article>
+
+  </metal:content>
+
+</html>

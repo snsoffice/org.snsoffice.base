@@ -51,10 +51,52 @@ require([ // jshint ignore:line
         return ri;
     }
 
+    var formatBytes = function(bytes) {
+        var kb = Math.round(bytes / 1024);
+        if (kb < 1024) {
+            return kb + ' KiB';
+        }
+        var mb = Math.round(kb / 1024);
+        if (mb < 1024) {
+            return mb + ' MB';
+        }
+        return Math.round(mb / 1024) + ' GB';
+    };
+
     $(document).ready(function() {
 
         var geolocation = document.getElementById('form-widgets-location');
         var geovillage = document.getElementById('form-widgets-village');
+        var geotitle = document.getElementById('form-widgets-title');
+        var geofile = document.getElementById('form-widgets-file');
+        var progress = $('#geoform .progress-bar-success');
+
+        function validateFields() {
+            if (geovillage.value.trim() === '')
+                $('#formfield-form-widgets-village').addClass('error');
+            if (geolocation.value.trim() === '')
+                $('#formfield-form-widgets-location').addClass('error');
+            if (geotitle.value.trim() === '')
+                $('#formfield-form-widgets-title').addClass('error');
+            return currentPath === null || currentBuilding === null || geolocation.value.trim() === '' || geotitle.value.trim() === '';
+        }
+
+        document.getElementById('form-buttons-import').addEventListener('click', function (e) {
+            e.preventDefault();
+            if (validateFields())
+                return;
+            $(geofile).click();
+            return true;
+        }, false);
+
+        document.getElementById('form-buttons-new').addEventListener('click', function (e) {
+            e.preventDefault();
+            if (validateFields())
+                return;
+            var params = '?form.widgets.IDublinCore.title=' + geotitle.value.trim() + '&form.widgets.IGeoFeature.geolocation=' + geolocation.value.trim();
+            window.location.href = portal_url + currentPath + '/' + currentBuilding + '/++add++House' + params;
+            return true;
+        }, false);
 
         setupRelatedItems($(geovillage));
 
@@ -71,7 +113,7 @@ require([ // jshint ignore:line
             var baseLayer = new ol.layer.Tile({
                 source: new ol.source.OSM()
             });
-            
+
             function buildingStyleFunction( feature, resolution ) {
                 return new ol.style.Style( {
                     fill: new ol.style.Fill( {
@@ -158,7 +200,7 @@ require([ // jshint ignore:line
                     }
                     var data = JSON.parse( request.responseText );
                     source.clear();
-                    
+
                     var items = data.children;
                     for (var i=0; i < items.length; i ++) {
                         var feature = fmt.readFeature(items[i].geometry);
@@ -175,6 +217,35 @@ require([ // jshint ignore:line
                 request.open('GET', url + '/config.json', true);
                 request.send();
             };
+
+            geofile.addEventListener('change', function (e) {
+                // ajax post request
+                var url = portal_url + currentPath + '/' + currentBuilding;
+                var data = new FormData(document.getElementById('geoform'));
+                data.append('form-widgets-building', currentPath + '/' + currentBuilding);
+                var xhr = new XMLHttpRequest();
+                xhr.onload = function (e) {
+                    console.log("The transfer is complete.");
+                    window.location.href = url;
+                };
+                xhr.onprogress = function (e) {
+                    if (e.lengthComputable) {
+                        var percentComplete = e.loaded / e.total * 100;
+                        $(progress).attr('aria-valuenow', percentComplete).css('width', percentComplete + '%');
+                        $(progress).html(formatBytes(e.loaded) + ' / ' + formatBytes(e.total));
+                    } else {
+                        // Unable to compute progress information since the total size is unknown
+                    }
+                };
+                xhr.onerror = function (e) {
+                    console.log("An error occurred while transferring the file.");
+                };
+                xhr.onabort = function (e) {
+                    console.log("The transfer has been canceled by the user.");
+                };
+                xhr.open('POST', url + '/import-house');
+                xhr.send(data);
+            }, false);
 
         });
 

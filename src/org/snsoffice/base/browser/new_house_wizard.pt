@@ -23,7 +23,7 @@
       <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
             class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard"
             action="http://snsoffice.com:9098/future/new-house-wizard"
-            method="post" enctype="multipart/form-data" id="form">
+            method="post" enctype="multipart/form-data" id="geoform">
 
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.title empty"
@@ -38,7 +38,9 @@
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.village empty"
              data-fieldname="form.widgets.village" id="formfield-form-widgets-village">
-          <label for="form-widgets-village" class="horizontal">Village</label>
+          <label for="form-widgets-village" class="horizontal">Village
+            <span class="required horizontal" title="required">&nbsp;</span>
+          </label>
 
           <div class="fieldErrorBox"></div>
 
@@ -46,7 +48,6 @@
             <input type="text" id="form-widgets-village" name="form.widgets.village"/>
           </div>
         </div>
-
         
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.location empty"
@@ -72,12 +73,34 @@
 
         <div id="geo-map" class="map" style="position: relative; height: 200px;"></div>
 
-        <div class="formControls">
-          <input id="form-buttons-save" name="form.buttons.import" class="submit-widget button-field" value="Import" type="submit">
-          <input id="form-buttons-cancel" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit">
+        <div class="actions row formControls">
+          <div class="col-md-2">
+            <button id="form-buttons-new" name="form.buttons.new" type="button"
+               class="btn btn-primary" i18n:translate="label_button_new_house">New</button>
+            <button id="form-buttons-import" name="form.buttons.import" type="button"
+               class="btn btn-primary" i18n:translate="label_button_import">Import</button>
+          </div>
+          <div class="col-md-10">
+            <div class="progress progress-striped active">
+              <div class="progress-bar progress-bar-success"
+                   role="progressbar"
+                   aria-valuenow="0"
+                   aria-valuemin="0"
+                   aria-valuemax="100"
+                   style="width: 0%">
+                <span class="sr-only">40% Complete (success)</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <input name="_authenticator" type="hidden" value="ae0b1bb97f89fceffb85cfb7f1f6fa4af0e255c5">
+        <!-- <div class="formControls"> -->
+        <!--   <input id="form-buttons-import" name="form.buttons.import" class="submit-widget button-field" value="Import" type="submit"> -->
+        <!--   <input id="form-buttons-new" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit"> -->
+        <!-- </div> -->
+
+        <input type="file" id="form-widgets-file" name="form.widgets.file" style="display: none"/>
+        <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>
 
