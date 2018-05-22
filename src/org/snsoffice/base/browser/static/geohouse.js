@@ -19,7 +19,6 @@ require([ // jshint ignore:line
     var fmt;
     var source;
 
-    var portal_url = document.body.getAttribute('data-portal-url');
     var currentPath = null;
     var currentBuilding = null;
 
@@ -71,6 +70,7 @@ require([ // jshint ignore:line
         var geotitle = document.getElementById('form-widgets-title');
         var geofile = document.getElementById('form-widgets-file');
         var progress = $('#geoform .progress-bar-success');
+        var portal_url = document.body.getAttribute('data-portal-url');
 
         function validateFields() {
             if (geovillage.value.trim() === '')
