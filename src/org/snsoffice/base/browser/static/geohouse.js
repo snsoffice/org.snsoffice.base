@@ -224,7 +224,7 @@ require([ // jshint ignore:line
                 data.append('form.widgets.building', currentPath + '/' + currentBuilding);
                 var xhr = new XMLHttpRequest();
                 xhr.onload = function (e) {
-                    console.log("The transfer is complete.");
+                    console.log("The transfer is complete. server return: " + xhr.responseText);
                     window.location.href = url;
                 };
                 xhr.onprogress = function (e) {

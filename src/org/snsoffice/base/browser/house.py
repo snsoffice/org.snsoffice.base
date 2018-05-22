@@ -114,16 +114,29 @@ class ImportHouseView(BrowserView):
         three/house.mtl
 
     其中 config.json 包含下列配置信息
-    
+
     """
-    def __call__(self):        
+    def __call__(self):
         container = api.content.get(path=self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
-        geolocation = self.request.form['form.widgets.geolocation']
-        data = self.request.form['form.widgets.file']
-        house = import_entry_from_zip(self, container, title, geolocation, data)        
+        geolocation = self.request.form['form.widgets.location']
+        data = self.get_file_data(self.request.form['form.widgets.file'])
+        house = self.import_entry_from_zip(container, title, geolocation, data)
         return json_dumps({ 'id': house.getId() })
-    
+
+
+    def get_file_data(self, value):
+        # plone.formwidget.namedfile-1.0.15-py2.7.egg/plone/formwidget/namedfile/converter.py
+        filename = safe_basename(value.filename)
+        if filename is not None and not isinstance(filename, unicode):
+            # Work-around for
+            # https://bugs.launchpad.net/zope2/+bug/499696
+            filename = filename.decode('utf-8')
+
+        value.seek(0)
+        data = value.read()
+        return data
+
     def import_entry_from_zip(self, container, title, geolocation, data):
         f = ZipFile(BytesIO(data), 'r')
         config = json_loads(f.read('config.json'))
