@@ -189,7 +189,7 @@ class ImportHouseView(BrowserView):
         return house
 
     def import_file(self, container, filename, filedata):
-       content_type = mimetypes.guess_type(filename)[0] or ""
+        content_type = mimetypes.guess_type(filename)[0] or ""
         # Determine if the default file/image types are DX or AT based
         ctr = getToolByName(self.context, 'content_type_registry')
         type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'

@@ -225,8 +225,9 @@ require([ // jshint ignore:line
                 var xhr = new XMLHttpRequest();
                 xhr.onload = function (e) {
                     console.log("The transfer is complete. server return: " + xhr.responseText);
-                    result = JSON.parse(xhr.responseText);
-                    window.location.href = result.url;
+                    var result = JSON.parse(xhr.responseText);
+                    if (result.url)
+                        window.location.href = result.url;
                 };
                 xhr.upload.addEventListener("progress", function (e) {
                     if (e.lengthComputable) {
