@@ -225,9 +225,10 @@ require([ // jshint ignore:line
                 var xhr = new XMLHttpRequest();
                 xhr.onload = function (e) {
                     console.log("The transfer is complete. server return: " + xhr.responseText);
-                    window.location.href = url;
+                    result = JSON.parse(xhr.responseText);
+                    window.location.href = result.url;
                 };
-                xhr.onprogress = function (e) {
+                xhr.upload.addEventListener("progress", function (e) {
                     if (e.lengthComputable) {
                         var percentComplete = e.loaded / e.total * 100;
                         $(progress).attr('aria-valuenow', percentComplete).css('width', percentComplete + '%');
@@ -235,7 +236,7 @@ require([ // jshint ignore:line
                     } else {
                         // Unable to compute progress information since the total size is unknown
                     }
-                };
+                }, false);
                 xhr.onerror = function (e) {
                     console.log("An error occurred while transferring the file.");
                 };
