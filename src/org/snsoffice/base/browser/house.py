@@ -174,13 +174,13 @@ class ImportHouseView(BrowserView):
             v.append(x)
 
         for view in config.get('views', []):
-            view_type = config['type']
+            view_type = view['type']
             house_view = api.content.create(
                 type='HouseView',
                 container=house,
                 view_type=view_type,
                 geolocation=geolocation,
-                geometry=config['geometry'],
+                geometry=view['geometry'],
                 title=view_type,
                 safe_id=True)
             for x in entries:
@@ -190,17 +190,16 @@ class ImportHouseView(BrowserView):
 
     def import_file(self, container, filename, filedata):
         content_type = mimetypes.guess_type(filename)[0] or ""
-        # Determine if the default file/image types are DX or AT based
-        ctr = getToolByName(self.context, 'content_type_registry')
-        type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
 
-        # Now check that the object is not restricted to be added in the
-        # current context
-        allowed_ids = [
-            fti.getId() for fti in container.allowedContentTypes()
-        ]
-        if type_ not in allowed_ids:
-            pass
+        # ctr = getToolByName(self.context, 'content_type_registry')
+        # type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
+        # # Now check that the object is not restricted to be added in the
+        # # current context
+        # allowed_ids = [
+        #     fti.getId() for fti in container.allowedContentTypes()
+        # ]
+        # if type_ not in allowed_ids:
+        #     pass
 
         factory = IDXFileFactory(container)
         obj = factory(filename, content_type, filedata)
