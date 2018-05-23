@@ -168,10 +168,13 @@ class ImportHouseView(BrowserView):
 
         entries = {}
         for x in f.namelist():
-            if x.startswith('views/') and x[-1] != '/':
-                k = x.split('/')[-2]
-                v = entries.get(k, [])
-                v.append(x)
+            if x.startswith('views/'):
+                if x[-1] == '/':
+                    k = x.split('/')[-2]
+                    entries[k] = []
+                else:
+                    k = x.split('/')[-2]
+                    entries[k].append(x)
 
         for view in config.get('views', []):
             view_type = view['type']
