@@ -168,7 +168,7 @@ class ImportHouseView(BrowserView):
 
         entries = {}
         for x in f.namelist():
-            if x.startswith('views/') and x[-1] !== '/':
+            if x.startswith('views/') and x[-1] != '/':
                 k = x.split('/')[-2]
                 v = entries.get(k, [])
                 v.append(x)
