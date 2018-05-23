@@ -233,7 +233,7 @@ require([ // jshint ignore:line
                     if (e.lengthComputable) {
                         var percentComplete = e.loaded / e.total * 100;
                         $(progress).attr('aria-valuenow', percentComplete).css('width', percentComplete + '%');
-                        $(progress).html(formatBytes(e.loaded) + ' / ' + formatBytes(e.total));
+                        $(progress).html(formatBytes(e.loaded) + ' / ' + formatBytes(e.total));b
                     } else {
                         // Unable to compute progress information since the total size is unknown
                     }

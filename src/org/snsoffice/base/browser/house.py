@@ -8,11 +8,16 @@ from Products.Five.browser import BrowserView
 from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
+from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
+from zope.component import adapter
+from zope.container.interfaces import INameChooser
 
 import json
 import logging
 import mimetypes
 import os
+import transaction
 from zipfile import ZipFile
 
 from Acquisition import aq_inner
@@ -137,7 +142,13 @@ class ImportHouseView(BrowserView):
         title = self.request.form['form.widgets.title']
         geolocation = self.request.form['form.widgets.location']
         data = self.request.form['form.widgets.file']
-        house = self.import_entry_from_zip(container, title, geolocation, data)
+        transaction.begin()
+        try:
+            house = self.import_entry_from_zip(container, title, geolocation, data)
+            transaction.commit()
+        except Exception:
+            transaction.rollback()
+            raise
         return json_dumps({ 
             'name': house.getId(),
             'url': house.absolute_url(),
@@ -194,18 +205,43 @@ class ImportHouseView(BrowserView):
     def import_file(self, container, filename, filedata):
         content_type = mimetypes.guess_type(filename)[0] or ""
 
-        # ctr = getToolByName(self.context, 'content_type_registry')
-        # type_ = ctr.findTypeName(filename.lower(), '', '') or 'File'
-        # # Now check that the object is not restricted to be added in the
-        # # current context
-        # allowed_ids = [
-        #     fti.getId() for fti in container.allowedContentTypes()
-        # ]
-        # if type_ not in allowed_ids:
-        #     pass
-
-        factory = IDXFileFactory(container)
-        obj = factory(filename, content_type, filedata)
+        name = filename.decode("utf8")
+        # chooser = INameChooser(container)
+        # newid = chooser.chooseName(name, container.aq_parent)
+        filename = ploneutils.safe_unicode(name)
+        if content_type.startswith('image/'): 
+            image = NamedBlobImage(
+                data=data,
+                filename=filename,
+                contentType=content_type
+            )
+            obj = api.content.create(
+                type='Image',
+                container=container,
+                title=name,
+                image=image,
+                safe_id=True
+            )
+        else:
+            file = NamedBlobFile(
+                data=data,
+                filename=filename,
+                contentType=content_type
+            )
+            obj = api.content.create(
+                type='File',
+                container=container,
+                title=name,
+                file=file,
+                safe_id=True
+            )
+            obj = createContentInContainer(
+                container=container,
+                id=newid,
+                file=file,
+                safe_id=True
+            )
+            obj.reindexObject()
 
         result = {
             "type": '',
