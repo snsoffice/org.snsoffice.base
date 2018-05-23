@@ -187,7 +187,7 @@ class ImportHouseView(BrowserView):
                 title=view_type,
                 safe_id=True)
             for x in entries.get(view_type, []):
-                result = import_file(house_view, x, f.read(x))
+                result = self.import_file(house_view, os.path.basename(x), f.read(x))
 
         return house
 
