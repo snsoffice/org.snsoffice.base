@@ -183,7 +183,7 @@ class ImportHouseView(BrowserView):
                 geometry=view['geometry'],
                 title=view_type,
                 safe_id=True)
-            for x in entries:
+            for x in entries.get(view_type, []):
                 result = import_file(house_view, x, f.read(x))
 
         return house
