@@ -2,6 +2,7 @@
 """Module where all interfaces, events and exceptions live."""
 from org.snsoffice.base import _
 
+from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope import schema
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
@@ -12,11 +13,10 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 PhaseTypeVocabulary = SimpleVocabulary(
-    [SimpleTerm(value=u'image/*', title=_(u'Photo')),
-     SimpleTerm(value=u'panorama/equirectangular', title=_(u'Panorama Equirectangular')),
-     SimpleTerm(value=u'panorama/cubemap', title=_(u'Panorama Cube')),
-     SimpleTerm(value=u'text/html', title=_(u'Text')),
-     SimpleTerm(value=u'video/*', title=_(u'Video'))]
+    [SimpleTerm(value=u'image', title=_(u'Photo')),
+     SimpleTerm(value=u'panorama', title=_(u'Panorama Equirectangular')),
+     SimpleTerm(value=u'html', title=_(u'Text')),
+     SimpleTerm(value=u'video', title=_(u'Video'))]
 )
 
 HouseViewVocabulary = SimpleVocabulary(
@@ -85,24 +85,6 @@ class IOrganization(ISpot):
         required=True
     )
 
-class IVillage(IOrganization):
-    """Schema for Village content type."""
-
-class IHotel(IOrganization):
-    """Schema for Hotel content type."""
-
-class ISchool(IOrganization):
-    """Schema for School content type."""
-
-class IStation(IOrganization):
-    """Schema for Station content type."""
-
-class IAirport(IOrganization):
-    """Schema for Station content type."""
-
-class IPark(IOrganization):
-    """Schema for Park content type."""
-
 class IHouse(ISpot):
     """Schema for House content type."""
 
@@ -156,6 +138,7 @@ class IHouseView(model.Schema):
 
     opacity = schema.Float(
         title=_(u'label_opacity', default=u'Opacity'),
+        default=1.0,
         required=False,
     )
 
@@ -170,15 +153,6 @@ class IHouseView(model.Schema):
         label=_(u"label_tab_geofeture", default=u'Geography'),
         fields=['geometry']
     )
-
-class IPlanView(IHouseView):
-    """Schema for PlanView content type."""
-
-class ISolidView(IHouseView):
-    """Schema for SolidView content type."""
-
-class IThreeView(IHouseView):
-    """Schema for ThreeView content type."""
 
 class IPhase(model.Schema):
     """Schema for Phase content type."""
@@ -212,3 +186,6 @@ class IHouseFeature(IPhase):
 
 class IScene(model.Schema):
     """Schema for Scene content type."""
+
+class IHouseOwner(Interface):
+    """Only house marked with interface will be accessed in public space"""

@@ -24,8 +24,8 @@
      />
 
   <browser:resource
-     name="geoeditor.js"
-     file="static/geoeditor.js"
+     name="geolocator.js"
+     file="static/geolocator.js"
      />
 
   <!-- <browser:resource -->
@@ -34,10 +34,10 @@
   <!--     /> -->
 
   <browser:page
-     name="geoeditor"
+     name="geolocator"
      for="*"
-     class=".helper.GeoEditor"
-     template="geoeditor.pt"
+     class=".helper.GeoLocator"
+     template="geolocator.pt"
      layer="org.snsoffice.base.interfaces.IOrgSnsofficeBaseLayer"
      permission="zope2.View"
      />

@@ -164,10 +164,10 @@ class UploadView(BrowserView):
     def __call__(self):
         return super(UploadView, self).__call__()
 
-class GeoEditor(BrowserView):
+class GeoLocator(BrowserView):
 
     def __call__(self):
-        return super(GeoEditor, self).__call__()
+        return super(GeoLocator, self).__call__()
 
     def default_geolocation(self):
         

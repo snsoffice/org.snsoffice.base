@@ -17,7 +17,7 @@
   </head>
 
   <body>
-    <h1 i18n:translate="label_geoeditor_title">Geo Editor</h1>
+    <h1 i18n:translate="label_geoeditor_title">Geometry Locator</h1>
     <div id="content">
       <input type="hidden" id="form-widgets-parent-location" value="">
       <div class="row" id="geo-form-controls">
@@ -34,7 +34,7 @@
       </div>
       <div id="geo-map" class="map"></div>
       <script type="text/javascript" src=""
-              tal:attributes="src string:${portal_url}/++resource++geoeditor.js;">
+              tal:attributes="src string:${portal_url}/++resource++geolocator.js;">
       </script>
     </div>
   </body>
