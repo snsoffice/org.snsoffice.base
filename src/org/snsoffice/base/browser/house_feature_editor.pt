@@ -20,17 +20,11 @@
 
     <div id="content-core">
 
-      <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-            class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard"
-            action="http://snsoffice.com:9098/future/new-house-wizard"
+      <form class="rowlike enableUnloadProtection" data-geometry=""
             method="post" enctype="multipart/form-data" id="geofeatureform">
 
         <div id="geo-map" class="map" style="position: relative; height: 300px;">
-          <div class="ol-overviewmap ol-control">
-            <div class="ol-overviewmap-map">
-              image preview
-            </div>
-          </div>
+          <div class="feature-preview"><span class="sr-only">Image Preview</span></div>
         </div>
 
         <div class="actions row formControls">
@@ -48,10 +42,9 @@
             <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" disabled="disabled"
                     class="btn btn-primary edit-button" i18n:translate="">Cancel</button>
           </div>
-
         </div>
 
-        <input type="file" id="form-widgets-file" name="form.widgets.file" style="display: none"/>
+        <input type="file" id="file" name="file" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>

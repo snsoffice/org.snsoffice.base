@@ -12,6 +12,7 @@ from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
 from zope.component import adapter
 from zope.container.interfaces import INameChooser
+from Products.CMFPlone import utils as ploneutils
 
 import json
 import logging
@@ -202,7 +203,7 @@ class ImportHouseView(BrowserView):
 
         return house
 
-    def import_file(self, container, filename, filedata):
+    def import_file(self, container, filename, data):
         content_type = mimetypes.guess_type(filename)[0] or ""
 
         name = filename.decode("utf8")
@@ -235,12 +236,6 @@ class ImportHouseView(BrowserView):
                 file=file,
                 safe_id=True
             )
-            obj = createContentInContainer(
-                container=container,
-                id=newid,
-                file=file,
-                safe_id=True
-            )
             obj.reindexObject()
 
         result = {
@@ -268,4 +263,4 @@ class HouseFeatureEditor(BrowserView):
     index = ViewPageTemplateFile("house_feature_editor.pt")
 
     def __call__(self):
-        return super(HouseFeatureEditor, self).__call__()
+        return self.index()

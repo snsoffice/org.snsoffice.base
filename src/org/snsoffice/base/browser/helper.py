@@ -208,6 +208,7 @@ class BuildView(BrowserView):
             for v in context.contentValues():
                 if IHouseView.providedBy(v):
                     item = {
+                        'name': v.getId(),
                         'type': v.view_type,
                         'opacity': v.opacity,
                         'geometry': v.geometry,
@@ -217,6 +218,7 @@ class BuildView(BrowserView):
 
                 elif IHouseFeature.providedBy(v):
                     item = {
+                        'name': v.getId(),
                         'type': v.phase_type,
                         'location': [float(x) for x in v.geolocation.split(',')],
                         'angle': v.geoangle,

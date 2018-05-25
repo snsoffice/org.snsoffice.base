@@ -6,7 +6,7 @@
     padding-left: 50px !important;
 }
 
-/** 
+/**
  * ol style
  */
 .ol-box {
@@ -187,12 +187,39 @@
 .ol-overviewmap .ol-overviewmap-box:hover {
   cursor: move;
 }
+
 .ol-geo-locator {
     font-size: 1.6em;
     color: rgba(218,52,116,0.8);
 }
 
-/** 
+.ol-geo-marker {
+    font-size: 1.2em;
+    color: rgba(218,52,116,0.8);
+    animation-duration: 3s;
+    animation-name: fadeoutin;
+}
+
+@keyframes fadeoutin {
+    from { opactiy: .9; }
+    50% { opacity: 0.1; }
+    to { opacity: 1.0; }
+}
+
+.feature-preview {
+    position: absolute;
+    left: 1.5em;
+    bottom: .5em;
+    width: 200px;
+    height: 150px;
+    z-index: 1;
+}
+.feature-preview > img {
+    width: 100%;
+    height: 100%;
+}
+
+/**
  * bootstrap style
  */
 .progress {

@@ -73,21 +73,17 @@
 
         <div id="geo-map" class="map" style="position: relative; height: 200px;"></div>
 
-        <div class="actions row formControls">
-          <div class="col-md-2">
-            <button id="form-buttons-new" name="form.buttons.new" type="button"
-               class="btn btn-primary" i18n:translate="label_button_new_house">New</button>
-            <button id="form-buttons-import" name="form.buttons.import" type="button"
-               class="btn btn-primary" i18n:translate="label_button_import">Import</button>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar"
+               aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            <span class="sr-only">60% Complete (success)</span>
           </div>
-          <div class="col-md-10">
-            <div class="progress">
-              <div class="progress-bar progress-bar-success" role="progressbar"
-                   aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                <span class="sr-only">60% Complete (success)</span>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div class="actions formControls">
+          <button id="form-buttons-import" name="form.buttons.import" type="button"
+                  class="btn btn-primary" i18n:translate="label_button_import">Import</button>
+          <button id="form-buttons-new" name="form.buttons.new" type="button"
+                  class="btn btn-primary" i18n:translate="label_button_new_house">New</button>
         </div>
 
         <!-- <div class="formControls"> -->
@@ -95,7 +91,7 @@
         <!--   <input id="form-buttons-new" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit"> -->
         <!-- </div> -->
 
-        <input type="file" id="form-widgets-file" name="form.widgets.file" style="display: none"/>
+        <input type="file" id="form-widgets-file" name="form.widgets.file" accept=".zip" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>
