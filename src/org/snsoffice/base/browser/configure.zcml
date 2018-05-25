@@ -28,6 +28,16 @@
      file="static/geolocator.js"
      />
 
+  <browser:resource
+     name="geohouse.js"
+     file="static/geohouse.js"
+     />
+
+  <browser:resource
+     name="geofeature.js"
+     file="static/geofeature.js"
+     />
+
   <!-- <browser:resource -->
   <!--     name="cloudhelper.js" -->
   <!--     file="static/cloudhelper.js" -->
@@ -42,31 +52,45 @@
      permission="zope2.View"
      />
 
-  <browser:page
-     for="org.snsoffice.base.interfaces.ISpot"
-     name="upload"
-     template="upload.pt"
-     permission="cmf.ModifyPortalContent"
-     class=".helper.UploadView"
-     />
+  <!-- <browser:page -->
+  <!--    for="org.snsoffice.base.interfaces.ISpot" -->
+  <!--    name="upload" -->
+  <!--    template="upload.pt" -->
+  <!--    permission="cmf.ModifyPortalContent" -->
+  <!--    class=".helper.UploadView" -->
+  <!--    /> -->
 
-  <browser:page
-     name="removeResource"
-     for="*"
-     permission="zope2.DeleteObjects"
-     class=".helper.RemoveResourceView"
-     />
+  <!-- <browser:page -->
+  <!--    name="removeResource" -->
+  <!--    for="*" -->
+  <!--    permission="zope2.DeleteObjects" -->
+  <!--    class=".helper.RemoveResourceView" -->
+  <!--    /> -->
 
-  <browser:page
-     for="org.snsoffice.base.interfaces.ISpot"
-     name="getUploadToken"
-     permission="zope2.View"
-     class=".helper.UploadTokenView"
-     />
+  <!-- <browser:page -->
+  <!--    for="org.snsoffice.base.interfaces.ISpot" -->
+  <!--    name="getUploadToken" -->
+  <!--    permission="zope2.View" -->
+  <!--    class=".helper.UploadTokenView" -->
+  <!--    /> -->
 
   <browser:page
      for="org.snsoffice.base.interfaces.ISpot"
      name="config.json"
+     permission="cmf.ModifyPortalContent"
+     class=".helper.BuildView"
+     />
+
+  <browser:page
+     for="org.snsoffice.base.interfaces.ISpot"
+     name="pub-config.json"
+     permission="cmf.ModifyPortalContent"
+     class=".helper.BuildView"
+     />
+
+  <browser:page
+     for="org.snsoffice.base.interfaces.ISpot"
+     name="usr-config.json"
      permission="cmf.ModifyPortalContent"
      class=".helper.BuildView"
      />
