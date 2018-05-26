@@ -6,6 +6,16 @@
     padding-left: 50px !important;
 }
 
+#portal-footer-wrapper {
+    padding: 6px 15px;
+}
+
+#portal-footer-wrapper .portletWrapper:first-child {
+    border-bottom: 0px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
 /**
  * ol style
  */
