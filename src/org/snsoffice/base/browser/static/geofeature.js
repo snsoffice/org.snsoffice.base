@@ -407,7 +407,7 @@ require([ // jshint ignore:line
                     img.className = 'selected';
 
                     var span = document.createElement('SPAN');
-                    span.className = 'glyphicon glyphicon-remove-sign';
+                    span.className = 'glyphicon glyphicon-remove-circle';
 
                     preview.appendChild(img);
                     preview.appendChild(span);
@@ -433,6 +433,7 @@ require([ // jshint ignore:line
                         source: file.name,
                     };
                     addFeatureApi( data, onFeatureAdded, onFeatureAddFailed );
+                    uploadFile( data_base_url );
                 }
             }, false);
 
