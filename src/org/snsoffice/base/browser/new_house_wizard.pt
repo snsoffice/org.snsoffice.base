@@ -74,11 +74,11 @@
             <div class="col-sm-4">
               <div class="input-group">
                 <span class="input-group-addon" i18n:translate="label_building_floor">Level</span>
-                <input id="form-widgets-floor" name="form.widgets.floor" class="text-widget textline-field" value="" type="text">
+                <input id="modal-floor" name="modal.floor" class="text-widget textline-field" value="" type="text">
               </div>
             </div>
             <div class="col-sm-4">
-              <input id="form-widgets-geolocation" name="form.widgets.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
+              <input id="modal-geolocation" name="modal.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -137,9 +137,9 @@
         <!--   <input id="form-buttons-new" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit"> -->
         <!-- </div> -->
 
-        <!-- <input type="hidden" id="form-widgets-building" name="form.widgets.building"/> -->
-        <!-- <input type="hidden" id="form-widgets-floor" name="form.widgets.floor"/> -->
-        <!-- <input type="hidden" id="form-widgets-geolocation" name="form.widgets.geolocation"/> -->
+        <input type="hidden" id="form-widgets-building" name="form.widgets.building"/>
+        <input type="hidden" id="form-widgets-floor" name="form.widgets.floor"/>
+        <input type="hidden" id="form-widgets-geolocation" name="form.widgets.geolocation"/>
         <input type="file" id="form-widgets-file" name="form.widgets.file" accept=".zip" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
