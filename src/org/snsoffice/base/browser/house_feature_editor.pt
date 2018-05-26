@@ -45,7 +45,7 @@
                                          data-type item/type;
                                          data-angle item/angle;
                                          data-location item/location;"/>
-                    <span class="glyphicon glyphicon-remove-sign"></span>
+                    <span class="glyphicon glyphicon-remove-circle"></span>
                 </div>
               </tal:block>
             </div>

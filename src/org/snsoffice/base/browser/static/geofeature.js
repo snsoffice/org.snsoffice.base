@@ -266,7 +266,7 @@ require([ // jshint ignore:line
                         collapsible: false
                     }
                 }).extend([]),
-                layers: [baseLayer, vectorLayer],
+                layers: [baseLayer],
                 target: 'geo-map',
                 view: new ol.View({
                     enableRotation: false,
@@ -291,6 +291,8 @@ require([ // jshint ignore:line
                     map.addLayer(planlayer);
                 }
             }
+
+            map.addLayer(vectorLayer);
 
             selectInteraction = new ol.interaction.Select({
                 style: selectStyleFunction,
@@ -398,6 +400,7 @@ require([ // jshint ignore:line
                 if ( file.type.startsWith( 'image/') ) {
 
                     var preview = document.createElement('DIV');
+                    preview.className = 'preview';
 
                     var img = document.createElement('IMG');
                     img.file = file;
