@@ -1,0 +1,15 @@
+<div id="portal-colophon"
+     i18n:domain="org.snsoffice.base">
+<div class="colophonWrapper">
+<ul>
+  <li>
+    <a href="http://ifuture.snsoffice.com" target="_blank"
+       title="This site was built using the Plone Open Source CMS/WCM."
+       i18n:attributes="title title_built_with_snsoffice;"
+       i18n:translate="label_powered_by_snsoffice">
+      Powered by SnsOffice </a>
+  </li>
+</ul>
+</div>
+</div>
+
