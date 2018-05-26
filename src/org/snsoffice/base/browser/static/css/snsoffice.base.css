@@ -188,35 +188,69 @@
   cursor: move;
 }
 
-.ol-geo-locator {
-    font-size: 1.6em;
-    color: rgba(218,52,116,0.8);
-}
+/**
+ * house feature editor
+ */
 
-.ol-geo-marker {
-    font-size: 1.2em;
-    color: rgba(218,52,116,0.8);
-    animation-duration: 3s;
-    animation-name: fadeoutin;
-}
+/* .ol-geo-locator { */
+/*     font-size: 1.6em; */
+/*     color: rgba(218,52,116,0.8); */
+/* } */
 
-@keyframes fadeoutin {
-    from { opactiy: .9; }
-    50% { opacity: 0.1; }
-    to { opacity: 1.0; }
-}
+/* .ol-geo-marker { */
+/*     font-size: 1.2em; */
+/*     color: rgba(218,52,116,0.8); */
+/*     animation-duration: 3s; */
+/*     animation-name: fadeoutin; */
+/* } */
 
-.feature-preview {
+/* @keyframes fadeoutin { */
+/*     from { opactiy: .9; } */
+/*     50% { opacity: 0.1; } */
+/*     to { opacity: 1.0; } */
+/* } */
+
+#house-toolbar {
     position: absolute;
-    left: 1.5em;
-    bottom: .5em;
-    width: 200px;
-    height: 150px;
+    top: 0;
+    right: 0;
     z-index: 1;
 }
-.feature-preview > img {
-    width: 100%;
-    height: 100%;
+
+#house-features {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: auto;
+    border: 1px solid dimgray;
+    background-color: rgba(10, 10, 10, 0.6);
+    z-index: 1;
+}
+
+#house-features > div {
+    display: flex;
+    flex-direction: row;
+}
+
+#house-features > div img {
+    width: 128px;
+    height: 128px;
+    padding: 2px;
+}
+
+#house-features > div img.selected {
+    border: 2px solid dodgerblue;
+}    
+
+#house-features > div > div.preview {
+    position: relative;
+}
+
+#house-features > div span {
+    position: absolute;
+    top: .5em;
+    right: .5em;
 }
 
 /**

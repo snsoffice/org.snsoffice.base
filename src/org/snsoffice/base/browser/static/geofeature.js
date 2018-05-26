@@ -13,59 +13,62 @@ require([ // jshint ignore:line
 ], function($) {
     'use strict';
 
-    var originalLocation = null;
-    var originalAngle = null;
-    var currentLocation = null;
-    var currentAngle = null;
-    var currentMode = null;
-    var angleMode = false;
+    var originalLocation;
+    var originalAngle;
+    var modified;
 
     var map;
+    var selectInteraction;
+
     var geoform;
     var geofile;
-
-    var drawInteraction;
-    var selectInteraction;
 
     var icon = 'images/marker.png';
     var data_base_url;
 
-    function setMode(value) {
+    var houseFeatures;
+    var progress;
 
-        if (currentMode === value)
+    function clearSelectedImage() {
+        Array.prototype.forEach.call(houseFeatures.querySelectorAll('img.selected'), function (img) {
+            img.className = '';
+        });
+    }
+
+    function isSelectedImage(img) {
+        return img.className === 'selected';
+    }
+
+    function scrollIntoView( element ) {
+        houseFeatures.scrollLeft = element.offsetLeft;
+    }
+
+    function setModified( value ) {
+
+        if ( modified === value )
             return;
 
-        if (value === 'browse') {
-            $('button.browse-button', geoform).removeAttr('disabled');
-            $('button.edit-button', geoform).attr('disabled', 'disabled');
-        }
-        else {
+        if ( value ) {
             $('button.edit-button', geoform).removeAttr('disabled');
             $('button.browse-button', geoform).attr('disabled', 'disabled');
         }
+        else {
+            $('button.browse-button', geoform).removeAttr('disabled');
+            $('button.edit-button', geoform).attr('disabled', 'disabled');
+        }
 
-        currentMode = value;
+        modified = value;
     }
 
-    function queryHouse(callback) {
-        var url = data_base_url + '/config.json';
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function (e) {
-            callback(JSON.parse(xhr.responseText));
-        };
-        xhr.onerror = function (e) {
-            console.log("Get house information failed: " +  e);
-        };
-        xhr.onabort = function (e) {
-            console.log("Get house canceled by the user.");
-        };
-        xhr.open('GET', url);
-        xhr.send(data);
-    }
+    function uploadFile( url, callback, failCallback ) {
 
-    function uploadFile(url) {
         var data = new FormData(geoform);
         var xhr = new XMLHttpRequest();
+
+        xhr.onloadend = function (e) {
+            $(progress).hide();
+        }
+
         xhr.onload = function (e) {
             console.log("The transfer is complete. server return: " + xhr.responseText);
             var result = JSON.parse(xhr.responseText);
@@ -74,8 +77,7 @@ require([ // jshint ignore:line
             if (e.lengthComputable) {
                 var percentComplete = e.loaded / e.total * 100;
                 console.log('Upload: ' + percentComplete + '%');
-                // $(progress).attr('aria-valuenow', percentComplete).css('width', percentComplete + '%');
-                // $(progress).html(formatBytes(e.loaded) + ' / ' + formatBytes(e.total));b
+                progress.firstElementChild.textContent = percentComplete + '%';
             } else {
                 console.log('Unable to compute progress information since the total size is unknown');
             }
@@ -87,12 +89,58 @@ require([ // jshint ignore:line
         xhr.onabort = function (e) {
             console.log("The transfer has been canceled by the user.");
         };
+
+        $(progress).show();
         xhr.open('POST', url + '/fileUpload');
         xhr.send(data);
     }
 
+    function addFeatureApi( data, callback, failCallback ) {
+
+        // Debug
+        if (data) {
+            console.log('New feature: ' + data);
+            callback( {
+                id: 'feature-new-1',
+                geolocation: data.geolocation,
+                geoangle: data.geoangle,
+            } );
+            return true;
+        }
+
+        var url = data_base_url;
+        var xhr = new XMLHttpRequest();
+        xhr.onloadend = function(e) {
+
+            // 201 Created (Resource has been created successfully)
+            // 400 Bad Request (malformed request to the service)
+            // 500 Internal Server Error (server fault, can not recover internally)
+            if (xhr.status != 201) {
+                console.log( 'add house feature 失败，服务器返回代码：' + xhr.status );
+                failCallback(event);
+                return;
+            }
+            var item = JSON.parse( xhr.responseText );
+            var newid = item.id;
+            callback( item );
+            console.log( 'Add house feature OK:' + newid);
+            uploadFile( newid );
+        };
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader( 'Accept', 'application/json' );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );
+        xhr.responseType = 'json';
+        data['@type'] = 'HouseFeature';
+        xhr.send( JSON.stringify( data ) );
+    }
+
     function removeFeatureApi(name, callback, failCallback) {
         var url = data_base_url + '/' + name;
+        // Debug
+        if (url) {
+            console.log('Remove ' + url);
+            return true;
+        }
         var xhr = new XMLHttpRequest();
         xhr.onloadend = function(e) {
             // 204 No Content
@@ -116,13 +164,22 @@ require([ // jshint ignore:line
 
     function updateFeatureApi(name, data, callback, failCallback) {
         var url = data_base_url + '/' + name;
+        // Debug
+        if (url) {
+            console.log('Update ' + url);
+            return true;
+        }
+
         var xhr = new XMLHttpRequest();
         xhr.onloadend = function() {
             if (xhr.status != 204) {
                 console.log( 'update resource 失败，服务器返回代码：' + xhr.status );
+            if (typeof failCallback === 'function')
+                failCallback();
                 return;
             }
-            // callback();
+            if (typeof callback === 'function')
+                callback();
             console.log( 'Update house feature OK.');
         };
         xhr.open('PATCH', url, true);
@@ -132,40 +189,37 @@ require([ // jshint ignore:line
         xhr.send( JSON.stringify( data ) );
     }
 
-    function addFeatureApi(data) {
-        var url = data_base_url;
-        var xhr = new XMLHttpRequest();
-        xhr.onloadend = function(e) {
-
-            // 201 Created (Resource has been created successfully)
-            // 400 Bad Request (malformed request to the service)
-            // 500 Internal Server Error (server fault, can not recover internally)
-            if (xhr.status != 201) {
-                console.log( 'add house feature 失败，服务器返回代码：' + xhr.status );
-                // failCallback(event);
-                return;
-            }
-            var item = JSON.parse( xhr.responseText );
-            var newid = item.id;
-            // callback();
-            console.log( 'Add house feature OK:' + newid);
-            uploadFile(newid);
-        };
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader( 'Accept', 'application/json' );
-        xhr.setRequestHeader( 'Content-Type', 'application/json' );
-        xhr.responseType = 'json';
-        data['@type'] = 'HouseFeature';
-        xhr.send( JSON.stringify( data ) );
-    }
-
     $(document).ready(function() {
 
         data_base_url = document.body.getAttribute('data-base-url');
         geoform = document.getElementById('geofeatureform');
         geofile = document.getElementById('file');
+        houseFeatures = document.getElementById('house-features');
+        progress = document.createElement('DIV');
+        progress.innerHTML = '<div class="plone-loader"><div class="loader"/></div>';
+        document.body.append(progress);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
+
+            function saveFeature( feature ) {
+                var name = feature.getId();
+                var data = {
+                    geolocation: ol.coordinate.toStringXY( feature.getGeometry().getFirstCoordinate(), 2 ),
+                    angle: feature.get('angle'),
+                };
+                var oldValue = [ originalLocation, originalAngle ];
+                updateFeatureApi( name, data, null, function () {
+                    restoreFeature( feature, oldValue );
+                } );
+            }
+
+            function restoreFeature( feature, oldValue ) {
+                var geom = feature.getGeometry();
+                var currentLocation = feature.getGeometry().getFirstCoordinate();
+                geom.translate(oldValue[0][0] - currentLocation[0], oldValue[0][1] - currentLocation[1]);
+                feature.setGeometry(geom);
+                feature.set('angle', oldValue[1]);
+            }
 
             var styleFunction = function (feature, resolution) {
                 return new ol.style.Style( {
@@ -190,12 +244,6 @@ require([ // jshint ignore:line
                 });
             };
 
-            var mousePositionControl = new ol.control.MousePosition({
-                coordinateFormat: ol.coordinate.createStringXY(4),
-                projection: 'EPSG:3857',
-                undefinedHTML: '&nbsp;'
-            });
-
             var baseLayer = new ol.layer.Tile({
                 source: new ol.source.OSM()
             });
@@ -207,7 +255,7 @@ require([ // jshint ignore:line
             });
 
             var fmt = new ol.format.WKT();
-            var extent = fmt.readGeometry(geoform.getAttribute('data-geometry')).getExtent();
+            var extent = fmt.readGeometry(document.getElementById('geo-map').getAttribute('data-geometry')).getExtent();
             var center = ol.extent.getCenter(extent);
 
             map = new ol.Map({
@@ -215,7 +263,7 @@ require([ // jshint ignore:line
                     attributionOptions: {
                         collapsible: false
                     }
-                }).extend([mousePositionControl]),
+                }).extend([]),
                 layers: [baseLayer, vectorLayer],
                 target: 'geo-map',
                 view: new ol.View({
@@ -226,74 +274,78 @@ require([ // jshint ignore:line
             });
             map.getView().fit(extent);
 
-            var element = document.createElement('div');
-            element.innerHTML = '<button class="btn btn-success btn-sm"><span class="glyphicon glyphicon-screenshot"></span></button>';
-            map.addOverlay(new ol.Overlay({
-                id: 'eye',
-                element: element,
-                positioning: 'center-center',
-                stopEvent: true,
-            }));
+            if (houseFeatures.getAttribute('data-view')) {
+                var planlayer = new ol.layer.Image( {
+                    extent: extent,
+                    source: new ol.source.ImageStatic( {
+                        crossOrigin: 'anonymous',
+                        imageExtent: extent,
+                        url: houseFeatures.getAttribute('data-view'),
+                    } )
+                } );
+                map.addLayer(planlayer);
+            }
 
             selectInteraction = new ol.interaction.Select({
                 style: selectStyleFunction,
-                // condition: ol.events.condition.noModifierKeys,
             });
 
             selectInteraction.on('select', function (event) {
-                if (currentMode === 'edit') {
-                    // save result at first
+                // save result at first
+                if (modified) {
+                    var img = houseFeatures.querySelector('img.selected');
+                    if (img) {
+                        var feature = source.getFeatureById(img.getAttribute('data-name'));
+                        if (feature) {
+                            saveFeature(feature);
+                        }
+                    }
+                    setModified(false);
                 }
 
-                var preview = document.querySelector('#geo-map .feature-preview');
-                preview.innerHTML = '';
+                clearSelectedImage();
 
                 if (event.selected.length) {
-                    var selected = event.selected;
-                    currentLocation = selected[0].getGeometry().getFirstCoordinate();
-                    currentAngle = selected[0].get('angle');
-                    originalAngle = currentAngle;
-                    originalLocation = currentLocation;
+                    var feature = event.selected[0];
+                    originalAngle = feature.get('angle');
+                    originalLocation = feature.getGeometry().getFirstCoordinate();;
 
-                    var src = selected[0].get('url');
-                    if (src) {
-                        var img = document.createElement("img");
-                        img.src = src;
-                        preview.appendChild(img);
-                    }
+                    var name = feature.getId();
+                    Array.prototype.forEach.call(houseFeatures.querySelectorAll('img[data-name="' + name + '"]'), function (img) {
+                        img.className = 'selected';
+                        scrollIntoView(img);
+                    });
                 }
                 else {
-                    currentLocation = null;
-                    currentAngle = null;
                     originalAngle = null;
                     originalLocation = null;
                 }
             });
             map.addInteraction(selectInteraction);
 
-            drawInteraction = new ol.interaction.Draw({
-                type: 'Point',
-                source: source,
-                stopClick: true,
-            });
-            map.addInteraction(drawInteraction);
-            drawInteraction.on('drawend', function (e) {
-                var selected = selectInteraction.getFeatures();
-                if (selected.getLength())
-                    source.removeFeature(selected.pop());
-                e.feature.set('angle', 0);
-                selected.push(e.feature);
-            });
-            drawInteraction.setActive(false);
+            // drawInteraction = new ol.interaction.Draw({
+            //     type: 'Point',
+            //     source: source,
+            //     stopClick: true,
+            // });
+            // map.addInteraction(drawInteraction);
+            // drawInteraction.on('drawend', function (e) {
+            //     var selected = selectInteraction.getFeatures();
+            //     selected.forEach(function(feature) {
+            //         source.removeFeature(feature);
+            //     });
+            //     selected.clear();
+
+            //     e.feature.set('angle', 0);
+            //     selected.push(e.feature);
+            // });
+            // drawInteraction.setActive(false);
 
             var translateInteraction = new ol.interaction.Translate({
                 features: selectInteraction.getFeatures()
             });
             translateInteraction.on('translateend', function (event) {
-                var features = event.features;
-                var coordinate = event.coordinate;
-                setMode('edit');
-                currentLocation = coordinate;
+                setModified(true);
             });
             map.addInteraction(translateInteraction);
 
@@ -303,45 +355,87 @@ require([ // jshint ignore:line
                     // Change angle of selected feature
                     var coordinate = evt.coordinate;
                     var feature = selected.item(0);
-                    var pos = feature.getGeometry().getFirstCoordinate();
-                    currentAngle = Math.atan2(coordinate[1] - pos[1], pos[0] - coordinate[0]) * 180 / Math.PI - 90;
-                    feature.set('angle', currentAngle);
-                    if (currentMode === 'browse')
-                        setMode('edit');
+                    var origin = feature.getGeometry().getFirstCoordinate();
+                    var angle = Math.atan2(coordinate[1] - origin[1], origin[0] - coordinate[0]) * 180 / Math.PI - 90;
+                    feature.set('angle', angle);
+                    setModified(true);
                 }
                 return true;
             });
 
-            geofile.addEventListener('change', function (e) {
-                var file = this.files[0];
-                var preview = document.querySelector('#geo-map .feature-preview');
-                preview.innerHTML = '';
-                if (file.type.startsWith('image/')) {
-                    var img = document.createElement("img");
+            function onFeatureAdded(data) {
+                var feature = fmt.readFeature('POINT( ' + data.geolocation.split(',').join(' ') + ' )');
+                feature.setId(data.id);
+                feature.set('angle', data.geoangle, true);
+                source.addFeature(feature);
+
+                selectInteraction.getFeatures().push(feature);
+                geofile.value = '';
+
+                var img = houseFeatures.querySelector('img.selected');
+                img.setAttribute('data-name', data.id);
+            }
+
+            function onFeatureAddFailed() {
+                selectInteraction.getFeatures().clear();
+                var img = houseFeatures.querySelector('img.selected');
+                if (img)
+                    img.remove();
+            }
+
+            geofile.addEventListener( 'change', function ( e ) {
+
+                clearSelectedImage();
+                selectInteraction.getFeatures().clear();
+
+                var file = this.files[ 0 ];
+                if ( file.type.startsWith( 'image/') ) {
+
+                    var preview = document.createElement('DIV');
+
+                    var img = document.createElement('IMG');
                     img.file = file;
+                    img.className = 'selected';
+
+                    var span = document.createElement('SPAN');
+                    span.className = 'glyphicon glyphicon-remove-sign';
+
                     preview.appendChild(img);
+                    preview.appendChild(span);
+                    houseFeatures.firstElementChild.appendChild(preview);
 
                     var reader = new FileReader();
-                    reader.onload = (function(aImg) { return function(e) { aImg.src = e.target.result; }; })(img);
-                    reader.readAsDataURL(file);
-                    setMode(geofile.getAttribute('data-type'));
-                    selectInteraction.setActive(false);
-                    drawInteraction.setActive(true);
-                    currentLocation = null;
-                    currentAngle = null;
-                    selectInteraction.getFeatures().clear();
+                    reader.onload = ( function( aImg ) {
+                        return function ( e ) {
+                            aImg.src = e.target.result;
+                            scrollIntoView(aImg);
+                        };
+                    } )( img );
+                    reader.readAsDataURL( file );
+
+                    var currentLocation = map.getView().getCenter();
+                    var currentAngle = 0;
+
+                    var data = {
+                        title: 'House Feature',
+                        phase_type: geofile.getAttribute( 'data-type' ) === 'panorama' ? 'panorama/equirectangular' : 'image/*',
+                        geolocation: ol.coordinate.toStringXY(currentLocation, 2),
+                        geoangle: currentAngle,
+                        source: file.name,
+                    };
+                    addFeatureApi( data, onFeatureAdded, onFeatureAddFailed );
                 }
             }, false);
 
             document.getElementById('form-buttons-add-photo').addEventListener('click', function (e) {
                 e.preventDefault();
-                geofile.setAttribute('data-type', 'add-photo');
+                geofile.setAttribute('data-type', 'photo');
                 geofile.click();
             }, false);
 
             document.getElementById('form-buttons-add-panorama').addEventListener('click', function (e) {
                 e.preventDefault();
-                geofile.setAttribute('data-type', 'add-panorama');
+                geofile.setAttribute('data-type', 'panorama');
                 geofile.click();
             }, false);
 
@@ -350,131 +444,103 @@ require([ // jshint ignore:line
                 var selected = selectInteraction.getFeatures();
                 if (selected.getLength()) {
                     // call restapi to remove feature
-                    source.removeFeature(selected.item(0));
+                    var feature = selected.item(0);
+                    removeFeatureApi(feature.getId());
+                    source.removeFeature(feature);
                     selected.clear();
-                    removeFeatureApi(feature.get('name'));
+                    houseFeatures.querySelector('img.selected').remove();
                 }
+                if (modified)
+                    setModified(false);
             }, false);
 
             document.getElementById('form-buttons-save').addEventListener('click', function (e) {
                 var selected = selectInteraction.getFeatures();
-                // call restapi to add house feature
-                // call fileUpload to upload picture
-                if (currentMode === 'add-photo' || currentMode === 'add-panorama') {
-                    if (selected.getLength() === 0)
-                        return;
-                    var pos = feature.getGeometry().getFirstCoordinate();
-                    addFeatureApi({
-                        title: 'House Feature',
-                        phase_type: currentMode === 'add-panorama' ? 'panorama/equirectangular' : 'image/*',
-                        geolocation: ol.coordinate.toStringXY(pos, 2),
-                        geoangle: feature.get('angle'),
-                    });
-                    var feature = selected.item(0);
-                    console.log('add feature at ' + feature.getGeometry().getFirstCoordinate() + 'and upload picture');
-                    drawInteraction.setActive(false);
-                    selectInteraction.setActive(true);
-                    geofile.value = '';
-                }
                 // call restapi to update angle and geolocation
-                else if (currentMode === 'edit') {
+                if (selected.getLength()) {
                     var feature = selected.item(0);
-                    console.log('set feature ' + feature.get('name') + ': geolocation = ' + currentLocation + ', angle = ' + currentAngle);
                     var pos = feature.getGeometry().getFirstCoordinate();
-                    updateFeatureApi(feature.get('name'), {
+                    updateFeatureApi(feature.getId(), {
                         geolocation: ol.coordinate.toStringXY(pos, 2),
                         geoangle: feature.get('angle'),
                     });
                 }
-                setMode('browse');
+                setModified(false);
             }, false);
 
             document.getElementById('form-buttons-cancel').addEventListener('click', function (e) {
                 var selected = selectInteraction.getFeatures();
-                if (currentMode === 'edit') {
-                    // restore geolocation and angle
-                    if (selected.getLength()) {
-                        var feature = selected.item(0);
-                        var geom = feature.getGeometry();
-                        geom.translate(originalLocation[0] - currentLocation[0], originalLocation[1] - currentLocation[1]);
-                        feature.setGeometry(geom);
-                        feature.set('angle', originalAngle);
-                    }
-                    selected = undefined;
+                // restore geolocation and angle
+                if (selected.getLength()) {
+                    restoreFeature( selected.item(0), [ originalLocation, originalAngle ] );
                 }
-                else if (currentMode === 'add-photo' || currentMode === 'add-panorama') {
-                    var preview = document.querySelector('#geo-map .feature-preview');
-                    preview.innerHTML = '';
-                    if (selected.getLength()) {
-                        source.removeFeature(selected.pop());
-                    }
-                    drawInteraction.setActive(false);
-                    selectInteraction.setActive(true);
-                    geofile.value = '';
-                }
-                setMode('browse');
+                setModified(false);
             }, false);
 
-            function initHouse(config) {
-                var views = config.views === undefined ? [] : config.views;
-                for (var i = 0; i < views.length; i ++) {
-                    var v = views[i];
-                    if (v.type === 'plan') {
-                        var imageExtent = fmt.readGeometry(v.geometry).getExtent();
-                        var planlayer = new ol.layer.Image( {
-                            extent: imageExtent,
-                            source: new ol.source.ImageStatic( {
-                                crossOrigin: 'anonymous',
-                                imageExtent: imageExtent,
-                                url: v.url,
-                            } )
-                        } );
-                        map.addLayer(planlayer);
-                        break;
+            houseFeatures.addEventListener( 'click', function ( e ) {
+
+                if (e.target.tagName === 'SPAN') {
+                    var preview = e.target.parentElement;
+                    var img = preview.firstElementChild;
+                    if (img) {
+                        var feature = source.getFeatureById(img.getAttribute('data-name'));
+                        if (feature) {
+                            removeFeatureApi(feature.getId());
+                            source.removeFeature(feature);
+                            if (isSelectedImage(img)) {
+                                selectInteraction.getFeatures().clear();
+                                if (modified)
+                                    setModified(false);
+                            }
+                        }
+                    }
+                    preview.remove();
+                    return;
+                }
+
+                var img = e.target;
+                var name = img.getAttribute('data-name');
+                if (isSelectedImage(img))
+                    return;
+
+                // save result at first if modified
+                if (modified) {
+                    if (selectInteraction.getFeatures().getLength()) {
+                        saveFeature(selectInteraction.getFeatures().item(0));
+                    }
+                    setModified(false);
+                }
+
+                clearSelectedImage();
+                selectInteraction.getFeatures().clear();
+                if ( name ) {
+                    var feature = source.getFeatureById( name );
+                    if ( feature ) {
+                        selectInteraction.getFeatures().push( feature );
+                        img.className = 'selected';
+                        originalAngle = feature.get('angle');
+                        originalLocation = feature.getGeometry().getFirstCoordinate();
                     }
                 }
-                var features = config.features === undefined ? [] : config.features;
-                features.forEach(function(feature){
-                    var url = feature.url;
-                    var type = feature.type;
-                    var pos = feature.geolocation;
-                    var angle = feature.geoangle;
-                    var title = feature.title;
-                    var name = feature.name;
 
-                    var feature = fmt.readFeature('POINT( ' + pos.split(',').join(' ') + ' )');
-                    source.addFeature(feature);
-                    feature.setProperties({
-                        name: name,
-                        type: type,
-                        angle: angle,
-                        title: title,
-                    }, true);
+            }, false );
 
-                });
-            }
+            Array.prototype.forEach.call(houseFeatures.querySelectorAll('IMG'), function (item) {
+                var name = item.getAttribute('data-name');
+                var type = item.getAttribute('data-type');
+                var pos = item.getAttribute('data-location');
+                var angle = item.getAttribute('data-angle');
 
-            queryHouse(initHouse);
+                var feature = fmt.readFeature('POINT( ' + pos.split(',').join(' ') + ' )');
+                feature.setId(name);
+                feature.setProperties({
+                    type: type,
+                    angle: angle,
+                }, true);
+                source.addFeature(feature);
+            } );
 
-            // var houseFeatures = document.getElementById('house-features');
-            // Array.prototype.forEach.call(houseFeatures.querySelectorAll('li'), function (item) {
-            //     var url = item.getAttribute('data-url');
-            //     var type = item.getAttribute('data-type');
-            //     var pos = item.getAttribute('data-location');
-            //     var angle = item.getAttribute('data-angle');
-            //     var title = item.textContent;
-
-            //     var feature = fmt.readFeature('POINT( ' + pos.split(',').join(' ') + ' )');
-            //     source.addFeature(feature);
-            //     feature.setProperties({
-            //         name: name,
-            //         type: type,
-            //         angle: angle,
-            //         title: title,
-            //     }, true);
-            // } );
-
-            setMode('browse');
+            setModified(false);
         });
 
     });

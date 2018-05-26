@@ -20,29 +20,54 @@
 
     <div id="content-core">
 
-      <form class="rowlike enableUnloadProtection" data-geometry=""
-            method="post" enctype="multipart/form-data" id="geofeatureform">
+      <form method="post" enctype="multipart/form-data" id="geofeatureform">
 
-        <div id="geo-map" class="map" style="position: relative; height: 300px;">
-          <div class="feature-preview"><span class="sr-only">Image Preview</span></div>
+        <div id="geo-map" class="house-map" data-geometry=""
+             tal:attributes="data-geometry context/geometry;"></div>
+
+        <ul id="house-views" style="display: none;">
+          <tal:block repeat="item view/house_views">
+            <li tal:attributes="data-name item/name;
+                                data-type item/type;
+                                data-geometry item/geometry;
+                                data-url item/url;"
+                tal:content="item/title">Title</li>
+          </tal:block>
+        </ul>
+
+        <div id="house-features">
+            <div class="outer-box">
+              <tal:block repeat="item view/house_features">
+                <div class="preview">
+                    <img src="" data-name="" data-type="" data-angle="" data-location="" title=""
+                         tal:attributes="src item/url;
+                                         data-name item/name;
+                                         data-type item/type;
+                                         data-angle item/angel;
+                                         data-location item/location;"/>
+                    <span class="glyphicon glyphicon-remove-sign"></span>
+                </div>
+              </tal:block>
+            </div>
         </div>
 
-        <div class="actions row formControls">
-          <div class="col-md-10">
+        <div id="house-toolbar" class="btn-toolbar" role="toolbar" aria-label="...">
+          <div class="btn-group" role="group" aria-label="...">
             <button id="form-buttons-add-photo" name="form.buttons.add.photo" type="button"
-                    class="btn btn-primary browse-button" i18n:translate="">Add Photo</button>
+                    class="btn btn-default browse-button" i18n:translate=""><span class="glyphicon glyphicon-plus"></span> Photo</button>
             <button id="form-buttons-add-panorama" name="form.buttons.add.panorama" type="button"
-                    class="btn btn-primary browse-button" i18n:translate="">Add Panorama</button>
+                    class="btn btn-default browse-button" i18n:translate=""><span class="glyphicon glyphicon-plus"></span> Panorama</button>
             <button id="form-buttons-remove" name="form.buttons.remove" type="button"
                     class="btn btn-danger browse-button" i18n:translate="">Remove</button>
           </div>
-          <div class="col-md-2">
+          <div class="btn-group" role="group" aria-label="...">
             <button id="form-buttons-save" name="form.buttons.save" type="button" disabled="disabled"
-                    class="btn btn-primary edit-button" i18n:translate="">Save</button>
+                    class="btn btn-default edit-button" i18n:translate="">Save</button>
             <button id="form-buttons-cancel" name="form.buttons.cancel" type="button" disabled="disabled"
-                    class="btn btn-primary edit-button" i18n:translate="">Cancel</button>
+                    class="btn btn-default edit-button" i18n:translate="">Cancel</button>
           </div>
         </div>
+
 
         <input type="file" id="file" name="file" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />

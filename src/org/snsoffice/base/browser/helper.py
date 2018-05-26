@@ -169,8 +169,7 @@ class GeoLocator(BrowserView):
     def __call__(self):
         return super(GeoLocator, self).__call__()
 
-    def default_geolocation(self):
-        
+    def default_geolocation(self):        
         return '123,245'
 
 class BuildView(BrowserView):
@@ -212,17 +211,23 @@ class BuildView(BrowserView):
                         'type': v.view_type,
                         'opacity': v.opacity,
                         'geometry': v.geometry,
-                        'url': v.source,
+                        'url': v.absolute_url() + '/' + v.source,
                     }
                     result['views'].append(item)
 
                 elif IHouseFeature.providedBy(v):
+                    if v.source is None:
+                        contentFilter = { "portal_type" : "Image" }
+                        images = v.getFolderContents(contentFilter, batch=True, b_size=1)
+                        url = images[0].getURL() if len(images) else None
+                    else:
+                        url = v.absolute_url() + '/' + v.source
                     item = {
                         'name': v.getId(),
                         'type': v.phase_type,
                         'location': [float(x) for x in v.geolocation.split(',')],
                         'angle': v.geoangle,
-                        'url': v.source,
+                        'url': url,
                     }
                     result['features'].append(item)
 

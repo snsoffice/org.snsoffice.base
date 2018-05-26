@@ -150,7 +150,7 @@ class ImportHouseView(BrowserView):
         except Exception:
             transaction.rollback()
             raise
-        return json_dumps({ 
+        return json_dumps({
             'name': house.getId(),
             'url': house.absolute_url(),
         })
@@ -197,6 +197,7 @@ class ImportHouseView(BrowserView):
                 geolocation=geolocation,
                 geometry=view['geometry'],
                 title=view_type,
+                source=view['source'],
                 safe_id=True)
             for x in entries.get(view_type, []):
                 result = self.import_file(house_view, os.path.basename(x), f.read(x))
@@ -210,7 +211,7 @@ class ImportHouseView(BrowserView):
         # chooser = INameChooser(container)
         # newid = chooser.chooseName(name, container.aq_parent)
         filename = ploneutils.safe_unicode(name)
-        if content_type.startswith('image/'): 
+        if content_type.startswith('image/'):
             image = NamedBlobImage(
                 data=data,
                 filename=filename,
@@ -263,4 +264,36 @@ class HouseFeatureEditor(BrowserView):
     index = ViewPageTemplateFile("house_feature_editor.pt")
 
     def __call__(self):
+        views = []
+        features = []
+        for v in self.context.contentValues():
+            if IHouseView.providedBy(v):
+                item = {
+                    'name': v.getId(),
+                    'type': v.view_type,
+                    'opacity': v.opacity,
+                    'geometry': v.geometry,
+                    'url': v.absolute_url() + '/' + v.source,
+                }
+                views.append(item)
+
+            elif IHouseFeature.providedBy(v):
+                if v.source is None:
+                    contentFilter = { "portal_type" : "Image" }
+                    images = v.getFolderContents(contentFilter, batch=True, b_size=1)
+                    url = images[0].getURL() if len(images) else None
+                else:
+                    url = v.absolute_url() + '/' + v.source
+                item = {
+                    'name': v.getId(),
+                    'type': v.phase_type,
+                    'location': [float(x) for x in v.geolocation.split(',')],
+                    'angle': v.geoangle,
+                    'url': url,
+                }
+            features.append(item)
+
+        self.house_views = views
+        self.house_features = features
+
         return self.index()

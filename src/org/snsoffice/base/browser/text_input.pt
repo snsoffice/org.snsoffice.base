@@ -41,7 +41,7 @@
     <div class="col-sm-1">
       <a class="pat-plone-modal"
          data-pat-plone-modal="height: 80%; width: 80%;"
-         href="geoeditor">
+         href="geolocator">
         <button type="button" class="btn btn-info btn-xs">
           <span class="glyphicon glyphicon-map-marker"></span>
         </button>
