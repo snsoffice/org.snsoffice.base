@@ -212,7 +212,7 @@ class HouseFeatureEditor(BrowserView):
                 item = {
                     'name': v.getId(),
                     'type': v.phase_type,
-                    'location': [float(x) for x in v.geolocation.split(',')],
+                    'location': v.geolocation,
                     'angle': v.geoangle,
                     'url': url,
                 }

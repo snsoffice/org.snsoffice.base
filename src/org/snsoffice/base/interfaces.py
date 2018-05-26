@@ -178,9 +178,9 @@ class IPhase(model.Schema):
     geoangle = schema.Float(
         title=_(u'label_angel', default=u'Angle'),
         description=_(u"North in degree"),
-        default=0,
-        min=0,
-        max=360,
+        default=0.,
+        min=0.,
+        max=360.,
         required=False,
     )
 

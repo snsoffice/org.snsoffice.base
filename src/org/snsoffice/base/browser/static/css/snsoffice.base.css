@@ -258,6 +258,10 @@
     right: .5em;
 }
 
+#house-features > div span:hover {
+    color: #c9302c;
+}
+
 /**
  * bootstrap style
  */

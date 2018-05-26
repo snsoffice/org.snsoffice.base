@@ -71,8 +71,7 @@ require([ // jshint ignore:line
         }
 
         xhr.onload = function (e) {
-            console.log("The transfer is complete. server return: " + xhr.responseText);
-            var result = JSON.parse(xhr.responseText);
+            console.log("The transfer is complete. server return: " + xhr.responseText);            
         }
         xhr.upload.addEventListener("progress", function (e) {
             if (e.lengthComputable) {
@@ -121,11 +120,11 @@ require([ // jshint ignore:line
                 failCallback(event);
                 return;
             }
-            var item = JSON.parse( xhr.responseText );
+            var item = xhr.response;
             var newid = item.id;
             callback( item );
             console.log( 'Add house feature OK:' + newid);
-            uploadFile( newid );
+            uploadFile( item['@id'] );
         };
         xhr.open('POST', url, true);
         xhr.setRequestHeader( 'Accept', 'application/json' );
@@ -277,16 +276,20 @@ require([ // jshint ignore:line
             });
             map.getView().fit(extent);
 
-            if (houseFeatures.getAttribute('data-view')) {
-                var planlayer = new ol.layer.Image( {
-                    extent: extent,
-                    source: new ol.source.ImageStatic( {
-                        crossOrigin: 'anonymous',
-                        imageExtent: extent,
-                        url: houseFeatures.getAttribute('data-view'),
-                    } )
-                } );
-                map.addLayer(planlayer);
+            var houseViews = document.getElementById('house-views');
+            if (houseViews) {
+                var planview = houseViews.querySelector('li');
+                if (planview) {
+                    var planlayer = new ol.layer.Image( {
+                        extent: extent,
+                        source: new ol.source.ImageStatic( {
+                            crossOrigin: 'anonymous',
+                            imageExtent: extent,
+                            url: planview.getAttribute('data-url'),
+                        } )
+                    } );
+                    map.addLayer(planlayer);
+                }
             }
 
             selectInteraction = new ol.interaction.Select({
@@ -420,7 +423,7 @@ require([ // jshint ignore:line
                     var currentAngle = 0;
 
                     var data = {
-                        title: 'House Feature',
+                        title: file.name,
                         phase_type: geofile.getAttribute( 'data-type' ),
                         geolocation: ol.coordinate.toStringXY(currentLocation, 2),
                         geoangle: currentAngle,
