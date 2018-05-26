@@ -148,7 +148,7 @@ class ImportHouseView(BrowserView):
             house = self.import_entry_from_zip(container, title, geolocation, data)
             transaction.commit()
         except Exception:
-            transaction.rollback()
+            transaction.abort()
             raise
         return json_dumps({
             'name': house.getId(),
