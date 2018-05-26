@@ -23,8 +23,9 @@ require([ // jshint ignore:line
     var geoform;
     var geofile;
 
-    var icon = 'images/marker.png';
+    var marker_icon_url;
     var data_base_url;
+    var data_portal_url;
 
     var houseFeatures;
     var progress;
@@ -98,7 +99,7 @@ require([ // jshint ignore:line
     function addFeatureApi( data, callback, failCallback ) {
 
         // Debug
-        if (data) {
+        if (false && data) {
             console.log('New feature: ' + data);
             callback( {
                 id: 'feature-new-1',
@@ -139,7 +140,7 @@ require([ // jshint ignore:line
         // Debug
         if (url) {
             console.log('Remove ' + url);
-            return true;
+            // return true;
         }
         var xhr = new XMLHttpRequest();
         xhr.onloadend = function(e) {
@@ -167,7 +168,7 @@ require([ // jshint ignore:line
         // Debug
         if (url) {
             console.log('Update ' + url);
-            return true;
+            // return true;
         }
 
         var xhr = new XMLHttpRequest();
@@ -192,6 +193,8 @@ require([ // jshint ignore:line
     $(document).ready(function() {
 
         data_base_url = document.body.getAttribute('data-base-url');
+        data_portal_url = document.body.getAttribute('data-portal-url');
+        marker_icon_url = data_portal_url + '/++resource++org.snsoffice.base/marker.png';
         geoform = document.getElementById('geofeatureform');
         geofile = geoform.querySelector('input#file');
         houseFeatures = document.getElementById('house-features');
@@ -199,7 +202,7 @@ require([ // jshint ignore:line
         progress.innerHTML = '<div class="plone-loader"><div class="loader"/></div>';
         document.body.appendChild(progress);
 
-        require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
+        require([data_portal_url + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
             function saveFeature( feature ) {
                 var name = feature.getId();
@@ -225,7 +228,7 @@ require([ // jshint ignore:line
                 return new ol.style.Style( {
                     image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
                         crossOrigin: 'anonymous',
-                        src: icon,
+                        src: marker_icon_url,
                         opacity: 0.6,
                         rotation: feature.get('angle') / 180 * Math.PI,
                     }))
@@ -238,7 +241,7 @@ require([ // jshint ignore:line
                         color: '#8959A8',
                         opacity: 0.8,
                         crossOrigin: 'anonymous',
-                        src: icon,
+                        src: marker_icon_url,
                         rotation: feature.get('angle') / 180 * Math.PI
                     }))
                 });
@@ -418,7 +421,7 @@ require([ // jshint ignore:line
 
                     var data = {
                         title: 'House Feature',
-                        phase_type: geofile.getAttribute( 'data-type' ) === 'panorama' ? 'panorama/equirectangular' : 'image/*',
+                        phase_type: geofile.getAttribute( 'data-type' ),
                         geolocation: ol.coordinate.toStringXY(currentLocation, 2),
                         geoangle: currentAngle,
                         source: file.name,

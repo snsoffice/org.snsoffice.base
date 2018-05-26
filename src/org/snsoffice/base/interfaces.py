@@ -13,9 +13,9 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 PhaseTypeVocabulary = SimpleVocabulary(
-    [SimpleTerm(value=u'image', title=_(u'Photo')),
+    [SimpleTerm(value=u'photo', title=_(u'Photo')),
      SimpleTerm(value=u'panorama', title=_(u'Panorama Equirectangular')),
-     SimpleTerm(value=u'html', title=_(u'Text')),
+     SimpleTerm(value=u'page', title=_(u'Text')),
      SimpleTerm(value=u'video', title=_(u'Video'))]
 )
 
@@ -175,9 +175,12 @@ class IPhase(model.Schema):
         fields=['geoangle']
     )
 
-    geoangle = schema.TextLine(
+    geoangle = schema.Float(
         title=_(u'label_angel', default=u'Angle'),
         description=_(u"North in degree"),
+        default=0,
+        min=0,
+        max=360,
         required=False,
     )
 
