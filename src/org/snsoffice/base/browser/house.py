@@ -222,3 +222,59 @@ class HouseFeatureEditor(BrowserView):
         self.house_features = features
 
         return self.index()
+
+class NewHouseFeature(BrowserView):
+    """创建房屋特征"""
+
+    def __call__(self):
+        geoangle = self.request.form['form.widgets.angle']
+        geolocation = self.request.form['form.widgets.location']
+        phase_type = self.request.form['form.widgets.type']
+        source = self.request.form['form.widgets.source']
+        filedata = self.request.form['form.widgets.file']
+        transaction.begin()
+        try:
+            feature = api.content.create(
+                type='HouseFeature',
+                container=self.context,
+                geolocation=geolocation,
+                geoangle=geoanble,
+                phase_type=phase_type,
+                source=source,
+                safe_id=True)
+            self.add_image(feature, filedata)
+            transaction.commit()
+            result = json_dumps({
+            'id': feature.getId(),
+            'geoangle': geoangle,
+            'geolocation': geolocation,
+        })
+        except Exception as e:
+            transaction.abort()
+            result = {
+                'error': str(e)
+            }
+        return result 
+
+    def add_image(self, feature, filedata):
+        if filedata is None:
+            raise RuntimeError(_('No file data'))
+
+        filename = filedata.filename
+        content_type = mimetypes.guess_type(filename)[0] or ""
+
+        name = filename.decode("utf8")
+        filename = ploneutils.safe_unicode(name)
+
+        image = NamedBlobImage(
+            data=data,
+            filename=filename,
+            contentType=content_type
+        )
+        obj = api.content.create(
+            type='Image',
+            container=feature,
+            title=name,
+            image=image,
+            safe_id=True
+        )

@@ -69,7 +69,7 @@
         </div>
 
 
-        <input type="file" id="file" name="file" style="display: none"/>
+        <input type="file" id="form-widgets-file" name="form.widgets.file" style="display: none"/> 
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>

@@ -95,7 +95,7 @@ require([ // jshint ignore:line
         xhr.send(data);
     }
 
-    function addFeatureApi( data, callback, failCallback ) {
+    function addFeatureApiRest( data, callback, failCallback ) {
 
         // Debug
         if (false && data) {
@@ -132,6 +132,35 @@ require([ // jshint ignore:line
         xhr.responseType = 'json';
         data['@type'] = 'HouseFeature';
         xhr.send( JSON.stringify( data ) );
+    }
+
+    function addFeatureApi( data, callback, failCallback ) {
+
+        var url = data_base_url + '/new-house-feature';
+        var xhr = new XMLHttpRequest();
+        xhr.onloadend = function(e) {
+
+            if (xhr.status != 200) {
+                console.log( 'add house feature 失败，服务器返回代码：' + xhr.status );
+                failCallback(event);
+                return;
+            }
+            var item = xhr.response;
+            callback( item );
+            console.log( 'Add house feature OK.');
+        };
+
+        var formData = new FormData(geoform);
+        formData.append('form.widgets.angle', data.geoangle);
+        formData.append('form.widgets.location', data.geolocation);
+        formData.append('form.widgets.type', data.phase_type);
+        formData.append('form.widgets.source', data.source);
+
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader( 'Accept', 'application/json' );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );
+        xhr.responseType = 'json';
+        xhr.send( formData );
     }
 
     function removeFeatureApi(name, callback, failCallback) {
@@ -195,7 +224,7 @@ require([ // jshint ignore:line
         data_portal_url = document.body.getAttribute('data-portal-url');
         marker_icon_url = data_portal_url + '/++resource++org.snsoffice.base/marker.png';
         geoform = document.getElementById('geofeatureform');
-        geofile = geoform.querySelector('input#file');
+        geofile = geoform.querySelector('input#form-widget-file');
         houseFeatures = document.getElementById('house-features');
         progress = document.createElement('DIV');
         progress.innerHTML = '<div class="plone-loader"><div class="loader"/></div>';
@@ -426,14 +455,12 @@ require([ // jshint ignore:line
                     var currentAngle = 0;
 
                     var data = {
-                        title: file.name,
                         phase_type: geofile.getAttribute( 'data-type' ),
                         geolocation: ol.coordinate.toStringXY(currentLocation, 2),
                         geoangle: currentAngle,
                         source: file.name,
                     };
                     addFeatureApi( data, onFeatureAdded, onFeatureAddFailed );
-                    uploadFile( data_base_url );
                 }
             }, false);
 
