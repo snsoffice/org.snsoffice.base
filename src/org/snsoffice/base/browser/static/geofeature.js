@@ -158,7 +158,7 @@ require([ // jshint ignore:line
 
         xhr.open('POST', url, true);
         xhr.setRequestHeader( 'Accept', 'application/json' );
-        xhr.setRequestHeader( 'Content-Type', 'application/json' );
+        // xhr.setRequestHeader( 'Content-Type', 'application/json' );
         xhr.responseType = 'json';
         xhr.send( formData );
     }
@@ -224,7 +224,7 @@ require([ // jshint ignore:line
         data_portal_url = document.body.getAttribute('data-portal-url');
         marker_icon_url = data_portal_url + '/++resource++org.snsoffice.base/marker.png';
         geoform = document.getElementById('geofeatureform');
-        geofile = geoform.querySelector('input#form-widget-file');
+        geofile = geoform.querySelector('input#form-widgets-file');
         houseFeatures = document.getElementById('house-features');
         progress = document.createElement('DIV');
         progress.innerHTML = '<div class="plone-loader"><div class="loader"/></div>';

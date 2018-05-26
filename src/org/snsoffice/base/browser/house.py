@@ -254,7 +254,7 @@ class NewHouseFeature(BrowserView):
             result = {
                 'error': str(e)
             }
-        return result 
+        return json_dumps(result)
 
     def add_image(self, feature, filedata):
         if filedata is None:
