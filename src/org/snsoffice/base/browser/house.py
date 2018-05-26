@@ -80,14 +80,25 @@ class ImportHouseView(BrowserView):
         data = value.read()
         return data
 
+    def make_geometry(self, points, origin):
+        x, y = origin
+        result = []
+        for s in points.split(','):
+            pt = [float(x) for x in s.split()]
+            pt[0] += x
+            pt[1] += y
+            result.append(pt.join(' '))
+        return ('POLYGON ((', result.join(','), '))').join(' ')
+
     def import_entry_from_zip(self, container, title, geolocation, data):
         f = ZipFile(data, 'r')
         config = json_loads(f.read('config.json'))
+        origin = [float(x) for x in geolocation.split()]
         house = api.content.create(
             type='House',
             container=container,
             geolocation=geolocation,
-            geometry=config['geometry'],
+            geometry=self.make_geometry(config['geometry'], origin),
             title=title,
             area=config.get('area'),
             safe_id=True)
@@ -109,7 +120,7 @@ class ImportHouseView(BrowserView):
                 container=house,
                 view_type=view_type,
                 geolocation=geolocation,
-                geometry=view['geometry'],
+                geometry=self.make_geometry(view['geometry'], origin),
                 title=view_type,
                 source=view['source'],
                 safe_id=True)
