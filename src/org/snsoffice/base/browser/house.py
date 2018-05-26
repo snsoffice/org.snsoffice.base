@@ -1,119 +1,32 @@
 # -*- coding: utf-8 -*-
 from org.snsoffice.base import _
 
-from AccessControl import getSecurityManager
+from zope.component import adapter
+from zope.container.interfaces import INameChooser
+from Products.CMFPlone import utils as ploneutils
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.permissions import AddPortalContent
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
 from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
-from zope.component import adapter
-from zope.container.interfaces import INameChooser
-from Products.CMFPlone import utils as ploneutils
+from plone.protect import CheckAuthenticator
+from plone.namedfile.utils import safe_basename
+from plone.app.content.utils import json_dumps
+from plone.app.content.utils import json_loads
+from plone import api
 
-import json
 import logging
 import mimetypes
 import os
 import transaction
 from zipfile import ZipFile
 
-from Acquisition import aq_inner
-from zope.component import getAdapter
-from Products.Five import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.protect import CheckAuthenticator
-from zope.publisher.browser import BrowserPage
-from Products.statusmessages.interfaces import IStatusMessage
-from Products.CMFCore.utils import getToolByName
-from plone.dexterity.events import AddCancelledEvent
-from zope.event import notify
-from z3c.form import button
-from plone.z3cform import layout
-from plone.dexterity.browser.add import DefaultAddForm
-from z3c.relationfield.schema import RelationChoice
-from plone.app.vocabularies.catalog import CatalogSource
-from zope.schema.interfaces import IContextSourceBinder
-from zope.interface import directlyProvides
-from zope.interface import implementer
-from zope.interface import implementsOnly
-from plone.app.z3cform.interfaces import IRelatedItemsWidget
-from plone.app.z3cform.widget import RelatedItemsWidget
-from z3c.form.interfaces import IFieldWidget
-from z3c.form.widget import FieldWidget
-from zope.interface import alsoProvides
-from plone.app.dexterity.behaviors.nextprevious import INextPreviousEnabled
-from z3c.relationfield import RelationValue
-from zope.component import getUtility
-from zope.intid.interfaces import IIntIds
-from plone.namedfile.utils import safe_basename
-
-from plone.app.content.utils import json_dumps
-from plone.app.content.utils import json_loads
-
-from plone import api
-from plone import namedfile
-
-from zope.interface import Interface
-from zope import schema
-from z3c.form import form
-from z3c.form import field
-
-from zope.schema.vocabulary import SimpleVocabulary
-from zope.schema.vocabulary import SimpleTerm
-
-def possibleBasemaps(context):
-    path = '/'.join(context.getPhysicalPath()
-                    [:2]) + '/resources/basemaps'
-    return CatalogSource(
-        path={'query': '/data/villages'},
-        portal_type=('Organization', 'Building')
-    )
-directlyProvides(possibleBasemaps, IContextSourceBinder)
-
-class INewHouseWizard(Interface):
-    """ Define form fields """
-
-    title = schema.TextLine(
-        title=_(u'Title'),
-    )
-
-    village = RelationChoice(
-        title=_(u'label_mapfile_basemap', default=u'Village'),
-        source=possibleBasemaps,
-        required=False
-    )
-
-    location = schema.TextLine(
-        title=_(u'Location'),
-        required=False
-    )
-
-class NewHouseWizardForm(form.Form):
-
-    label = _(u'New House Wizard')
-    fields = field.Fields(INewHouseWizard)
-    ignoreContext = True
-
-    @button.buttonAndHandler(_('Import'), name='save')
-    def handleAdd(self, action):
-        data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-
-        resource = data['resource']
-        container = aq_inner(self.context)
-        # set success pattern includes new map url
-        self.status = _(u'Import resource operation successfully')
-
-    @button.buttonAndHandler(_(u'Cancel'))
-    def handleCancel(self, action):
-        self.status = _(u'Import resource operation cancelled')
-        notify(AddCancelledEvent(self.context))
+from org.snsoffice.base.interfaces import IHouseView
+from org.snsoffice.base.interfaces import IHouseFeature
 
 class NewHouseWizard(BrowserView):
 
@@ -176,6 +89,7 @@ class ImportHouseView(BrowserView):
             geolocation=geolocation,
             geometry=config['geometry'],
             title=title,
+            area=config.get('area'),
             safe_id=True)
 
         entries = {}
@@ -291,7 +205,7 @@ class HouseFeatureEditor(BrowserView):
                     'angle': v.geoangle,
                     'url': url,
                 }
-            features.append(item)
+                features.append(item)
 
         self.house_views = views
         self.house_features = features

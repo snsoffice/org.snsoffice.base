@@ -193,11 +193,11 @@ require([ // jshint ignore:line
 
         data_base_url = document.body.getAttribute('data-base-url');
         geoform = document.getElementById('geofeatureform');
-        geofile = document.getElementById('file');
+        geofile = geoform.querySelector('input#file');
         houseFeatures = document.getElementById('house-features');
         progress = document.createElement('DIV');
         progress.innerHTML = '<div class="plone-loader"><div class="loader"/></div>';
-        document.body.append(progress);
+        document.body.appendChild(progress);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 

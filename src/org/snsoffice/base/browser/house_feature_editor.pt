@@ -31,7 +31,7 @@
                                 data-type item/type;
                                 data-geometry item/geometry;
                                 data-url item/url;"
-                tal:content="item/title">Title</li>
+                tal:content="item/title | nothing">Title</li>
           </tal:block>
         </ul>
 
@@ -40,10 +40,10 @@
               <tal:block repeat="item view/house_features">
                 <div class="preview">
                     <img src="" data-name="" data-type="" data-angle="" data-location="" title=""
-                         tal:attributes="src item/url;
+                         tal:attributes="src string:${item/url}/@@images/image/mini;
                                          data-name item/name;
                                          data-type item/type;
-                                         data-angle item/angel;
+                                         data-angle item/angle;
                                          data-location item/location;"/>
                     <span class="glyphicon glyphicon-remove-sign"></span>
                 </div>
