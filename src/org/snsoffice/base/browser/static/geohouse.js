@@ -27,6 +27,7 @@ require([ // jshint ignore:line
         maximumSelectionSize: 1,
         rootPath: "/data/villages",
         basePath: "/data/villages",
+        initialFolder: "/data/villages",
         closeOnSelect: true,
         vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog",
     }

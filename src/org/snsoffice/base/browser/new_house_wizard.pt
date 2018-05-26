@@ -26,16 +26,6 @@
             method="post" enctype="multipart/form-data" id="geoform">
 
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
-             class="field pat-inlinevalidation kssattr-fieldname-form.widgets.title empty"
-             data-fieldname="form.widgets.title" id="formfield-form-widgets-title">
-          <label for="form-widgets-title" class="horizontal">Title
-            <span class="required horizontal" title="required">&nbsp;</span>
-          </label>
-          <div class="fieldErrorBox"></div>
-          <input id="form-widgets-title" name="form.widgets.title" class="text-widget required textline-field" value="" type="text">
-        </div>
-
-        <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.village empty"
              data-fieldname="form.widgets.village" id="formfield-form-widgets-village">
           <label for="form-widgets-village" class="horizontal">Village</label>
@@ -46,7 +36,7 @@
             <input type="text" id="form-widgets-village" name="form.widgets.village"/>
           </div>
         </div>
-        
+
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.location empty"
              data-fieldname="form.widgets.location" id="formfield-form-widgets-location">
@@ -54,24 +44,80 @@
             <span class="required horizontal" title="required">&nbsp;</span>
           </label>
           <div class="fieldErrorBox"></div>
-          <input id="form-widgets-location" name="form.widgets.location" class="text-widget textline-field" value="" type="text">
-          <!-- <div class="row"> -->
-          <!--   <div class="col-sm-10"> -->
-          <!--     <input id="form-widgets-location" name="form.widgets.location" class="text-widget textline-field" value="" type="text"> -->
-          <!--   </div> -->
-          <!--   <div class="col-sm-2"> -->
-          <!--     <a class="pat-plone-modal" -->
-          <!--        data-pat-plone-modal="height: 80%; width: 80%;" -->
-          <!--        href="#map-container"> -->
-          <!--       <button type="button" class="btn btn-info btn-xs"> -->
-          <!--         <span class="glyphicon glyphicon-map-marker"></span> -->
-          <!--       </button> -->
-          <!--     </a> -->
-          <!--   </div> -->
-          <!-- </div>           -->
+          <div class="row">
+            <div class="col-sm-11">
+              <input id="form-widgets-location" name="form.widgets.location" class="text-widget textline-field" value="" readonly="readonly" type="text">
+            </div>
+            <div class="col-sm-1">
+              <a class="pat-plone-modal"
+                 data-pat-plone-modal="height: 100%; width: 100%;"
+                 href="#house-locator-modal">
+                <button type="button" class="btn btn-info btn-xs">
+                  <span class="glyphicon glyphicon-map-marker"></span>
+                </button>
+              </a>
+            </div>
+          </div>
         </div>
 
-        <div id="geo-map" class="map" style="position: relative; height: 200px;"></div>
+        <div id="house-locator-modal" style="display: none;">
+          <h1 i18n:translate="label_house_locator">House Locator</h1>
+          <div id="geo-map" class="map"></div>
+          <div class="row">
+            <div class="col-sm-2">
+              <select id="form-widgets-building" name="form.widgets.building" class="select-widget choice-field" size="1">
+                <option value="building1" selected="selected">Building 1</option>
+                <option value="building2">Building 2</option>
+                <option value="building3">Building 3</option>
+              </select>
+            </div>
+            <div class="col-sm-4">
+              <div class="input-group">
+                <span class="input-group-addon" i18n:translate="label_building_floor">Level</span>
+                <input id="form-widgets-floor" name="form.widgets.floor" class="text-widget textline-field" value="" type="text">
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <input id="form-widgets-geolocation" name="form.widgets.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
+            </div>
+          </div>
+        </div>
+
+        <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
+             class="field pat-inlinevalidation kssattr-fieldname-form.widgets.title empty"
+             data-fieldname="form.widgets.title" id="formfield-form-widgets-title">
+          <label for="form-widgets-title" class="horizontal">Title
+            <span class="required horizontal" title="required">&nbsp;</span>
+          </label>
+          <div class="fieldErrorBox"></div>
+          <input id="form-widgets-title" name="form.widgets.title" class="text-widget required textline-field" value="" type="text">
+        </div>
+
+        <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
+             class="field kssattr-fieldname-form.widgets.area empty"
+             data-fieldname="form.widgets.title" id="formfield-form-widgets-area">
+          <label for="form-widgets-area" class="horizontal">Area</label>
+          <div class="fieldErrorBox"></div>
+          <input id="form-widgets-area" name="form.widgets.area" class="text-widget textline-field" value="" type="text">
+        </div>
+
+        <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
+             class="field kssattr-fieldname-form.widgets.house_type empty"
+             data-fieldname="form.widgets.title" id="formfield-form-widgets-house_type">
+          <label for="form-widgets-house_type" class="horizontal">House Type</label>
+          <div class="fieldErrorBox"></div>
+          <input id="form-widgets-house_type" name="form.widgets.house_type" class="text-widget textline-field" value="" type="text">
+        </div>
+
+        <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
+             class="field pat-inlinevalidation kssattr-fieldname-form.widgets.description empty"
+             data-fieldname="form.widgets.description" id="formfield-form-widgets-description">
+          <label for="form-widgets-IDublinCore-description" class="horizontal" i18n:translate="">Description
+            <span class="formHelp" i18n:translate="">Informatino about this house</span>
+          </label>
+          <div class="fieldErrorBox"></div>
+          <textarea id="form-widgets-description" name="form.widgets.description" class="textarea-widget text-field"></textarea>
+        </div>
 
         <div class="progress">
           <div class="progress-bar progress-bar-success" role="progressbar"
@@ -91,13 +137,15 @@
         <!--   <input id="form-buttons-new" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit"> -->
         <!-- </div> -->
 
+        <!-- <input type="hidden" id="form-widgets-building" name="form.widgets.building"/> -->
+        <!-- <input type="hidden" id="form-widgets-floor" name="form.widgets.floor"/> -->
+        <!-- <input type="hidden" id="form-widgets-geolocation" name="form.widgets.geolocation"/> -->
         <input type="file" id="form-widgets-file" name="form.widgets.file" accept=".zip" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>
 
     </div>
-
 
   </article>
 

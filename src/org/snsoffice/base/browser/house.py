@@ -236,18 +236,20 @@ class NewHouseFeature(BrowserView):
         try:
             feature = api.content.create(
                 type='HouseFeature',
+                title=_('House Feature'),
                 container=self.context,
                 geolocation=geolocation,
-                geoangle=geoanble,
+                geoangle=geoangle,
                 phase_type=phase_type,
                 source=source,
-                safe_id=True)
+                safe_id=True
+            )
             self.add_image(feature, filedata)
             transaction.commit()
             result = json_dumps({
-            'id': feature.getId(),
-            'geoangle': geoangle,
-            'geolocation': geolocation,
+                'id': feature.getId(),
+                'geoangle': geoangle,
+                'geolocation': geolocation,
         })
         except Exception as e:
             transaction.abort()
@@ -267,7 +269,7 @@ class NewHouseFeature(BrowserView):
         filename = ploneutils.safe_unicode(name)
 
         image = NamedBlobImage(
-            data=data,
+            data=filedata,
             filename=filename,
             contentType=content_type
         )

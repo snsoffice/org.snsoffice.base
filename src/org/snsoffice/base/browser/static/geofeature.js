@@ -140,13 +140,14 @@ require([ // jshint ignore:line
         var xhr = new XMLHttpRequest();
         xhr.onloadend = function(e) {
 
-            if (xhr.status != 200) {
+            var result = xhr.response;
+            if (xhr.status != 200 || result.error !== undefined) {
                 console.log( 'add house feature 失败，服务器返回代码：' + xhr.status );
                 failCallback(event);
                 return;
             }
-            var item = xhr.response;
-            callback( item );
+            
+            callback( result );
             console.log( 'Add house feature OK.');
         };
 
