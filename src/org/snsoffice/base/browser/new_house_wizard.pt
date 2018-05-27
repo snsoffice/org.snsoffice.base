@@ -21,7 +21,7 @@
     <div id="content-core">
 
       <form data-pat-autotoc="levels: legend; section: fieldset; className: autotabs"
-            class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard"
+            class="rowlike enableUnloadProtection kssattr-formname-new-house-wizard pat-autotoc"
             action="http://snsoffice.com:9098/future/new-house-wizard"
             method="post" enctype="multipart/form-data" id="geoform">
 
@@ -94,12 +94,14 @@
           <textarea id="form-widgets-description" name="form.widgets.description" class="textarea-widget text-field"></textarea>
         </div>
 
-        <div class="progress progress-bar progress-bar-success" role="progressbar"
-             aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-          <span class="sr-only">60% Complete (success)</span>
+        <div class="progress">
+          <div class="progress-bar progress-bar-success" role="progressbar"
+               aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            <span class="sr-only">60% Complete (success)</span>
+          </div>
         </div>
 
-        <div class="actions formControls">
+        <div class="formControls">
           <button id="form-buttons-import" name="form.buttons.import" type="button"
                   class="btn btn-primary" i18n:translate="label_button_import">Import</button>
           <button id="form-buttons-new" name="form.buttons.new" type="button"

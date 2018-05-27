@@ -62,9 +62,9 @@ class ImportHouseView(BrowserView):
         transaction.begin()
         try:
             house = self.import_entry_from_zip(container, title, geolocation, data)
-            if area is not None:
+            if area:
                 house.area = float(area)
-            if floor is not None:
+            if floor:
                 house.floor = float(floor)
             house.house_type = house_type
             transaction.commit()

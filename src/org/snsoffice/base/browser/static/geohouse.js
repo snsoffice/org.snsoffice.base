@@ -79,8 +79,7 @@ require([ // jshint ignore:line
         var data = new FormData(geoform);
         data.append('form.widgets.building', currentPath + '/' + currentBuilding);
         data.append('form.widgets.geolocation', currentLocation);
-        if (currentFloor)
-            data.append('form.widgets.floor', currentFloor);
+        data.append('form.widgets.floor', currentFloor);
 
         var $progress = $('.progress-bar-success', geoform);
         var xhr = new XMLHttpRequest();
@@ -126,15 +125,14 @@ require([ // jshint ignore:line
         xhr.setRequestHeader( 'Accept', 'application/json' );
         xhr.setRequestHeader( 'Content-Type', 'application/json' );
         xhr.responseType = 'json';
-        data = {
+        var data = {
             '@type': 'House',
             'title': geoform.querySelector('#form-widgets-title').value,
             'description': geoform.querySelector('#form-widgets-description').value,
             'area': geoform.querySelector('#form-widgets-area').value,
             'house_type': geoform.querySelector('#form-widgets-house_type').value,
+            'floor': currentFloor,
         };
-        if (currentFloor)
-            data['floor'] = currentFloor;
         xhr.send( JSON.stringify( data ) );
     };
 
@@ -235,9 +233,8 @@ require([ // jshint ignore:line
             footer.appendChild(controls);
         }
 
-        if (!currentPath)
+        if (!currentPath || ol === undefined)
             return;
-
 
         var building = patmodal.querySelector('#modal-building');
         building.addEventListener('change', function (e) {
@@ -303,6 +300,9 @@ require([ // jshint ignore:line
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             patmodal = document.querySelector('.plone-modal-wrapper');
+            if (ol === undefined) {                
+                return;
+            }
             initMap();
             initPatModal();
         });
@@ -312,7 +312,7 @@ require([ // jshint ignore:line
         geoform.querySelector('#form-widgets-file').addEventListener('change', importHouse, false);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (olx) {
-            ol = olx;            
+            ol = olx;
         });
 
         document.getElementById('form-buttons-import').addEventListener('click', function (e) {
