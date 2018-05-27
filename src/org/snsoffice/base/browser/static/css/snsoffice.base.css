@@ -202,10 +202,10 @@
  * house feature editor
  */
 
-/* .ol-geo-locator { */
-/*     font-size: 1.6em; */
-/*     color: rgba(218,52,116,0.8); */
-/* } */
+.ol-geo-locator {
+    font-size: 1.6em;
+    color: rgba(218,52,116,0.8);
+}
 
 /* .ol-geo-marker { */
 /*     font-size: 1.2em; */
