@@ -79,7 +79,8 @@ require([ // jshint ignore:line
         var data = new FormData(geoform);
         data.append('form.widgets.building', currentPath + '/' + currentBuilding);
         data.append('form.widgets.geolocation', currentLocation);
-        data.append('form.widgets.floor', currentFloor);
+        if (currentFloor)
+            data.append('form.widgets.floor', currentFloor);
 
         var $progress = $('.progress-bar-success', geoform);
         var xhr = new XMLHttpRequest();
@@ -180,11 +181,11 @@ require([ // jshint ignore:line
 
         map.on('click', function(evt) {
             var features = map.getFeaturesAtPixel(evt.pixel);
-            if (features.length > 0) {
+            if (features && features.length > 0) {
                 currentBuilding = features[0].getId();
                 currentFloor = patmodal.querySelector('#modal-floor').value.trim();
                 currentLocation = ol.coordinate.toStringXY(evt.coordinate, 2);
-                currentBuildingTitle = features[0].getTitle();
+                currentBuildingTitle = features[0].get('title');
 
                 locator.setPosition(evt.coordinate);
                 patmodal.querySelector('#modal-geolocation').value = currentLocation;
@@ -213,7 +214,7 @@ require([ // jshint ignore:line
         building.addEventListener('change', function (e) {
             var feature = source.getFeatureById(e.target.value);
             currentBuilding = e.target.value;
-            currentBuildingTitle = feature.getTitle();
+            currentBuildingTitle = feature.get('title');
             setHouseLocation();
         }, false);
 
@@ -296,8 +297,9 @@ require([ // jshint ignore:line
             'description': geoform.querySelector('#form-widgets-description').value,
             'area': geoform.querySelector('#form-widgets-area').value,
             'house_type': geoform.querySelector('#form-widgets-house_type').value,
-            'floor': currentFloor,
         };
+        if (currentFloor)
+            data['floor'] = currentFloor;
         xhr.send( JSON.stringify( data ) );
     }, false);
 
