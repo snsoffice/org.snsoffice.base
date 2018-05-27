@@ -296,10 +296,10 @@ require([ // jshint ignore:line
         xhr.responseType = 'json';
         data = {
             '@type': 'House',
-            'title': content.getElementById('form-widgets-title').value,
-            'description': content.getElementById('form-widgets-description').value,
-            'area': content.getElementById('form-widgets-area').value,
-            'house_type': content.getElementById('form-widgets-house_type').value,
+            'title': geoform.querySelector('#form-widgets-title').value,
+            'description': geoform.querySelector('#form-widgets-description').value,
+            'area': geoform.querySelector('#form-widgets-area').value,
+            'house_type': geoform.querySelector('#form-widgets-house_type').value,
             'floor': currentFloor,
         };
         xhr.send( JSON.stringify( data ) );
@@ -308,8 +308,7 @@ require([ // jshint ignore:line
     $(document).ready(function() {
 
         geoform = document.getElementById('geoform');
-        content = document.getElementById('content-core')
-        houselocation = content.getElementById('form-widgets-location');
+        houselocation = geoform.querySelector('input#form-widgets-location');
         portal_url = document.body.getAttribute('data-portal-url');
 
         $('.pat-plone-modal', geoform).on('show.plone-modal.patterns', function (e) {
@@ -318,7 +317,7 @@ require([ // jshint ignore:line
 
         setupRelatedItems($('inpurt#form-widgets-village'));
 
-        content.getElementById('form-widgets-file').addEventListener('change', importHouse, false);
+        geoform.querySelector('#form-widgets-file').addEventListener('change', importHouse, false);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (olx) {
             ol = olx;
