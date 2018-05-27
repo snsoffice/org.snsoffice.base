@@ -119,7 +119,7 @@ require([ // jshint ignore:line
                 console.log( '添加房子失败，服务器返回代码：' + xhr.status );
                 return;
             }
-            window.location.href = xhr.response.url;
+            window.location.href = xhr.response['@id'];
         };
         xhr.open('POST', url, true);
         xhr.setRequestHeader( 'Accept', 'application/json' );
@@ -129,10 +129,13 @@ require([ // jshint ignore:line
             '@type': 'House',
             'title': geoform.querySelector('#form-widgets-title').value,
             'description': geoform.querySelector('#form-widgets-description').value,
-            'area': geoform.querySelector('#form-widgets-area').value,
             'house_type': geoform.querySelector('#form-widgets-house_type').value,
-            'floor': currentFloor,
         };
+        var area =  geoform.querySelector('#form-widgets-area').value;
+        if (area)
+            data['area'] = parseFloat(area);
+        if (currentFloor)
+            data['floor'] = parseInt(currentFloor);
         xhr.send( JSON.stringify( data ) );
     };
 
@@ -300,7 +303,7 @@ require([ // jshint ignore:line
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             patmodal = document.querySelector('.plone-modal-wrapper');
-            if (ol === undefined) {                
+            if (ol === undefined) {
                 return;
             }
             initMap();

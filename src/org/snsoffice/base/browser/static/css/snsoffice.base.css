@@ -231,7 +231,7 @@
     right: 0;
 }
 
-#house-toolbar > btn-group {
+#house-toolbar > .btn-group {
     float: left;
     margin-left: 6px;
     margin-right: 15px;

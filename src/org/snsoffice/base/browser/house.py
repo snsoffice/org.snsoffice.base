@@ -254,11 +254,11 @@ class NewHouseFeature(BrowserView):
             )
             self.add_image(feature, filedata)
             transaction.commit()
-            result = json_dumps({
+            result = {
                 'id': feature.getId(),
                 'geoangle': geoangle,
                 'geolocation': geolocation,
-        })
+            }
         except Exception as e:
             transaction.abort()
             result = {

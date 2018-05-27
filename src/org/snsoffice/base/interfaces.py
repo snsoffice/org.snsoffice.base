@@ -48,8 +48,7 @@ class ISpot(model.Schema):
             default=u"Persons responsible for living this house."
         ),
         value_type=schema.TextLine(),
-        required=False,
-        missing_value=(),
+        required=False
     )
 
     directives.widget(
