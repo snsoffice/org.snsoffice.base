@@ -98,6 +98,28 @@ class ImportHouseView(BrowserView):
             result.append(' '.join([str(x) for x in pt]))
         return ' '.join(['POLYGON ((', ','.join(result), '))'])
 
+    def make_multipolygon(self, points, origin):
+        x0, y0 = origin
+        result = []
+        for polygon in points:
+            s = []
+            for pt in polygon:
+                pt[0] += x0
+                pt[1] += y0
+                s.append(' '.join([str(x) for x in pt]))
+            result.append(''.join(['((', ','.join(s), '))']))
+        return ''.join(['MULTIPOLYGON (', ','.join(result), ')'])
+
+    def extent_to_polygon(self, extent, origin):
+        x, y = origin
+        x0 = extent[0] + x
+        y0 = extent[1] + y
+        x1 = extent[2] + x
+        y1 = extent[3] + y
+        pts = ['%.2f %.2f' % (x0, y0), '%.2f %.2f' % (x1, y0),
+               '%.2f %.2f' % (x1, y1),'%.2f %.2f' % (x0, y1)]
+        return ''.join(['POLYGON ((', ','.join(pts), '))'])
+
     def import_entry_from_zip(self, container, title, geolocation, data):
         f = ZipFile(data, 'r')
         config = json_loads(f.read('config.json'))
@@ -106,7 +128,7 @@ class ImportHouseView(BrowserView):
             type='House',
             container=container,
             geolocation=geolocation,
-            geometry=self.make_geometry(config['points'], origin),
+            geometry=self.make_multipolygon(config['points'], origin),
             title=title,
             area=config.get('area'),
             safe_id=True)
@@ -128,7 +150,7 @@ class ImportHouseView(BrowserView):
                 container=house,
                 view_type=view_type,
                 geolocation=geolocation,
-                geometry=self.make_geometry(view['points'], origin),
+                geometry=self.extent_to_polygon(view['extent'], origin),
                 title=view_type,
                 source=view['source'],
                 safe_id=True)
