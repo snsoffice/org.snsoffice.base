@@ -109,6 +109,35 @@ require([ // jshint ignore:line
         xhr.send(data);
     };
 
+    var addHouse = function () {
+        var url = portal_url + currentPath + '/' + currentBuilding;
+        var xhr = new XMLHttpRequest();
+        xhr.onloadend = function(e) {
+            // 201 Created (Resource has been created successfully)
+            // 400 Bad Request (malformed request to the service)
+            // 500 Internal Server Error (server fault, can not recover internally)
+            if (xhr.status != 201) {
+                console.log( '添加房子失败，服务器返回代码：' + xhr.status );
+                return;
+            }
+            window.location.href = xhr.response.url;
+        };
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader( 'Accept', 'application/json' );
+        xhr.setRequestHeader( 'Content-Type', 'application/json' );
+        xhr.responseType = 'json';
+        data = {
+            '@type': 'House',
+            'title': geoform.querySelector('#form-widgets-title').value,
+            'description': geoform.querySelector('#form-widgets-description').value,
+            'area': geoform.querySelector('#form-widgets-area').value,
+            'house_type': geoform.querySelector('#form-widgets-house_type').value,
+        };
+        if (currentFloor)
+            data['floor'] = currentFloor;
+        xhr.send( JSON.stringify( data ) );
+    };
+
     var setHouseLocation = function () {
         houselocation.value = currentBuildingTitle + ( currentFloor ? ' - ' + currentFloor + '层' : '' ) + ' ( ' + currentLocation + ' )';
     };
@@ -266,43 +295,6 @@ require([ // jshint ignore:line
         return currentPath === null || currentBuilding === null || geolocation.value.trim() === '' || geotitle.value.trim() === '';
     }
 
-    document.getElementById('form-buttons-import').addEventListener('click', function (e) {
-        e.preventDefault();
-        $('#form-widgets-file', geoform).click();
-        return true;
-    }, false);
-
-    document.getElementById('form-buttons-new').addEventListener('click', function (e) {
-        e.preventDefault();
-
-        var url = portal_url + currentPath + '/' + currentBuilding;
-        var xhr = new XMLHttpRequest();
-        xhr.onloadend = function(e) {
-            // 201 Created (Resource has been created successfully)
-            // 400 Bad Request (malformed request to the service)
-            // 500 Internal Server Error (server fault, can not recover internally)
-            if (xhr.status != 201) {
-                console.log( '添加房子失败，服务器返回代码：' + xhr.status );
-                return;
-            }
-            window.location.href = xhr.response.url;
-        };
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader( 'Accept', 'application/json' );
-        xhr.setRequestHeader( 'Content-Type', 'application/json' );
-        xhr.responseType = 'json';
-        data = {
-            '@type': 'House',
-            'title': geoform.querySelector('#form-widgets-title').value,
-            'description': geoform.querySelector('#form-widgets-description').value,
-            'area': geoform.querySelector('#form-widgets-area').value,
-            'house_type': geoform.querySelector('#form-widgets-house_type').value,
-        };
-        if (currentFloor)
-            data['floor'] = currentFloor;
-        xhr.send( JSON.stringify( data ) );
-    }, false);
-
     $(document).ready(function() {
 
         geoform = document.getElementById('geoform');
@@ -322,6 +314,17 @@ require([ // jshint ignore:line
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (olx) {
             ol = olx;            
         });
+
+        document.getElementById('form-buttons-import').addEventListener('click', function (e) {
+            e.preventDefault();
+            $('#form-widgets-file', geoform).click();
+            return true;
+        }, false);
+
+        document.getElementById('form-buttons-new').addEventListener('click', function (e) {
+            e.preventDefault();
+            addHouse();
+        }, false);
 
     });
 });
