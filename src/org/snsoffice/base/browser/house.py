@@ -54,11 +54,18 @@ class ImportHouseView(BrowserView):
     def __call__(self):
         container = api.content.get(path=self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
-        geolocation = self.request.form['form.widgets.location']
+        geolocation = self.request.form['form.widgets.geolocation']
+        floor = self.request.form['form.widgets.floor']
+        area = self.request.form['form.widgets.area']
+        house_type = self.request.form['form.widgets.house_type']
         data = self.request.form['form.widgets.file']
         transaction.begin()
         try:
             house = self.import_entry_from_zip(container, title, geolocation, data)
+            if area is not None:
+                house.area = area
+            house.floor = floor
+            house.house_type = house_type
             transaction.commit()
         except Exception:
             transaction.abort()

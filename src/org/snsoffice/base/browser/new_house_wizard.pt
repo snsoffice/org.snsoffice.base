@@ -28,13 +28,11 @@
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
              class="field pat-inlinevalidation kssattr-fieldname-form.widgets.village empty"
              data-fieldname="form.widgets.village" id="formfield-form-widgets-village">
-          <label for="form-widgets-village" class="horizontal">Village</label>
-
+          <label for="form-widgets-village" class="horizontal">Village
+            <span class="required horizontal" title="required">&nbsp;</span>
+          </label>
           <div class="fieldErrorBox"></div>
-
-          <div class="pattern-relateditems-container" style="width: 100%;">
-            <input type="text" id="form-widgets-village" name="form.widgets.village"/>
-          </div>
+          <input id="form-widgets-village" name="form.widgets.village" class="text-widget textline-field" value="" type="text"/>
         </div>
 
         <div data-pat-inlinevalidation="{&quot;type&quot;:&quot;z3c.form&quot;}"
@@ -56,29 +54,6 @@
                   <span class="glyphicon glyphicon-map-marker"></span>
                 </button>
               </a>
-            </div>
-          </div>
-        </div>
-
-        <div id="house-locator-modal" style="display: none;">
-          <h1 i18n:translate="label_house_locator">House Locator</h1>
-          <div id="geo-map" class="map"></div>
-          <div class="row">
-            <div class="col-sm-2">
-              <select id="form-widgets-building" name="form.widgets.building" class="select-widget choice-field" size="1">
-                <option value="building1" selected="selected">Building 1</option>
-                <option value="building2">Building 2</option>
-                <option value="building3">Building 3</option>
-              </select>
-            </div>
-            <div class="col-sm-4">
-              <div class="input-group">
-                <span class="input-group-addon" i18n:translate="label_building_floor">Level</span>
-                <input id="modal-floor" name="modal.floor" class="text-widget textline-field" value="" type="text">
-              </div>
-            </div>
-            <div class="col-sm-4">
-              <input id="modal-geolocation" name="modal.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
             </div>
           </div>
         </div>
@@ -129,7 +104,7 @@
           <button id="form-buttons-import" name="form.buttons.import" type="button"
                   class="btn btn-primary" i18n:translate="label_button_import">Import</button>
           <button id="form-buttons-new" name="form.buttons.new" type="button"
-                  class="btn btn-primary" i18n:translate="label_button_new_house">New</button>
+                  class="btn btn-primary" i18n:translate="label_button_new_house">Add</button>
         </div>
 
         <!-- <div class="formControls"> -->
@@ -137,13 +112,29 @@
         <!--   <input id="form-buttons-new" name="form.buttons.new" class="submit-widget button-field" value="New" type="submit"> -->
         <!-- </div> -->
 
-        <input type="hidden" id="form-widgets-building" name="form.widgets.building"/>
-        <input type="hidden" id="form-widgets-floor" name="form.widgets.floor"/>
-        <input type="hidden" id="form-widgets-geolocation" name="form.widgets.geolocation"/>
         <input type="file" id="form-widgets-file" name="form.widgets.file" accept=".zip" style="display: none"/>
         <input tal:replace="structure context/@@authenticator/authenticator" />
 
       </form>
+
+      <div id="house-locator-modal" style="display: none;">
+        <h1 i18n:translate="label_house_locator">House Locator</h1>
+        <div id="geo-map" class="map"></div>
+        <div class="row locatorControls">
+          <div class="col-sm-2">
+            <select id="modal-building" name="modal.building" class="select-widget choice-field" size="1"></select>
+          </div>
+          <div class="col-sm-4">
+            <div class="input-group">
+              <span class="input-group-addon" i18n:translate="label_building_floor">Level</span>
+              <input id="modal-floor" name="modal.floor" class="text-widget textline-field" value="" type="text">
+            </div>
+          </div>
+          <div class="col-sm-4">
+            <input id="modal-geolocation" name="modal.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
+          </div>
+        </div>
+      </div>
 
     </div>
 
