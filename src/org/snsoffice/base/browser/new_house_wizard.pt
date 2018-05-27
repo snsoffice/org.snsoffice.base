@@ -125,11 +125,11 @@
           </div>
           <div class="col-sm-4">
             <div class="input-group">
-              <span class="input-group-addon" i18n:translate="label_building_floor"> Level </span>
+              <span class="input-group-addon" i18n:translate="label_building_floor" style="padding: 0 15px 0 15px;"> Level </span>
               <input id="modal-floor" name="modal.floor" class="text-widget textline-field" value="" type="text">
             </div>
           </div>
-          <div class="col-sm-4">
+          <div class="col-sm-6">
             <input id="modal-geolocation" name="modal.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
           </div>
         </div>

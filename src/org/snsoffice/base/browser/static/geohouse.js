@@ -205,7 +205,7 @@ require([ // jshint ignore:line
             footer.appendChild(controls);
         }
 
-        if (!!currentPath)
+        if (!currentPath)
             return;
 
 
