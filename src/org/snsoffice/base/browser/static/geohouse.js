@@ -198,10 +198,8 @@ require([ // jshint ignore:line
 
     var initPatModal = function () {
 
-        patmodal = document.querySelector('.plone-modal-wrapper');
-
         var footer = patmodal.querySelector('.plone-modal-footer');
-        var controls = patmodal.querySelector('.row.locatorControls');
+        var controls = patmodal.querySelector('.locatorControls');
         if (footer && controls) {
             controls.remove();
             footer.appendChild(controls);
@@ -310,8 +308,9 @@ require([ // jshint ignore:line
         portal_url = document.body.getAttribute('data-portal-url');
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
-            initPatModal();
+            patmodal = document.querySelector('.plone-modal-wrapper');
             initMap();
+            initPatModal();
         });
 
         setupRelatedItems($('input#form-widgets-village'));

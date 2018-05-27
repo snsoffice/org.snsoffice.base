@@ -48,7 +48,7 @@
             </div>
             <div class="col-sm-1">
               <a class="pat-plone-modal"
-                 data-pat-plone-modal="height: 100%; width: 100%;"
+                 data-pat-plone-modal="height: 80%; width: 80%;"
                  href="#house-locator-modal">
                 <button type="button" class="btn btn-info btn-xs">
                   <span class="glyphicon glyphicon-map-marker"></span>
@@ -119,13 +119,13 @@
       <div id="house-locator-modal" style="display: none;">
         <h1 i18n:translate="label_house_locator">House Locator</h1>
         <div class="house-map"></div>
-        <div class="row locatorControls">
+        <div class="locatorControls">
           <div class="col-sm-2">
             <select id="modal-building" name="modal.building" class="select-widget choice-field" size="1"></select>
           </div>
           <div class="col-sm-4">
             <div class="input-group">
-              <span class="input-group-addon" i18n:translate="label_building_floor">Level</span>
+              <span class="input-group-addon" i18n:translate="label_building_floor"> Level </span>
               <input id="modal-floor" name="modal.floor" class="text-widget textline-field" value="" type="text">
             </div>
           </div>
