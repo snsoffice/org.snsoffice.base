@@ -73,7 +73,7 @@ require([ // jshint ignore:line
         return Math.round(mb / 1024) + ' GB';
     };
 
-    var imortHouse = function () {
+    var importHouse = function () {
         // ajax post request
         var url = portal_url + currentPath + '/' + currentBuilding;
         var data = new FormData(geoform);
@@ -315,7 +315,7 @@ require([ // jshint ignore:line
             initPatModal();
         });
 
-        setupRelatedItems($('inpurt#form-widgets-village'));
+        setupRelatedItems($('input#form-widgets-village'));
 
         geoform.querySelector('#form-widgets-file').addEventListener('change', importHouse, false);
 
