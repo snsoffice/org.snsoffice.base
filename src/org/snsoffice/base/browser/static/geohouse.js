@@ -209,7 +209,7 @@ require([ // jshint ignore:line
             return;
 
 
-        var building = patmodal.getElementById('modal-building');
+        var building = patmodal.querySelector('#modal-building');
         building.addEventListener('change', function (e) {
             var feature = source.getFeatureById(e.target.value);
             currentBuilding = e.target.value;
@@ -217,7 +217,7 @@ require([ // jshint ignore:line
             setHouseLocation();
         }, false);
 
-        patmodal.getElementById('modal-floor').addEventListener('change', function (e) {
+        patmodal.querySelector('#modal-floor').addEventListener('change', function (e) {
             currentFloor = e.target.value.trim();
             setHouseLocation();
         }, false);
