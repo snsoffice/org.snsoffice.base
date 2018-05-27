@@ -128,7 +128,7 @@ class ImportHouseView(BrowserView):
             type='House',
             container=container,
             geolocation=geolocation,
-            geometry=self.make_multipolygon(config['points'], origin),
+            geometry=self.make_multipolygon(config['polygons'], origin),
             title=title,
             area=config.get('area'),
             safe_id=True)
