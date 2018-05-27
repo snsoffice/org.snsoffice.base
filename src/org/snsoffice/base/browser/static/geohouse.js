@@ -159,7 +159,7 @@ require([ // jshint ignore:line
                 }
             }).extend([mousePositionControl]),
             layers: [baseLayer, vectorLayer],
-            target: 'geo-map',
+            target: patmodal.querySelector('.house-map'),
             view: new ol.View({
                 enableRotation: false,
                 resolutions: [20000, 2000, 200, 20, 10, 5, 4, 3, 2, 1, 0.8, 0.5, 0.4, 0.3, 0.2, 0.1],
@@ -275,8 +275,6 @@ require([ // jshint ignore:line
 
     document.getElementById('form-buttons-new').addEventListener('click', function (e) {
         e.preventDefault();
-        if (validateFields())
-            return;
 
         var url = portal_url + currentPath + '/' + currentBuilding;
         var xhr = new XMLHttpRequest();
@@ -311,8 +309,9 @@ require([ // jshint ignore:line
         houselocation = geoform.querySelector('input#form-widgets-location');
         portal_url = document.body.getAttribute('data-portal-url');
 
-        $('.pat-plone-modal', geoform).on('show.plone-modal.patterns', function (e) {
+        $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             initPatModal();
+            initMap();
         });
 
         setupRelatedItems($('input#form-widgets-village'));
@@ -320,8 +319,7 @@ require([ // jshint ignore:line
         geoform.querySelector('#form-widgets-file').addEventListener('change', importHouse, false);
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (olx) {
-            ol = olx;
-            initMap();
+            ol = olx;            
         });
 
     });

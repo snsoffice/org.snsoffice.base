@@ -118,7 +118,7 @@
 
       <div id="house-locator-modal" style="display: none;">
         <h1 i18n:translate="label_house_locator">House Locator</h1>
-        <div id="geo-map" class="map"></div>
+        <div class="house-map"></div>
         <div class="row locatorControls">
           <div class="col-sm-2">
             <select id="modal-building" name="modal.building" class="select-widget choice-field" size="1"></select>
