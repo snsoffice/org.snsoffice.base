@@ -52,7 +52,6 @@
       provides=".geo.IGeoFeature"
       />
 
-  <interface interface="org.snsoffice.base.interfaces.IHouse" />
-  <interface interface="org.snsoffice.base.interfaces.IHouseOwner" />
+  <interface interface="org.snsoffice.base.interfaces.IPublicHouse" />
 
 </configure>

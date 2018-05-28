@@ -189,5 +189,5 @@ class IHouseFeature(IPhase):
 class IScene(model.Schema):
     """Schema for Scene content type."""
 
-class IHouseOwner(Interface):
+class IPublicHouse(Interface):
     """Only house marked with interface will be accessed in public space"""
