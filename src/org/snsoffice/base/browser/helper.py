@@ -15,10 +15,11 @@ from z3c.form import button
 from z3c.form import form
 from z3c.form import field
 
+from org.snsoffice.base.interfaces import IOrganization
 from org.snsoffice.base.interfaces import IHouseFeature
 from org.snsoffice.base.interfaces import IHouseView
 from org.snsoffice.base.interfaces import ISpot
-from org.snsoffice.base.interfaces import IFloor
+from org.snsoffice.base.interfaces import IPublicHouse
 from org.snsoffice.base.geo import IGeoFeature
 from org.snsoffice.base.cloud import makeToken
 from org.snsoffice.base.cloud import uploadData
@@ -172,12 +173,12 @@ class GeoLocator(BrowserView):
     def default_geolocation(self):        
         return '123,245'
 
-class BuildView(BrowserView):
+class ConfigHelper(BrowserView):
 
     def __call__(self):
+        userid = self.request.form.get('usrscope')
         # self.upload(self.build())
-        # return super(BuildView, self).__call__()
-        return json_dumps(self.build())
+        return json_dumps(self.build_config(userid))
 
     def upload(self, data):
         bucket_name = 'plone-house'
@@ -186,22 +187,30 @@ class BuildView(BrowserView):
         message = _(u'Build successfully.')
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
-    def build(self):
+    def build_child(self, content):
+        return {
+            'name': content.getId(),
+            'title': content.title,
+            'type': content.portal_type,
+            'geolocation': [float(x) for x in content.geolocation.split(',')],
+            'geometry': content.geometry
+        }
+
+    def build_config(self, userid=None):
         context = self.context
         result = {
             'name': context.getId(),
             'title': context.title,
-            'location': [0, 0],
+            'geolocation': [0, 0],
             'views': list(),
             'features': list(),
             'children': list(),
         }
 
-        if IGeoFeature.providedBy(context):
-            if hasattr(context, 'geometry') and context.geometry is not None:
-                result['geometry'] = context.geometry
-            if hasattr(context, 'geolocation') and context.geolocation is not None:
-                result['location'] = [float(x) for x in context.geolocation.split(',')]
+        if hasattr(context, 'geometry') and context.geometry is not None:
+            result['geometry'] = context.geometry
+        if hasattr(context, 'geolocation') and context.geolocation is not None:
+            result['geolocation'] = [float(x) for x in context.geolocation.split(',')]
 
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             for v in context.contentValues():
@@ -225,30 +234,19 @@ class BuildView(BrowserView):
                     item = {
                         'name': v.getId(),
                         'type': v.phase_type,
-                        'location': [float(x) for x in v.geolocation.split(',')],
+                        'geolocation': [float(x) for x in v.geolocation.split(',')],
                         'angle': v.geoangle,
                         'url': url,
                     }
                     result['features'].append(item)
 
-                elif IFloor.providedBy(v):
-                    elevations = result.get('elevations')
-                    if elevations is None:
-                        elevations = list()
-                        result['elevations'] = elevations
-                    elevations.append(v.getId())
+                elif IHouse.providedBy(v):
+                    if (userid and userid == v.Creator) or IPublicHouse.providedBy(v):
+                        result['children'].append(self.build_child(v))
 
                 elif ISpot.providedBy(v):
-                    item = {
-                        # 如果是一个链接，那么需要使用 .. 方式表示出来
-                        # 例如 ../rooms/1701
-                        'name': v.getId(),
-                        'title': v.title,
-                        'location': [float(x) for x in v.geolocation.split(',')],
-                        'geometry': v.geometry
-                    }
-                    result['children'].append(item)
-
+                    result['children'].append(self.build_child(v))
+                        
         return result
 
 class UploadTokenView(BrowserView):
