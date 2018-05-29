@@ -232,7 +232,7 @@ class ConfigHelper(BrowserView):
                     })
 
                 elif IHouse.providedBy(v):
-                    if (userid and userid == v.Creator) or IPublicHouse.providedBy(v):
+                    if (userid and userid == v.Creator()) or IPublicHouse.providedBy(v):
                         result['children'].append({
                             'name': v.getId(),
                             'title': v.title,

@@ -16,7 +16,7 @@ PhaseTypeVocabulary = SimpleVocabulary(
     [SimpleTerm(value=u'photo', title=_(u'Photo')),
      SimpleTerm(value=u'panorama', title=_(u'Panorama Equirectangular')),
      SimpleTerm(value=u'page', title=_(u'Text')),
-     SimpleTerm(value=u'video', title=_(u'Video'))]
+     SimpleTerm(value=u'video5', title=_(u'Video'))]
 )
 
 HouseViewVocabulary = SimpleVocabulary(
