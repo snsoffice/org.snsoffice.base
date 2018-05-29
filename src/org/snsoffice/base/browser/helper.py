@@ -176,7 +176,7 @@ class GeoLocator(BrowserView):
 class ConfigHelper(BrowserView):
 
     def __call__(self):
-        userid = self.request.form.get('usrscope')
+        userid = self.request.form.get('houseScope')
         # self.upload(self.build())
         return json_dumps(self.build_config(userid))
 
@@ -200,6 +200,7 @@ class ConfigHelper(BrowserView):
         context = self.context
         result = {
             'name': context.getId(),
+            'type': context.portal_type,
             'title': context.title,
             'geolocation': [0, 0],
             'views': list(),
@@ -210,7 +211,7 @@ class ConfigHelper(BrowserView):
         if hasattr(context, 'geometry') and context.geometry is not None:
             result['geometry'] = context.geometry
         if hasattr(context, 'geolocation') and context.geolocation is not None:
-            result['geolocation'] = [float(x) for x in context.geolocation.split(',')]
+            result['geolocation'] = context.geolocation
 
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             for v in context.contentValues():
@@ -233,8 +234,8 @@ class ConfigHelper(BrowserView):
                         url = v.absolute_url() + '/' + v.source
                     item = {
                         'name': v.getId(),
-                        'type': v.phase_type,
-                        'geolocation': [float(x) for x in v.geolocation.split(',')],
+                        'phase_type': v.phase_type,
+                        'geolocation': v.geolocation,
                         'angle': v.geoangle,
                         'url': url,
                     }
