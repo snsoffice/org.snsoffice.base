@@ -187,15 +187,6 @@ class ConfigHelper(BrowserView):
         message = _(u'Build successfully.')
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
-    def build_child(self, content):
-        return {
-            'name': content.getId(),
-            'title': content.title,
-            'type': content.portal_type,
-            'geolocation': [float(x) for x in content.geolocation.split(',')],
-            'geometry': content.geometry
-        }
-
     def build_config(self, userid=None):
         context = self.context
         result = {
@@ -232,21 +223,33 @@ class ConfigHelper(BrowserView):
                         url = images[0].getURL() if len(images) else None
                     else:
                         url = v.absolute_url() + '/' + v.source
-                    item = {
+                    result['features'].append({
                         'name': v.getId(),
                         'phase_type': v.phase_type,
                         'geolocation': v.geolocation,
                         'angle': v.geoangle,
                         'url': url,
-                    }
-                    result['features'].append(item)
+                    })
 
                 elif IHouse.providedBy(v):
                     if (userid and userid == v.Creator) or IPublicHouse.providedBy(v):
-                        result['children'].append(self.build_child(v))
+                        result['children'].append({
+                            'name': v.getId(),
+                            'title': v.title,
+                            'type': v.portal_type,
+                            'floor': v.floor,
+                            'geolocation': v.geolocation,
+                            'geometry': v.geometry
+                        })
 
                 elif ISpot.providedBy(v):
-                    result['children'].append(self.build_child(v))
+                    result['children'].append({
+                        'name': v.getId(),
+                        'title': v.title,
+                        'type': v.portal_type,
+                        'geolocation': v.geolocation,
+                        'geometry': v.geometry
+                    })
                         
         return result
 
