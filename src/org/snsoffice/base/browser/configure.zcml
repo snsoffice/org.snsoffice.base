@@ -23,6 +23,12 @@
      name="appview"
      />
 
+  <plone:static
+     directory="appsky"
+     type="theme"
+     name="app"
+     />
+
   <browser:resource
      name="geolocator.js"
      file="static/geolocator.js"
