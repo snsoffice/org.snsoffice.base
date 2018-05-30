@@ -20,7 +20,7 @@ PhaseTypeVocabulary = SimpleVocabulary(
 )
 
 HouseViewVocabulary = SimpleVocabulary(
-    [SimpleTerm(value=u'plan', title=_(u'Plan')),
+    [SimpleTerm(value=u'plane', title=_(u'Plan')),
      SimpleTerm(value=u'solid', title=_(u'Solid')),
      SimpleTerm(value=u'three', title=_(u'3D Model'))]
 )
