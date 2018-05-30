@@ -15,10 +15,11 @@ from z3c.form import button
 from z3c.form import form
 from z3c.form import field
 
+from org.snsoffice.base.interfaces import ISpot
 from org.snsoffice.base.interfaces import IOrganization
+from org.snsoffice.base.interfaces import IHouse
 from org.snsoffice.base.interfaces import IHouseFeature
 from org.snsoffice.base.interfaces import IHouseView
-from org.snsoffice.base.interfaces import ISpot
 from org.snsoffice.base.interfaces import IPublicHouse
 from org.snsoffice.base.geo import IGeoFeature
 from org.snsoffice.base.cloud import makeToken
