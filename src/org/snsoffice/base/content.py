@@ -11,13 +11,24 @@ from zope.component import getAdapter
 from zope.annotation.interfaces import IAnnotations
 from persistent.dict import PersistentDict
 
+
 class Organization(Container):
     """Class for Organization"""
     pass
 
 class House(Container):
     """Class for House"""
-    pass
+
+    def getHouseLocation(self):        
+        locations = []
+        obj = self.context.__parent__
+        while True:
+            locations.append(obj.title_or_id())
+            obj = obj.__parent__
+            if IOrganization.providedBy(obj):
+                break
+        locations.reverse()
+        return ' - '.join(locations)
 
 class Building(House):
     """Class for Building"""

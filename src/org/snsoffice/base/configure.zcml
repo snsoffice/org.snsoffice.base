@@ -1,4 +1,4 @@
-<configure
+ <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:five="http://namespaces.zope.org/five"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -53,5 +53,7 @@
       />
 
   <interface interface="org.snsoffice.base.interfaces.IPublicHouse" />
+
+  <adapter name="getHouseVillage" factory="indexers.getHouseVillage" />
 
 </configure>

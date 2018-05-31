@@ -1,7 +1,23 @@
 <?xml version="1.0"?>
 <object name="portal_catalog" meta_type="Plone Catalog Tool">
 
-    <column value="geolocation" />
+  <index name="getHouseVillage" meta_type="ZCTextIndex">
+    <indexed_attr value="getHouseVillage"/>
+  </index>
+
+  <index name="house_area" meta_type="FieldIndex">
+    <indexed_attr value="area"/>
+  </index>
+
+  <index name="house_type" meta_type="FieldIndex">
+    <indexed_attr value="house_type"/>
+  </index>
+
+  <column value="house_type" />
+  <column value="house_area" />
+  <column value="getHouseLocation" />
+
+  <column value="geolocation" />
 
 </object>
 
