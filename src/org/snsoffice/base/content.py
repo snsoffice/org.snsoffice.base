@@ -30,6 +30,9 @@ class House(Container):
         locations.reverse()
         return ' - '.join(locations)
 
+    def house_area(self):
+        return self.context.area
+
 class Building(House):
     """Class for Building"""
     pass

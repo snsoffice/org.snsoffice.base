@@ -54,6 +54,6 @@
 
   <interface interface="org.snsoffice.base.interfaces.IPublicHouse" />
 
-  <adapter name="getHouseVillage" factory="indexers.getHouseVillage" />
+  <adapter name="getHouseVillage" factory=".indexers.getHouseVillage" />
 
 </configure>
