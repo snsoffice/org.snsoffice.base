@@ -17,6 +17,7 @@ from plone.protect import CheckAuthenticator
 from plone.namedfile.utils import safe_basename
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
+from zope.lifecycleevent import modified
 from plone import api
 
 import logging
@@ -67,7 +68,7 @@ class ImportHouseView(BrowserView):
             if floor:
                 house.floor = float(floor)
             house.house_type = house_type
-            house.reindex(idxs=[], update_metadata=True)
+            modified(house);
             transaction.commit()
         except Exception:
             transaction.abort()
