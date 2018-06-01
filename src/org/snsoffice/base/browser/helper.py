@@ -194,7 +194,7 @@ class ConfigHelper(BrowserView):
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
     def build_config(self, userid=None):
-        user = view.pas_member.info('zhaojunde')        ;
+        user = self.pas_member.info('zhaojunde')        ;
         context = self.context
         result = {
             'name': context.getId(),
