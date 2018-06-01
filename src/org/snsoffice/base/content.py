@@ -11,6 +11,7 @@ from zope.component import getAdapter
 from zope.annotation.interfaces import IAnnotations
 from persistent.dict import PersistentDict
 
+from org.snsoffice.base.interfaces import IOrganization
 
 class Organization(Container):
     """Class for Organization"""
@@ -19,24 +20,24 @@ class Organization(Container):
 class House(Container):
     """Class for House"""
 
-    def getHouseLocation(self):        
+    def getHouseLocation(self):
         locations = []
-        obj = self.context.__parent__
+        obj = self.__parent__
         while True:
             locations.append(obj.title_or_id())
-            obj = obj.__parent__
             if IOrganization.providedBy(obj):
                 break
+            obj = obj.__parent__
         locations.reverse()
         return ' - '.join(locations)
 
     def house_area(self):
-        return self.context.area
+        return self.area
 
 class Building(House):
     """Class for Building"""
     pass
-    
+
 class Floor(House):
     """Class for Floor"""
     pass

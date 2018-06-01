@@ -67,6 +67,7 @@ class ImportHouseView(BrowserView):
             if floor:
                 house.floor = float(floor)
             house.house_type = house_type
+            house.reindex(idxs=[], update_metadata=True)
             transaction.commit()
         except Exception:
             transaction.abort()
