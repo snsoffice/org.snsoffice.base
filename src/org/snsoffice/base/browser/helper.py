@@ -176,6 +176,11 @@ class GeoLocator(BrowserView):
 
 class ConfigHelper(BrowserView):
 
+    def __init__(self, context, request):
+        super(ConfigHelper, self).__init__(context, request)
+        self.pas_member = getMultiAdapter(
+            (context, request), name=u"pas_member")
+
     def __call__(self):
         userid = self.request.form.get('houseScope')
         # self.upload(self.build())
@@ -189,6 +194,7 @@ class ConfigHelper(BrowserView):
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
     def build_config(self, userid=None):
+        user = view.pas_member.info('zhaojunde')        ;
         context = self.context
         result = {
             'name': context.getId(),
@@ -198,6 +204,7 @@ class ConfigHelper(BrowserView):
             'views': list(),
             'features': list(),
             'children': list(),
+            'creator': user['name_or_id'],
         }
 
         if hasattr(context, 'geometry') and context.geometry is not None:
