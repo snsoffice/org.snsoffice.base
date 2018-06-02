@@ -12,11 +12,9 @@
  <property name="filter_content_types">True</property>
  <property name="allowed_content_types">
    <element value="Room" />
+   <element value="House" />
    <element value="HouseView" />
    <element value="HouseFeature" />
-   <element value="File" />
-   <element value="Image" />
-   <element value="Document" />
    <element value="Link" />
  </property>
  <property name="allow_discussion">True</property>

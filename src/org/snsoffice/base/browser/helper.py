@@ -22,6 +22,7 @@ from org.snsoffice.base.interfaces import IHouse
 from org.snsoffice.base.interfaces import IHouseFeature
 from org.snsoffice.base.interfaces import IHouseView
 from org.snsoffice.base.interfaces import IPublicHouse
+from org.snsoffice.base.interfaces import HOUSE_DOMAIN_PARAMETER
 from org.snsoffice.base.geo import IGeoFeature
 from org.snsoffice.base.cloud import makeToken
 from org.snsoffice.base.cloud import uploadData
@@ -207,7 +208,7 @@ class GeoLocator(BrowserView):
 class ConfigHelper(BrowserView):
 
     def __call__(self):
-        userid = self.request.form.get('houseScope')
+        userid = self.request.form.get(HOUSE_DOMAIN_PARAMETER)
         # self.upload(self.build())
         return json_dumps(self.build_config(userid))
 

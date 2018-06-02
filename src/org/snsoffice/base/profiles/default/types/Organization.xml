@@ -13,17 +13,19 @@
  <property name="allowed_content_types">
    <element value="Building" />
    <element value="Room" />
+   <element value="House" />
    <element value="HouseView" />
    <element value="HouseFeature" />
-   <element value="File" />
-   <element value="Image" />
-   <element value="Document" />
-   <element value="Link" />
  </property>
  <property name="allow_discussion">True</property>
- <property name="default_view">view</property>
+ <property name="default_view">tabular_view</property>
  <property name="view_methods">
-  <element value="view"/>
+  <element value="listing_view"/>
+  <element value="summary_view"/>
+  <element value="tabular_view"/>
+  <element value="full_view"/>
+  <element value="album_view"/>
+  <element value="event_listing"/>
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>

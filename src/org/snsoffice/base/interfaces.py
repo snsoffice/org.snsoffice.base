@@ -19,6 +19,8 @@ from z3c.form.interfaces import IEditForm
 PUBLIC_DOMAIN = u'Public'
 PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public Domain')
 
+HOUSE_DOMAIN_PARAMETER = 'houseDomain'
+
 HouseDomainVocabulary = SimpleVocabulary(
     [SimpleTerm(value=u'public', title=_(u'Public Domain'))]
 )

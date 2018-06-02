@@ -14,6 +14,18 @@ msgstr ""
 "Preferred-Encodings: utf-8\n"
 "Domain: plone\n"
 
+msgid "ModificationDate"
+msgstr "最后更新"
+
+msgid "view"
+msgstr "视图"
+
+msgid "Album view"
+msgstr "相册视图"
+
+msgid "event_listing"
+msgstr "事件视图"
+
 msgid "getHouseLocation"
 msgstr "小区"
 
@@ -22,9 +34,6 @@ msgstr "户型"
 
 msgid "house_area"
 msgstr "面积"
-
-msgid "ModificationDate"
-msgstr "最后更新"
 
 msgid "House Editor"
 msgstr "装饰房子"
