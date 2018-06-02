@@ -1,19 +1,20 @@
 # -*- coding: utf-8 -*-
 from org.snsoffice.base import _
 
+from Acquisition import aq_inner
 from plone.app.content.utils import json_dumps
 from Products.CMFCore.utils import getToolByName
 from Products.CMFCore.interfaces import IContentish
 from Products.CMFCore.interfaces import IFolderish
-from zope.component import getMultiAdapter
-from Products.statusmessages.interfaces import IStatusMessage
 from Products.Five import BrowserView
-
+from Products.Five.utilities.interfaces import IMarkerInterfaces
+from Products.statusmessages.interfaces import IStatusMessage
 from zope import schema
-from zope.interface import Interface
+from zope.component import getMultiAdapter
 from z3c.form import button
 from z3c.form import form
 from z3c.form import field
+from zope.interface import Interface
 
 from org.snsoffice.base.interfaces import ISpot
 from org.snsoffice.base.interfaces import IOrganization
@@ -149,7 +150,7 @@ class AnchorHelperView(BrowserView):
 
     def __call__(self):
         return super(AnchorHelperView, self).__call__()
-    
+
 class ImportView(BrowserView):
 
     def __call__(self):
@@ -166,20 +167,44 @@ class UploadView(BrowserView):
     def __call__(self):
         return super(UploadView, self).__call__()
 
+class PublicHouseHelper(BrowserView):
+
+    def __call__(self):
+        obj = aq_inner(self.context)
+        adapter = IMarkerInterfaces(obj)
+        adapter.update(add=(IPublicHouse,))
+        return json_dumps({
+            'id': self.context.getId(),
+            'title': self.context.title_or_id(),
+            'path': self.context.getPhysicalPath(),
+            'url': self.context.absolute_url(),
+        })
+
+class UserinfoHelper(BrowserView):
+
+    def __init__(self, context, request):
+        super(UserinfoHelper, self).__init__(context, request)
+        self.pas_member = getMultiAdapter(
+            (context, request), name=u"pas_member")
+
+    def __call__(self):
+        userid = self.request.form.get('userid')
+        member = self.pas_member.info(userid)
+        result = {
+            'id': userid,
+            'fullname': member['name_or_id'],
+        }
+        return json_dumps(result)
+
 class GeoLocator(BrowserView):
 
     def __call__(self):
         return super(GeoLocator, self).__call__()
 
-    def default_geolocation(self):        
+    def default_geolocation(self):
         return '123,245'
 
 class ConfigHelper(BrowserView):
-
-    def __init__(self, context, request):
-        super(ConfigHelper, self).__init__(context, request)
-        self.pas_member = getMultiAdapter(
-            (context, request), name=u"pas_member")
 
     def __call__(self):
         userid = self.request.form.get('houseScope')
@@ -194,7 +219,6 @@ class ConfigHelper(BrowserView):
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
     def build_config(self, userid=None):
-        user = self.pas_member.info('zhaojunde')        ;
         context = self.context
         result = {
             'name': context.getId(),
@@ -204,7 +228,7 @@ class ConfigHelper(BrowserView):
             'views': list(),
             'features': list(),
             'children': list(),
-            'creator': user['name_or_id'],
+            'Creator': context.Creator(),
         }
 
         if hasattr(context, 'geometry') and context.geometry is not None:
@@ -258,7 +282,7 @@ class ConfigHelper(BrowserView):
                         'geolocation': v.geolocation,
                         'geometry': v.geometry
                     })
-                        
+
         return result
 
 class UploadTokenView(BrowserView):
