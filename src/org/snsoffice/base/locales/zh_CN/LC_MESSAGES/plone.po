@@ -26,4 +26,9 @@ msgstr "面积"
 msgid "ModificationDate"
 msgstr "最后更新"
 
+msgid "House Editor"
+msgstr "装饰房子"
+
+msgid "New House"
+msgstr "创建房子"
 
