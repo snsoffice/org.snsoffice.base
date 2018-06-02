@@ -9,6 +9,7 @@ from plone.supermodel import model
 from plone.supermodel.directives import fieldset
 from zope import schema
 from zope.interface import Interface
+from zope.interface import provider
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm
