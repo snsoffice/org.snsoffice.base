@@ -2,6 +2,7 @@
 from org.snsoffice.base import _
 
 from binascii import b2a_qp
+from plone import api
 from plone.app.layout.navigation.root import getNavigationRootObject
 from plone.app.querystring import queryparser
 from plone.app.vocabularies import SlicableVocabulary
@@ -39,9 +40,7 @@ class KeywordsVocabulary(object):
         site = getSite()
         self.catalog = getToolByName(site, "portal_catalog", None)
         if self.catalog is None:
-            i = self.public_domain
-            return SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i)) \
-                if manager else SimpleVocabulary([])
+            return  SimpleVocabulary([])
         index = self.catalog._catalog.getIndex(self.keyword_index)
 
         def safe_encode(term):
@@ -58,6 +57,9 @@ class KeywordsVocabulary(object):
             if (query is None or safe_encode(query) in safe_encode(i)) \
             and (manager or safe_encode(i) != safe_encode(self.public_domain))
         ]
+        if manager and not items:
+            i = self.public_domain
+            items.append(SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i)))
         return SimpleVocabulary(items)
 
 KeywordsVocabularyFactory = KeywordsVocabulary()
