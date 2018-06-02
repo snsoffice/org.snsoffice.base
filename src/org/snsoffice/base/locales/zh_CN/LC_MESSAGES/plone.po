@@ -41,3 +41,6 @@ msgstr "装饰房子"
 msgid "New House"
 msgstr "创建房子"
 
+msgid "Public"
+msgstr "公众空间"
+

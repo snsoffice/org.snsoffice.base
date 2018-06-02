@@ -17,12 +17,12 @@ from zope.schema.vocabulary import SimpleVocabulary
 from z3c.form.interfaces import IEditForm
 
 PUBLIC_DOMAIN = u'Public'
-PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public Domain')
+PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public')
 
 HOUSE_DOMAIN_PARAMETER = 'houseDomain'
 
 HouseDomainVocabulary = SimpleVocabulary(
-    [SimpleTerm(value=u'public', title=_(u'Public Domain'))]
+    [SimpleTerm(value=u'public', title=_(u'Public'))]
 )
 
 PhaseTypeVocabulary = SimpleVocabulary(
@@ -52,7 +52,7 @@ def domains_source(context):
     user = api.user.get_current()
     roles = api.user.get_roles(user=user)
     return SimpleVocabulary([
-        SimpleTerm(value=u'public', title=_(u'Public Domain'))
+        SimpleTerm(value=u'public', title=_(u'Public'))
     ]) if 'Manager' in roles else SimpleVocabulary([])
 
 class IOrgSnsofficeBaseLayer(IDefaultBrowserLayer):
