@@ -1,0 +1,63 @@
+# -*- coding: utf-8 -*-
+from org.snsoffice.base import _
+
+from binascii import b2a_qp
+from plone.app.layout.navigation.root import getNavigationRootObject
+from plone.app.querystring import queryparser
+from plone.app.vocabularies import SlicableVocabulary
+from plone.app.vocabularies.terms import BrowsableTerm
+from plone.uuid.interfaces import IUUID
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.utils import safe_unicode
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from Products.ZCTextIndex.ParseTree import ParseError
+from zope.browser.interfaces import ITerms
+from zope.formlib.interfaces import ISourceQueryView
+from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IContextSourceBinder
+from zope.schema.interfaces import ISource
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
+from zope.site.hooks import getSite
+import itertools
+import os
+
+@implementer(IVocabularyFactory)
+class KeywordsVocabulary(object):
+    """Vocabulary factory listing all catalog keywords from the "Subject" index"""
+
+    # KeywordVocabularies for other keyword indexes
+    keyword_index = 'Subject'
+    public_domain = u'公众空间'
+
+    def __call__(self, context, query=None):
+        user = api.user.get_current()
+        manager = 'Manager' in api.user.get_roles(user=user)
+
+        site = getSite()
+        self.catalog = getToolByName(site, "portal_catalog", None)
+        if self.catalog is None:
+            i = self.public_domain
+            return SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i)) \
+                if manager else SimpleVocabulary([])
+        index = self.catalog._catalog.getIndex(self.keyword_index)
+
+        def safe_encode(term):
+            if isinstance(term, unicode):
+                # no need to use portal encoding for transitional encoding from
+                # unicode to ascii. utf-8 should be fine.
+                term = term.encode('utf-8')
+            return term
+        # Vocabulary term tokens *must* be 7 bit values, titles *must* be
+        # unicode
+        items = [
+            SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i))
+            for i in index._index
+            if (query is None or safe_encode(query) in safe_encode(i)) \
+            and (manager or safe_encode(i) != safe_encode(self.public_domain))
+        ]
+        return SimpleVocabulary(items)
+
+KeywordsVocabularyFactory = KeywordsVocabulary()

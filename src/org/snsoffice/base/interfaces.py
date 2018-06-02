@@ -121,32 +121,6 @@ class IHouse(ISpot):
         required=False,
     )
 
-    # categorization fieldset
-    model.fieldset(
-        'categorization',
-        fields=['domains'],
-    )
-
-    domains = schema.Tuple(
-        title=_(u'label_domains', default=u'Domains'),
-        description=_(
-            u'help_domains',
-            default=u'Only the ownership of this house can add house in public domain.'
-        ),
-        value_type=schema.TextLine(),
-        required=False,
-        missing_value=(),
-    )
-    directives.widget(
-        'domains',
-        AjaxSelectFieldWidget,
-        source=domains_source,
-        # vocabulary='org.snsoffice.base.domains'
-    )
-
-    directives.omitted('domains')
-    directives.no_omit(IEditForm, 'domains')
-
 class IBuilding(ISpot):
     """Schema for Building content type."""
 
