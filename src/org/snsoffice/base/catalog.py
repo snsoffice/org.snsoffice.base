@@ -52,7 +52,7 @@ class KeywordsVocabulary(object):
             SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i))
             for i in index._index
             if (query is None or safe_encode(query) in safe_encode(i)) \
-            and i != IHouse.PUBLIC_DOMAIN
+            and i != PUBLIC_DOMAIN
         ]
         user = api.user.get_current()
         if 'Manager' in api.user.get_roles(user=user):

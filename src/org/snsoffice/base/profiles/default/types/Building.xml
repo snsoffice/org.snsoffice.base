@@ -19,7 +19,6 @@
    <element value="Link" />
  </property>
  <property name="allow_discussion">True</property>
- <property name="default_view">view</property>
  <property name="default_view">tabular_view</property>
  <property name="view_methods">
   <element value="listing_view"/>
