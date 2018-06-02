@@ -1,0 +1,29 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: org.snsoffice.base\n"
+"POT-Creation-Date: 2015-03-23 08:03+0000\n"
+"PO-Revision-Date: 2010-01-28 15:00+0000\n"
+"Last-Translator: Jondy Zhao<jondy.zhao@snsoffice.org>\n"
+"Language-Team: Jondy Zhao<jondy.zhao@snsoffice.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"Language-Code: zh\n"
+"Language-Name: Chinese\n"
+"Preferred-Encodings: utf-8\n"
+"Domain: plone\n"
+
+msgid "getHouseLocation"
+msgstr "小区"
+
+msgid "house_type"
+msgstr "户型"
+
+msgid "house_area"
+msgstr "面积"
+
+msgid "ModificationDate"
+msgstr "最后更新"
+
+
