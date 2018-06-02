@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-from org.snsoffice.base import _
-
 from binascii import b2a_qp
 from plone import api
 from plone.app.layout.navigation.root import getNavigationRootObject
@@ -22,21 +20,18 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from zope.site.hooks import getSite
-import itertools
-import os
+
+from org.snsoffice.base.interfaces import IHouse
 
 @implementer(IVocabularyFactory)
 class KeywordsVocabulary(object):
-    """Vocabulary factory listing all catalog keywords from the "Subject" index"""
+    """Vocabulary factory listing all catalog keywords from the "Subject"
+    index. Add default keyword IHouse.PUBLIC_DOMAIN for Manager."""
 
     # KeywordVocabularies for other keyword indexes
     keyword_index = 'Subject'
-    public_domain = u'公众空间'
 
     def __call__(self, context, query=None):
-        user = api.user.get_current()
-        manager = 'Manager' in api.user.get_roles(user=user)
-
         site = getSite()
         self.catalog = getToolByName(site, "portal_catalog", None)
         if self.catalog is None:
@@ -55,11 +50,13 @@ class KeywordsVocabulary(object):
             SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i))
             for i in index._index
             if (query is None or safe_encode(query) in safe_encode(i)) \
-            and (manager or safe_encode(i) != safe_encode(self.public_domain))
+            and i != IHouse.PUBLIC_DOMAIN
         ]
-        if manager and not items:
-            i = self.public_domain
-            items.append(SimpleTerm(i, b2a_qp(safe_encode(i)), safe_unicode(i)))
+        user = api.user.get_current()
+        if 'Manager' in api.user.get_roles(user=user):
+            i = IHouse.PUBLIC_DOMAIN
+            items.append(SimpleTerm(i, b2a_qp(safe_encode(i)),
+                                    IHouse.PUBLIC_DOMAIN_TITLE))
         return SimpleVocabulary(items)
 
 KeywordsVocabularyFactory = KeywordsVocabulary()

@@ -264,7 +264,7 @@ class ConfigHelper(BrowserView):
                     })
 
                 elif IHouse.providedBy(v):
-                    if (userid and userid == v.Creator()) or IPublicHouse.providedBy(v):
+                    if (userid and userid == v.Creator()) or IHouse.PUBLIC_DOMAIN in v.Subject():
                         result['children'].append({
                             'name': v.getId(),
                             'title': v.title,

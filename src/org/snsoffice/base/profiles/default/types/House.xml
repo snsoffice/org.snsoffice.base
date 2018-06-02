@@ -38,6 +38,8 @@
   <element value="plone.app.dexterity.behaviors.nextprevious.INextPreviousEnabled"/>
   <element value="org.snsoffice.base.geo.IGeoFeature"/>
  </property>
+ <property name="house_type">House Type</property>
+ <property name="getHouseLocation">House Location</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="@@edit"/>
  <alias from="sharing" to="@@sharing"/>

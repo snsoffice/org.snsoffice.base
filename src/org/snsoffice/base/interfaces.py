@@ -103,6 +103,9 @@ class IOrganization(ISpot):
 class IHouse(ISpot):
     """Schema for House content type."""
 
+    PUBLIC_DOMAIN = u'Public'
+    PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public Domain')
+
     house_type = schema.TextLine(
         title=_(u'label_house_type', default=u'House Type'),
         description=_(u"House type"),
