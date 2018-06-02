@@ -1,5 +1,11 @@
 <?xml version="1.0"?>
-<object name="portal_catalog" meta_type="Plone Catalog Tool">
+<object name="portal_catalog" meta_type="Plone Catalog Tool"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        i18n:domain="org.snsoffice.base">
+
+  <index name="domains" meta_type="KeywordIndex">
+    <indexed_attr value="domains"/>
+  </index>
 
   <index name="getHouseVillage" meta_type="FieldIndex">
     <indexed_attr value="getHouseVillage"/>
@@ -13,11 +19,11 @@
     <indexed_attr value="house_type"/>
   </index>
 
-  <column value="house_type" />
-  <column value="house_area" />
-  <column value="getHouseLocation" />
+  <column value="house_type" i18n:attributes="value" />
+  <column value="house_area" i18n:attributes="value" />
+  <column value="getHouseLocation" i18n:attributes="value" />
 
-  <column value="geolocation" />
+  <column value="geolocation" i18n:attributes="value" />
 
 </object>
 

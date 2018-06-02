@@ -2,15 +2,22 @@
 """Module where all interfaces, events and exceptions live."""
 from org.snsoffice.base import _
 
-from zope.interface import Interface
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
-from zope import schema
+from plone import api
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
 from plone.supermodel.directives import fieldset
+from zope import schema
+from zope.interface import Interface
+from zope.publisher.interfaces.browser import IDefaultBrowserLayer
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+from z3c.form.interfaces import IEditForm
+
+HouseDomainVocabulary = SimpleVocabulary(
+    [SimpleTerm(value=u'public', title=_(u'Public Domain'))]
+)
 
 PhaseTypeVocabulary = SimpleVocabulary(
     [SimpleTerm(value=u'photo', title=_(u'Photo')),
@@ -33,6 +40,14 @@ OrganizationVocabulary = SimpleVocabulary(
      SimpleTerm(value=u'station', title=_(u'Station')),
      SimpleTerm(value=u'airport', title=_(u'Airport'))]
 )
+
+@provider(IContextSourceBinder)
+def domains_source(context):
+    user = api.user.get_current()
+    roles = api.user.get_roles(user=user)
+    return SimpleVocabulary([
+        SimpleTerm(value=u'public', title=_(u'Public Domain'))
+    ]) if 'Manager' in roles else SimpleVocabulary([])
 
 class IOrgSnsofficeBaseLayer(IDefaultBrowserLayer):
     """Marker interface that defines a browser layer."""
@@ -104,6 +119,32 @@ class IHouse(ISpot):
         description=_(u"House area (square meters)"),
         required=False,
     )
+
+    # categorization fieldset
+    model.fieldset(
+        'categorization',
+        fields=['domains'],
+    )
+
+    domains = schema.Tuple(
+        title=_(u'label_domains', default=u'Domains'),
+        description=_(
+            u'help_domains',
+            default=u'Only the ownership of this house can add house in public domain.'
+        ),
+        value_type=schema.TextLine(),
+        required=False,
+        missing_value=(),
+    )
+    directives.widget(
+        'domains',
+        AjaxSelectFieldWidget,
+        source=domains_source,
+        # vocabulary='org.snsoffice.base.domains'
+    )
+
+    directives.omitted('domains')
+    directives.no_omit(IEditForm, 'domains')
 
 class IBuilding(ISpot):
     """Schema for Building content type."""
