@@ -31,8 +31,8 @@ class House(Container):
         locations.reverse()
         return ' - '.join(locations)
 
-    def house_area(self):
-        return self.area
+    def house_area(self):        
+        return self.area if hasattr(self, 'area') else 0
 
 class Building(House):
     """Class for Building"""

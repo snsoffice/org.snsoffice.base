@@ -30,7 +30,7 @@
  </property>
  <property name="default_view_fallback">False</property>
  <property name="add_permission">cmf.AddPortalContent</property>
- <property name="klass">plone.dexterity.content.Container</property>
+ <property name="klass">org.snsoffice.base.content.Building</property>
  <property name="schema">org.snsoffice.base.interfaces.IBuilding</property>
  <property name="model_source"></property>
  <property name="model_file"></property>
