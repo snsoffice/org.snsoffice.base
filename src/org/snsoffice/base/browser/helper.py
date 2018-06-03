@@ -197,7 +197,7 @@ class UserinfoHelper(BrowserView):
             'location': member['location'],
             'description': member['description'],
             'portrait': member.get('portrait', ''),
-            'homepage': member['home_page'],
+            'home_page': member['home_page'],
         }
         return json_dumps(result)
 
