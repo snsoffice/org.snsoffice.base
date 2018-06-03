@@ -8,7 +8,7 @@
   <span id="categories-filed-under"><tal:filedunder i18n:translate="label_filed_under">Filed under:</tal:filedunder></span>
   <ul aria-labelledby="categories-filed-under">
     <li tal:repeat="category categories">
-      <a tal:condition="python: category == 'Public'"
+      <a tal:condition="python: category != 'Public'"
          href=""
          class="link-category"
          rel="tag"
@@ -17,7 +17,7 @@
          tal:attributes="href string:${context/@@plone_portal_state/navigation_root_url}/@@search?Subject%3Alist=${quotedCat}">
         Category
         </a>
-      <a tal:condition="python: category != 'Public'"
+      <a tal:condition="python: category == 'Public'"
          href=""
          class="link-category"
          rel="tag"

@@ -17,7 +17,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 from z3c.form.interfaces import IEditForm
 
 PUBLIC_DOMAIN = u'Public'
-PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public')
+PUBLIC_DOMAIN_TITLE = u'label_public_domain'
 
 HOUSE_DOMAIN_PARAMETER = 'houseDomain'
 

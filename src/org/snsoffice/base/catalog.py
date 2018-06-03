@@ -57,9 +57,9 @@ class KeywordsVocabulary(object):
         user = api.user.get_current()
         if 'Manager' in api.user.get_roles(user=user):
             i = PUBLIC_DOMAIN
-            title = site.translate(PUBLIC_DOMAIN_TITLE)
+            t = site.translate(PUBLIC_DOMAIN_TITLE)
             items.append(
-                SimpleTerm(i, b2a_qp(safe_encode(i)), safe_encode(i)))
+                SimpleTerm(i, b2a_qp(safe_encode(i)), safe_encode(t)))
         return SimpleVocabulary(items)
 
 KeywordsVocabularyFactory = KeywordsVocabulary()
