@@ -194,10 +194,10 @@ class UserinfoHelper(BrowserView):
         result = {
             'id': userid,
             'fullname': member['name_or_id'],
-            'location': memeber['location'],
+            'location': member['location'],
             'description': member['description'],
             'portrait': member.get('portrait', ''),
-            'homepage': memeber['home_page'],
+            'homepage': member['home_page'],
         }
         return json_dumps(result)
 
