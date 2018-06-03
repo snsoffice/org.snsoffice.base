@@ -82,7 +82,7 @@
 
   <browser:page
      for="Products.CMFCore.interfaces.ISiteRoot"
-     name="getUserFullname"
+     name="getUserInfo"
      permission="zope2.Public"
      class=".helper.UserinfoHelper"
      />
