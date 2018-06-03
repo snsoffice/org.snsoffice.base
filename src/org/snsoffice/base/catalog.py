@@ -23,6 +23,7 @@ from zope.site.hooks import getSite
 
 from org.snsoffice.base.interfaces import IHouse
 from org.snsoffice.base.interfaces import PUBLIC_DOMAIN
+from org.snsoffice.base.interfaces import PUBLIC_DOMAIN_TITLE
 
 @implementer(IVocabularyFactory)
 class KeywordsVocabulary(object):
@@ -56,6 +57,7 @@ class KeywordsVocabulary(object):
         user = api.user.get_current()
         if 'Manager' in api.user.get_roles(user=user):
             i = PUBLIC_DOMAIN
+            title = site.translate(PUBLIC_DOMAIN_TITLE)
             items.append(
                 SimpleTerm(i, b2a_qp(safe_encode(i)), safe_encode(i)))
         return SimpleVocabulary(items)

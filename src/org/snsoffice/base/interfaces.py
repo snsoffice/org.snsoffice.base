@@ -16,7 +16,9 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from z3c.form.interfaces import IEditForm
 
-PUBLIC_DOMAIN = u'公众空间'
+PUBLIC_DOMAIN = u'Public'
+PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public')
+
 HOUSE_DOMAIN_PARAMETER = 'houseDomain'
 
 HouseDomainVocabulary = SimpleVocabulary(
