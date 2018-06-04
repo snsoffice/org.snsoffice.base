@@ -23,7 +23,7 @@
       <div class="row" id="geo-form-controls">
         <div class="col-sm-4">
           <select id="form-widgets-geotype" name="form.widgets.geotype" class="select-widget required choice-field" size="1">
-            <option value="location" selected="selected" i18n:translate="label_set_location">Location</option>
+            <option value="coordinate" selected="selected" i18n:translate="label_coordinate">Coordinate</option>
             <option value="box" i18n:translate="label_box_boundary">Boundary(box)</option>
             <option value="polygon" i18n:translate="label_polygon_boundary">Boundary(polygon)</option>
           </select>
