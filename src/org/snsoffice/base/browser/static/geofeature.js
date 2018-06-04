@@ -102,7 +102,7 @@ require([ // jshint ignore:line
             console.log('New feature: ' + data);
             callback( {
                 id: 'feature-new-1',
-                geolocation: data.geolocation,
+                coordinate: data.coordinate,
                 geoangle: data.geoangle,
             } );
             return true;
@@ -153,7 +153,7 @@ require([ // jshint ignore:line
 
         var formData = new FormData(geoform);
         formData.append('form.widgets.angle', data.geoangle);
-        formData.append('form.widgets.location', data.geolocation);
+        formData.append('form.widgets.location', data.coordinate);
         formData.append('form.widgets.type', data.phase_type);
         formData.append('form.widgets.source', data.source);
 
@@ -236,7 +236,7 @@ require([ // jshint ignore:line
             function saveFeature( feature ) {
                 var name = feature.getId();
                 var data = {
-                    geolocation: ol.coordinate.toStringXY( feature.getGeometry().getFirstCoordinate(), 2 ),
+                    coordinate: ol.coordinate.toStringXY( feature.getGeometry().getFirstCoordinate(), 2 ),
                     angle: feature.get('angle'),
                 };
                 var oldValue = [ originalLocation, originalAngle ];
@@ -402,7 +402,7 @@ require([ // jshint ignore:line
             });
 
             function onFeatureAdded(data) {
-                var feature = fmt.readFeature('POINT( ' + data.geolocation.split(',').join(' ') + ' )');
+                var feature = fmt.readFeature('POINT( ' + data.coordinate.split(',').join(' ') + ' )');
                 feature.setId(data.id);
                 feature.set('angle', data.geoangle, true);
                 source.addFeature(feature);
@@ -457,7 +457,7 @@ require([ // jshint ignore:line
 
                     var data = {
                         phase_type: geofile.getAttribute( 'data-type' ),
-                        geolocation: ol.coordinate.toStringXY(currentLocation, 2),
+                        coordinate: ol.coordinate.toStringXY(currentLocation, 2),
                         geoangle: currentAngle,
                         source: file.name,
                     };
@@ -494,12 +494,12 @@ require([ // jshint ignore:line
 
             document.getElementById('form-buttons-save').addEventListener('click', function (e) {
                 var selected = selectInteraction.getFeatures();
-                // call restapi to update angle and geolocation
+                // call restapi to update angle and coordinate
                 if (selected.getLength()) {
                     var feature = selected.item(0);
                     var pos = feature.getGeometry().getFirstCoordinate();
                     updateFeatureApi(feature.getId(), {
-                        geolocation: ol.coordinate.toStringXY(pos, 2),
+                        coordinate: ol.coordinate.toStringXY(pos, 2),
                         geoangle: feature.get('angle'),
                     });
                 }
@@ -508,7 +508,7 @@ require([ // jshint ignore:line
 
             document.getElementById('form-buttons-cancel').addEventListener('click', function (e) {
                 var selected = selectInteraction.getFeatures();
-                // restore geolocation and angle
+                // restore coordinate and angle
                 if (selected.getLength()) {
                     restoreFeature( selected.item(0), [ originalLocation, originalAngle ] );
                 }
@@ -566,7 +566,7 @@ require([ // jshint ignore:line
             Array.prototype.forEach.call(houseFeatures.querySelectorAll('IMG'), function (item) {
                 var name = item.getAttribute('data-name');
                 var type = item.getAttribute('data-type');
-                var pos = item.getAttribute('data-location');
+                var pos = item.getAttribute('data-coordinate');
                 var angle = item.getAttribute('data-angle');
 
                 var feature = fmt.readFeature('POINT( ' + pos.split(',').join(' ') + ' )');

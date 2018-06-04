@@ -78,7 +78,7 @@ require([ // jshint ignore:line
         var url = portal_url + currentPath + '/' + currentBuilding;
         var data = new FormData(geoform);
         data.append('form.widgets.building', currentPath + '/' + currentBuilding);
-        data.append('form.widgets.geolocation', currentLocation);
+        data.append('form.widgets.coordinate', currentLocation);
         data.append('form.widgets.floor', currentFloor);
 
         var $progress = $('.progress-bar-success', geoform);
@@ -218,7 +218,7 @@ require([ // jshint ignore:line
                 currentBuildingTitle = features[0].get('title');
 
                 locator.setPosition(evt.coordinate);
-                patmodal.querySelector('#modal-geolocation').value = currentLocation;
+                patmodal.querySelector('#modal-coordinate').value = currentLocation;
 
                 setHouseLocation();
             }
@@ -292,7 +292,7 @@ require([ // jshint ignore:line
             $('#formfield-form-widgets-village').addClass('error');
         if (geotitle.value.trim() === '')
             $('#formfield-form-widgets-title').addClass('error');
-        return currentPath === null || currentBuilding === null || geolocation.value.trim() === '' || geotitle.value.trim() === '';
+        return currentPath === null || currentBuilding === null || geotitle.value.trim() === '';
     }
 
     $(document).ready(function() {

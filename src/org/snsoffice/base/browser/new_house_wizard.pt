@@ -132,7 +132,7 @@
             </div>
           </div>
           <div class="col-sm-6">
-            <input id="modal-geolocation" name="modal.geolocation" class="text-widget textline-field" value="" type="text" readonly="readonly">
+            <input id="modal-coordinate" name="modal.coordinate" class="text-widget textline-field" value="" type="text" readonly="readonly">
           </div>
         </div>
       </div>

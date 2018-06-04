@@ -55,14 +55,14 @@ class ImportHouseView(BrowserView):
     def __call__(self):
         container = api.content.get(path=self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
-        geolocation = self.request.form['form.widgets.geolocation']
+        coordinate = self.request.form['form.widgets.coordinate']
         floor = self.request.form['form.widgets.floor']
         area = self.request.form['form.widgets.area']
         house_type = self.request.form['form.widgets.house_type']
         data = self.request.form['form.widgets.file']
         transaction.begin()
         try:
-            house = self.import_entry_from_zip(container, title, geolocation, data)
+            house = self.import_entry_from_zip(container, title, coordinate, data)
             if area:
                 house.area = float(area)
             if floor:
@@ -122,14 +122,14 @@ class ImportHouseView(BrowserView):
                '%.2f %.2f' % (x1, y1),'%.2f %.2f' % (x0, y1)]
         return ''.join(['POLYGON ((', ','.join(pts), '))'])
 
-    def import_entry_from_zip(self, container, title, geolocation, data):
+    def import_entry_from_zip(self, container, title, coordinate, data):
         f = ZipFile(data, 'r')
         config = json_loads(f.read('config.json'))
-        origin = [float(x) for x in geolocation.split(',')]
+        origin = [float(x) for x in coordinate.split(',')]
         house = api.content.create(
             type='House',
             container=container,
-            geolocation=geolocation,
+            coordinate=coordinate,
             geometry=self.make_multipolygon(config['polygons'], origin),
             title=title,
             area=config.get('area'),
@@ -152,7 +152,7 @@ class ImportHouseView(BrowserView):
                 type='HouseView',
                 container=house,
                 view_type=view_type,
-                geolocation=geolocation,
+                coordinate=coordinate,
                 geometry=self.extent_to_polygon(view['extent'], origin),
                 title=view_type,
                 source=view['source'],
@@ -245,7 +245,7 @@ class HouseFeatureEditor(BrowserView):
                 item = {
                     'name': v.getId(),
                     'type': v.phase_type,
-                    'location': v.geolocation,
+                    'coordinate': v.coordinate,
                     'angle': v.geoangle,
                     'url': url,
                 }
@@ -261,7 +261,7 @@ class NewHouseFeature(BrowserView):
 
     def __call__(self):
         geoangle = self.request.form['form.widgets.angle']
-        geolocation = self.request.form['form.widgets.location']
+        coordinate = self.request.form['form.widgets.location']
         phase_type = self.request.form['form.widgets.type']
         source = self.request.form['form.widgets.source']
         filedata = self.request.form['form.widgets.file']
@@ -271,7 +271,7 @@ class NewHouseFeature(BrowserView):
                 type='HouseFeature',
                 title=_('House Feature'),
                 container=self.context,
-                geolocation=geolocation,
+                coordinate=coordinate,
                 geoangle=geoangle,
                 phase_type=phase_type,
                 source=source,
@@ -282,7 +282,7 @@ class NewHouseFeature(BrowserView):
             result = {
                 'id': feature.getId(),
                 'geoangle': geoangle,
-                'geolocation': geolocation,
+                'coordinate': coordinate,
             }
         except Exception as e:
             transaction.abort()

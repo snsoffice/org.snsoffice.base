@@ -31,9 +31,9 @@ require([ // jshint ignore:line
 
     $(document).ready(function() {
 
-        var geolocation = document.getElementById('form-widgets-IGeoFeature-geolocation');
-        var geometry = document.getElementById('form-widgets-geometry');
-        var geotype = document.getElementById('form-widgets-geotype');
+        var locationinput = document.getElementById('form-widgets-IGeoFeature-coordinate');
+        var geometryinput = document.getElementById('form-widgets-geometry');
+        var geotypeinput = document.getElementById('form-widgets-geotype');
 
         require([$('body').attr('data-portal-url') + '/++resource++org.snsoffice.base/ol.js'], function (ol) {
 
@@ -47,8 +47,8 @@ require([ // jshint ignore:line
                 georesult = document.getElementById('form-widgets-georesult');
             }
 
-            if (typeof geometry === 'undefined') {
-                geotype.setAttribute('disabled', 'disabled');
+            if (typeof geometryinput === 'undefined') {
+                geotypeinput.setAttribute('disabled', 'disabled');
             }
 
             var mousePositionControl = new ol.control.MousePosition({
@@ -73,7 +73,7 @@ require([ // jshint ignore:line
                 layers: [baseLayer],
             });
 
-            var center = geolocation.value.trim() === '' ? [12119628.52, 4055386.0] : getArrayFromString(geolocation.value);
+            var center = locationinput.value.trim() === '' ? [12119628.52, 4055386.0] : getArrayFromString(locationinput.value);
             var map = new ol.Map({
                 controls: ol.control.defaults({
                     attributionOptions: {
@@ -137,10 +137,10 @@ require([ // jshint ignore:line
                     if (typeof geoextent !== 'undefined') {
                         geoextent.value = getStringFromArray(e.feature.getGeometry().getExtent(), 2);
                     }
-                    if (typeof geometry !== 'undefined') {
+                    if (typeof geometryinput !== 'undefined') {
                         var fmt = new ol.format.WKT();
                         georesult.value = fmt.writeGeometry(e.feature.getGeometry(), { decimals: 2 });
-                        geometry.value = georesult.value;
+                        geometryinput.value = georesult.value;
                     }
                 });
             }
@@ -151,11 +151,11 @@ require([ // jshint ignore:line
                     coordinate, 'EPSG:3857', 'EPSG:4326'));
                 locator.setPosition(coordinate);
                 georesult.value = ol.coordinate.toStringXY(coordinate, 2);
-                geolocation.value = georesult.value;
+                locationinput.value = georesult.value;
                 return true;
             });
 
-            geotype.addEventListener('change', function (event) {
+            geotypeinput.addEventListener('change', function (event) {
                 if (!event.target.value)
                     return;
 
@@ -170,17 +170,17 @@ require([ // jshint ignore:line
                 }
             }, false);
 
-            if (geolocation.value.trim() !== '') {
+            if (locationinput.value.trim() !== '') {
                 locator.setPosition(map.getView().getCenter());
             }
 
-            if (geometry !== undefined && geometry.value !== undefined && geometry.value.trim() !== '') {
+            if (geometryinput !== undefined && geometryinput.value !== undefined && geometryinput.value.trim() !== '') {
                 // var extent = getArrayFromString(geoextent.value);
                 // var feature = new ol.Feature({
                 //     geometry: ol.geom.Polygon.fromExtent(extent)
                 // });
                 var fmt = new ol.format.WKT();
-                var feature = fmt.readFeature(geometry.value);
+                var feature = fmt.readFeature(geometryinput.value);
                 var style = new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: [255, 255, 255, 0.5]

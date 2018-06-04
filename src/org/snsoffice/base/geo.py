@@ -37,16 +37,16 @@ class IGeoFeature(model.Schema):
     model.fieldset(
         'geofeature',
         label=_(u"label_tab_geofeture", default=u'Geography'),
-        fields=['geolocation']
+        fields=['coordinate']
     )
 
-    geolocation = schema.TextLine(
-        title=_(u'label_geolocation', default=u'Location'),
+    coordinate = schema.TextLine(
+        title=_(u'label_coordinate', default=u'Coordinate'),
         description=_(u"Location of this spot in projection ESPG:3857"),
         required=False,
     )
 
     form.widget(
-        'geolocation',
+        'coordinate',
         GeoFieldWidget
     )

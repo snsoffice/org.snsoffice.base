@@ -17,6 +17,6 @@
   <column value="house_area" />
   <column value="getHouseLocation" />
 
-  <column value="geolocation" />
+  <column value="coordinate" />
 
 </object>

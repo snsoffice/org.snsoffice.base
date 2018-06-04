@@ -42,12 +42,12 @@
             <div class="outer-box">
               <tal:block repeat="item view/house_features">
                 <div class="preview">
-                    <img src="" data-name="" data-type="" data-angle="" data-location="" title=""
+                    <img src="" data-name="" data-type="" data-angle="" data-coordinate="" title=""
                          tal:attributes="src string:${item/url}/@@images/image/mini;
                                          data-name item/name;
                                          data-type item/type;
                                          data-angle item/angle;
-                                         data-location item/location;"/>
+                                         data-coordinate item/coordinate;"/>
                     <span class="glyphicon glyphicon-remove-circle"></span>
                 </div>
               </tal:block>

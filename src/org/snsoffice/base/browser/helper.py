@@ -206,9 +206,6 @@ class GeoLocator(BrowserView):
     def __call__(self):
         return super(GeoLocator, self).__call__()
 
-    def default_geolocation(self):
-        return '123,245'
-
 class ConfigHelper(BrowserView):
 
     def __call__(self):
@@ -229,7 +226,7 @@ class ConfigHelper(BrowserView):
             'name': context.getId(),
             'type': context.portal_type,
             'title': context.title,
-            'geolocation': [0, 0],
+            'coordinate': [0, 0],
             'views': list(),
             'features': list(),
             'children': list(),
@@ -238,8 +235,8 @@ class ConfigHelper(BrowserView):
 
         if hasattr(context, 'geometry') and context.geometry is not None:
             result['geometry'] = context.geometry
-        if hasattr(context, 'geolocation') and context.geolocation is not None:
-            result['geolocation'] = context.geolocation
+        if hasattr(context, 'coordinate') and context.coordinate is not None:
+            result['coordinate'] = context.coordinate
 
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             for v in context.contentValues():
@@ -263,7 +260,7 @@ class ConfigHelper(BrowserView):
                     result['features'].append({
                         'name': v.getId(),
                         'phase_type': v.phase_type,
-                        'geolocation': v.geolocation,
+                        'coordinate': v.coordinate,
                         'angle': v.geoangle,
                         'url': url,
                     })
@@ -275,7 +272,7 @@ class ConfigHelper(BrowserView):
                             'title': v.title,
                             'type': v.portal_type,
                             'floor': v.floor,
-                            'geolocation': v.geolocation,
+                            'coordinate': v.coordinate,
                             'geometry': v.geometry
                         })
 
@@ -284,7 +281,7 @@ class ConfigHelper(BrowserView):
                         'name': v.getId(),
                         'title': v.title,
                         'type': v.portal_type,
-                        'geolocation': v.geolocation,
+                        'coordinate': v.coordinate,
                         'geometry': v.geometry
                     })
 
