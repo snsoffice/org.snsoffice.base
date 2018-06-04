@@ -66,7 +66,7 @@ class ImportHouseView(BrowserView):
             if area:
                 house.area = float(area)
             if floor:
-                house.floor = float(floor)
+                house.floor = int(floor)
             house.house_type = house_type
             modified(house);
             transaction.commit()
