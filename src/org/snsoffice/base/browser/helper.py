@@ -226,11 +226,12 @@ class ConfigHelper(BrowserView):
             'name': context.getId(),
             'type': context.portal_type,
             'title': context.title,
+            'description': context.Description()
+            'creator': context.Creator(),
             'coordinate': [0, 0],
             'views': list(),
             'features': list(),
             'children': list(),
-            'Creator': context.Creator(),
         }
 
         if hasattr(context, 'geometry') and context.geometry is not None:
