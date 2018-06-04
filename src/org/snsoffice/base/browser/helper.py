@@ -226,7 +226,7 @@ class ConfigHelper(BrowserView):
             'name': context.getId(),
             'type': context.portal_type,
             'title': context.title,
-            'description': context.Description()
+            'description': context.Description(),
             'creator': context.Creator(),
             'coordinate': [0, 0],
             'views': list(),
