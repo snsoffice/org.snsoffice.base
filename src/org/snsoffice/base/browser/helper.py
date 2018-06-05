@@ -22,6 +22,7 @@ from org.snsoffice.base.interfaces import IHouse
 from org.snsoffice.base.interfaces import IHouseFeature
 from org.snsoffice.base.interfaces import IHouseView
 from org.snsoffice.base.interfaces import IPublicHouse
+from org.snsoffice.base.interfaces import PUBLIC_DOMAIN
 from org.snsoffice.base.interfaces import HOUSE_DOMAIN_PARAMETER
 from org.snsoffice.base.geo import IGeoFeature
 from org.snsoffice.base.cloud import makeToken
@@ -274,7 +275,7 @@ class ConfigHelper(BrowserView):
                     })
 
                 elif IHouse.providedBy(v):
-                    if (userid and userid == v.Creator()) or IHouse.PUBLIC_DOMAIN in v.Subject():
+                    if (userid and userid == v.Creator()) or PUBLIC_DOMAIN in v.Subject():
                         result['children'].append({
                             'name': v.getId(),
                             'title': v.title,
