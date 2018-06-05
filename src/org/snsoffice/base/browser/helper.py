@@ -234,6 +234,13 @@ class ConfigHelper(BrowserView):
             'children': list(),
         }
 
+        if IHouse.providedBy(context):
+            result['metadata'] = {
+                'house_location': context.getHouseLocation(),
+                'house_area': context.house_area(),
+                'house_type': context.house_type,
+            }
+
         if hasattr(context, 'geometry') and context.geometry is not None:
             result['geometry'] = context.geometry
         if hasattr(context, 'coordinate') and context.coordinate is not None:
