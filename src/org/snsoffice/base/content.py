@@ -20,7 +20,7 @@ class Organization(Container):
 class House(Container):
     """Class for House"""
 
-    def getHouseLocation(self):
+    def house_location(self):
         locations = []
         obj = self.__parent__
         while True:

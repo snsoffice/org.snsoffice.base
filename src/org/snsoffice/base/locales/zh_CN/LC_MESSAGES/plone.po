@@ -26,7 +26,7 @@ msgstr "相册视图"
 msgid "event_listing"
 msgstr "事件视图"
 
-msgid "getHouseLocation"
+msgid "house_location"
 msgstr "小区"
 
 msgid "house_type"

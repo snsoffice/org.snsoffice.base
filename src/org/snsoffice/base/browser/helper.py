@@ -237,7 +237,7 @@ class ConfigHelper(BrowserView):
 
         if IHouse.providedBy(context):
             result['metadata'] = {
-                'house_location': context.getHouseLocation(),
+                'house_location': context.house_location(),
                 'house_area': context.house_area(),
                 'house_type': context.house_type,
             }

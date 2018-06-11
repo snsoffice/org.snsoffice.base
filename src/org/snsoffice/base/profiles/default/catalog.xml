@@ -15,7 +15,7 @@
 
   <column value="house_type" />
   <column value="house_area" />
-  <column value="getHouseLocation" />
+  <column value="house_location" />
 
   <column value="coordinate" />
 
