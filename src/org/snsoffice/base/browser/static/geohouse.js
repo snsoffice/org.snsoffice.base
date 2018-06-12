@@ -32,6 +32,7 @@ require([ // jshint ignore:line
     var portal_url;
 
     var patmodal;
+    var $loader;
 
     var roptions = {
         selectableTypes: ["Organization"],
@@ -85,6 +86,7 @@ require([ // jshint ignore:line
         var xhr = new XMLHttpRequest();
         xhr.onload = function (e) {
             console.log("The transfer is complete. server return: " + xhr.responseText);
+            $loader.hide();
             var result = JSON.parse(xhr.responseText);
             if (result.url)
                 window.location.href = result.url;
@@ -99,13 +101,16 @@ require([ // jshint ignore:line
             }
         }, false);
         xhr.onerror = function (e) {
+            $loader.hide();
             console.log("An error occurred while transferring the file.");
         };
         xhr.onabort = function (e) {
+            $loader.hide();
             console.log("The transfer has been canceled by the user.");
         };
         xhr.open('POST', url + '/import-house');
         xhr.send(data);
+        $loader.show();
     };
 
     var addHouse = function () {
@@ -118,7 +123,7 @@ require([ // jshint ignore:line
             if (xhr.status != 201) {
                 console.log( '添加房子失败，服务器返回代码：' + xhr.status );
                 return;
-            }
+            }            
             window.location.href = xhr.response['@id'];
         };
         xhr.open('POST', url, true);
@@ -296,6 +301,12 @@ require([ // jshint ignore:line
     }
 
     $(document).ready(function() {
+
+        $loader = $('.plone-loader');
+        if($loader.size() === 0){
+            $loader = $('<div class="plone-loader"><div class="loader"/></div>');
+            $('body').append($loader);
+        }
 
         geoform = document.getElementById('geoform');
         houselocation = geoform.querySelector('input#form-widgets-location');
