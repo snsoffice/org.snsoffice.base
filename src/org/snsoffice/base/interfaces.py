@@ -113,7 +113,7 @@ class IHouse(ISpot):
     building = RelationChoice(
         title=_(u'Building'),
         required=True,
-        source=CatalogSource(path='/data/villages', portal_type=('Building',)),
+        source=CatalogSource(path='/future/data/villages', portal_type=('Building',)),
     )
 
     house_type = schema.TextLine(

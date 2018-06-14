@@ -8,6 +8,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.permissions import AddPortalContent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from plone import api
 from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.uuid.interfaces import IUUID
@@ -19,7 +20,7 @@ from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
 from zope.component.hooks import getSite
 from zope.lifecycleevent import modified
-from plone import api
+from z3c.relationfield.relation import create_relation
 
 import logging
 import mimetypes
@@ -54,7 +55,9 @@ class ImportHouseView(BrowserView):
 
     """
     def __call__(self):
-        building = api.content.get(path=self.request.form['form.widgets.building'])
+
+        # container = api.content.get(path=self.request.form['form.widgets.building'])
+        building= create_relation(self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
         coordinate = self.request.form['form.widgets.coordinate']
         floor = self.request.form['form.widgets.floor']
