@@ -3,6 +3,7 @@
 from org.snsoffice.base import _
 
 from plone import api
+from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
@@ -112,6 +113,7 @@ class IHouse(ISpot):
     building = RelationChoice(
         title=_(u'Building'),
         required=True,
+        source=CatalogSource(path='/data/villages', portal_type=('Building',)),
     )
 
     house_type = schema.TextLine(
