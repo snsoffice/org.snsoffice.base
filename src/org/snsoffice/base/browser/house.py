@@ -17,6 +17,7 @@ from plone.protect import CheckAuthenticator
 from plone.namedfile.utils import safe_basename
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
+from zope.component.hooks import getSite
 from zope.lifecycleevent import modified
 from plone import api
 
@@ -53,7 +54,7 @@ class ImportHouseView(BrowserView):
 
     """
     def __call__(self):
-        container = api.content.get(path=self.request.form['form.widgets.building'])
+        building = api.content.get(path=self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
         coordinate = self.request.form['form.widgets.coordinate']
         floor = self.request.form['form.widgets.floor']
@@ -62,7 +63,7 @@ class ImportHouseView(BrowserView):
         data = self.request.form['form.widgets.file']
         transaction.begin()
         try:
-            house = self.import_entry_from_zip(container, title, coordinate, data)
+            house = self.import_entry_from_zip(building, title, coordinate, data)
             if area:
                 house.area = float(area)
             if floor:
@@ -77,6 +78,12 @@ class ImportHouseView(BrowserView):
             'name': house.getId(),
             'url': house.absolute_url(),
         })
+
+    def toFieldValue(self, value):
+        catalog = getToolByName(getSite(), 'portal_catalog')
+        res = catalog(UID=value)
+        if res:
+            return res[0].getObject()
 
     def get_file_data(self, value):
         # plone.formwidget.namedfile-1.0.15-py2.7.egg/plone/formwidget/namedfile/converter.py
@@ -122,13 +129,14 @@ class ImportHouseView(BrowserView):
                '%.2f %.2f' % (x1, y1),'%.2f %.2f' % (x0, y1)]
         return ''.join(['POLYGON ((', ','.join(pts), '))'])
 
-    def import_entry_from_zip(self, container, title, coordinate, data):
+    def import_entry_from_zip(self, building, title, coordinate, data):
         f = ZipFile(data, 'r')
         config = json_loads(f.read('config.json'))
         origin = [float(x) for x in coordinate.split(',')]
         house = api.content.create(
             type='House',
-            container=container,
+            container=self.context,
+            building=building,
             coordinate=coordinate,
             geometry=self.make_multipolygon(config['polygons'], origin),
             title=title,
@@ -203,7 +211,7 @@ class ImportHouseView(BrowserView):
         }
 
         if 'File' in obj.portal_type:
-            result['size'] = obj.file.getSize()
+            result['size'] = obj.file.getSzie()
             result['type'] = obj.file.contentType
         elif 'Image' in obj.portal_type:
             result['size'] = obj.image.getSize()

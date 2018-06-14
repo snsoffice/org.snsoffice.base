@@ -87,6 +87,7 @@ require([ // jshint ignore:line
         xhr.onload = function (e) {
             console.log("The transfer is complete. server return: " + xhr.responseText);
             $loader.hide();
+            // If something is wrong, it will return error page, not JSON
             var result = JSON.parse(xhr.responseText);
             if (result.url)
                 window.location.href = result.url;

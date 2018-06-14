@@ -15,6 +15,7 @@ from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 from z3c.form.interfaces import IEditForm
+from z3c.relationfield.schema import RelationChoice
 
 PUBLIC_DOMAIN = u'Public'
 PUBLIC_DOMAIN_TITLE = _(u'label_public_domain', default=u'Public')
@@ -107,6 +108,11 @@ class IOrganization(ISpot):
 
 class IHouse(ISpot):
     """Schema for House content type."""
+
+    building = RelationChoice(
+        title=_(u'Building'),
+        required=True,
+    )
 
     house_type = schema.TextLine(
         title=_(u'label_house_type', default=u'House Type'),
