@@ -42,7 +42,7 @@ require([ // jshint ignore:line
         basePath: "/data/villages",
         initialFolder: "/data/villages",
         closeOnSelect: true,
-        vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog",
+        vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog&path=/data/villages",
     }
 
     var setupRelatedItems = function($input) {

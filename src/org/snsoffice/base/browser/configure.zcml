@@ -126,7 +126,7 @@
      name="import-house"
      class=".house.ImportHouseView"
      permission="cmf.AddPortalContent"
-     for="org.snsoffice.base.interfaces.IBuilding"
+     for="Products.CMFCore.interfaces.IFolderish"
      />
 
   <browser:page

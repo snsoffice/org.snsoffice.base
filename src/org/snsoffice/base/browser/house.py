@@ -22,6 +22,7 @@ from zope import component
 from zope.component.hooks import getSite
 from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import modified
+from z3c.relationfield import RelationValue
 from z3c.relationfield.relation import create_relation
 
 import logging
