@@ -6,4 +6,5 @@ from org.snsoffice.base.interfaces import IHouse
 
 @indexer(IHouse)
 def getHouseVillage(object):
-    return object.__parent__.__parent__.title_or_id()
+    if hasattr(object, 'building'):
+        return object.building.to_object.__parent__.title_or_id()

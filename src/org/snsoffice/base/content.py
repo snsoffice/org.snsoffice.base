@@ -22,7 +22,10 @@ class House(Container):
 
     def house_location(self):
         locations = []
-        obj = self.__parent__
+        if hasattr(self, 'building'):
+            obj = self.building.to_object
+        else:
+            obj = self.__parent__
         while True:
             locations.append(obj.title_or_id())
             if IOrganization.providedBy(obj):
