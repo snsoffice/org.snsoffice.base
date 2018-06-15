@@ -42,7 +42,7 @@ require([ // jshint ignore:line
         basePath: "/data/villages",
         initialFolder: "/data/villages",
         closeOnSelect: true,
-        vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog&path=/data/villages",
+        vocabularyUrl: "getVocabulary?name=plone.app.vocabularies.Catalog",
     }
 
     var setupRelatedItems = function($input) {
@@ -316,6 +316,7 @@ require([ // jshint ignore:line
         houselocation = geoform.querySelector('input#form-widgets-location');
         portal_url = document.body.getAttribute('data-portal-url');
         data_base_url = document.body.getAttribute('data-base-url');
+        roptions.vocabularyUrl: portal_url + "/data/villages/getVocabulary?name=plone.app.vocabularies.Catalog",
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             patmodal = document.querySelector('.plone-modal-wrapper');
