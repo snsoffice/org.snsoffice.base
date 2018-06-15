@@ -214,7 +214,7 @@ class ImportHouseView(BrowserView):
         }
 
         if 'File' in obj.portal_type:
-            result['size'] = obj.file.getSzie()
+            result['size'] = obj.file.getSize()
             result['type'] = obj.file.contentType
         elif 'Image' in obj.portal_type:
             result['size'] = obj.image.getSize()
