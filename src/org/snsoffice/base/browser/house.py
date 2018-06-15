@@ -18,7 +18,9 @@ from plone.protect import CheckAuthenticator
 from plone.namedfile.utils import safe_basename
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
+from zope import component
 from zope.component.hooks import getSite
+from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import modified
 from z3c.relationfield.relation import create_relation
 
@@ -56,8 +58,11 @@ class ImportHouseView(BrowserView):
     """
     def __call__(self):
 
-        # container = api.content.get(path=self.request.form['form.widgets.building'])
-        building= create_relation(self.request.form['form.widgets.building'])
+        intids = component.getUtility(IIntIds)
+        container = api.content.get(path=self.request.form['form.widgets.building'])
+        object_id = intids.getId(container)
+        building = RelationValue(object_id)
+        # building= create_relation(self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
         coordinate = self.request.form['form.widgets.coordinate']
         floor = self.request.form['form.widgets.floor']

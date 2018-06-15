@@ -30,6 +30,7 @@ require([ // jshint ignore:line
     var geoform;
     var houselocation;
     var portal_url;
+    var data_base_url;
 
     var patmodal;
     var $loader;
@@ -76,7 +77,8 @@ require([ // jshint ignore:line
 
     var importHouse = function () {
         // ajax post request
-        var url = portal_url + currentPath + '/' + currentBuilding;
+        // var url = portal_url + currentPath + '/' + currentBuilding;
+        var url = data_base_url;
         var data = new FormData(geoform);
         data.append('form.widgets.building', currentPath + '/' + currentBuilding);
         data.append('form.widgets.coordinate', currentLocation);
@@ -115,7 +117,8 @@ require([ // jshint ignore:line
     };
 
     var addHouse = function () {
-        var url = portal_url + currentPath + '/' + currentBuilding;
+        // var url = portal_url + currentPath + '/' + currentBuilding;
+        var url = data_base_url;
         var xhr = new XMLHttpRequest();
         xhr.onloadend = function(e) {
             // 201 Created (Resource has been created successfully)
@@ -312,6 +315,7 @@ require([ // jshint ignore:line
         geoform = document.getElementById('geoform');
         houselocation = geoform.querySelector('input#form-widgets-location');
         portal_url = document.body.getAttribute('data-portal-url');
+        data_base_url = document.body.getAttribute('data-base-url');
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             patmodal = document.querySelector('.plone-modal-wrapper');
