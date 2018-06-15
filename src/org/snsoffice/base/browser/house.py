@@ -58,9 +58,15 @@ class ImportHouseView(BrowserView):
 
     """
     def __call__(self):
-
+        portal_catalog = api.portal.get_tool('portal_catalog')
         intids = component.getUtility(IIntIds)
-        container = api.content.get(path=self.request.form['form.widgets.building'])
+        # container = api.content.get(path=self.request.form['form.widgets.building'])
+        basepath = '/'.join(self.context.getPhysicalPath()[:2])
+        results = portal_catalog(path={
+            query: basepath + self.request.form['form.widgets.building'],
+            depth: 1
+        })        
+        container = results[0].getObject() if results else None
         object_id = intids.getId(container)
         building = RelationValue(object_id)
         # building= create_relation(self.request.form['form.widgets.building'])
