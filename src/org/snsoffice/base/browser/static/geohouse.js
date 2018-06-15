@@ -76,6 +76,8 @@ require([ // jshint ignore:line
     };
 
     var importHouse = function () {
+        if ($('#form-widgets-file', geoform).files.length === 0)
+            return;
         // ajax post request
         // var url = portal_url + currentPath + '/' + currentBuilding;
         var url = data_base_url;
@@ -93,6 +95,8 @@ require([ // jshint ignore:line
             var result = JSON.parse(xhr.responseText);
             if (result.url)
                 window.location.href = result.url;
+            else
+                console.log(result.error);
         };
         xhr.upload.addEventListener("progress", function (e) {
             if (e.lengthComputable) {
@@ -316,7 +320,7 @@ require([ // jshint ignore:line
         houselocation = geoform.querySelector('input#form-widgets-location');
         portal_url = document.body.getAttribute('data-portal-url');
         data_base_url = document.body.getAttribute('data-base-url');
-        roptions.vocabularyUrl: portal_url + "/data/villages/getVocabulary?name=plone.app.vocabularies.Catalog",
+        roptions.vocabularyUrl = portal_url + "/getVocabulary?name=plone.app.vocabularies.Catalog",
 
         $('.pat-plone-modal', geoform).on('shown.plone-modal.patterns', function (e) {
             patmodal = document.querySelector('.plone-modal-wrapper');

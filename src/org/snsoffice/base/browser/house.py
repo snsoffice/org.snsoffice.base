@@ -80,13 +80,17 @@ class ImportHouseView(BrowserView):
             house.house_type = house_type
             modified(house);
             transaction.commit()
-        except Exception:
+            result = {
+                'name': house.getId(),
+                'url': house.absolute_url(),
+            }
+        except Exception as e:
             transaction.abort()
-            raise
-        return json_dumps({
-            'name': house.getId(),
-            'url': house.absolute_url(),
-        })
+            logging.exception('Import house failed');
+            result = {
+                'error': str(e)
+            }
+        return json_dumps(result)
 
     def toFieldValue(self, value):
         catalog = getToolByName(getSite(), 'portal_catalog')
