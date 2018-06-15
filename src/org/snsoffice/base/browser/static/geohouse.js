@@ -76,7 +76,7 @@ require([ // jshint ignore:line
     };
 
     var importHouse = function () {
-        if ($('#form-widgets-file', geoform).files.length === 0)
+        if ( geoform.querySelector('#form-widgets-file').files.length === 0 )
             return;
         // ajax post request
         // var url = portal_url + currentPath + '/' + currentBuilding;
