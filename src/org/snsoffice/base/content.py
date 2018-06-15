@@ -22,10 +22,7 @@ class House(Container):
 
     def house_location(self):
         locations = []
-        if hasattr(self, 'building'):
-            obj = self.building.to_object
-        else:
-            obj = self.__parent__
+        obj = self.building.to_object
         while True:
             locations.append(obj.title_or_id())
             if IOrganization.providedBy(obj):
@@ -39,13 +36,24 @@ class House(Container):
 
 class Building(House):
     """Class for Building"""
-    pass
 
-class Floor(House):
+    def house_location(self):
+        locations = []
+        obj = self.__parent__
+        while True:
+            locations.append(obj.title_or_id())
+            if IOrganization.providedBy(obj):
+                break
+            obj = obj.__parent__
+        locations.reverse()
+        return ' - '.join(locations)
+
+
+class Floor(Building):
     """Class for Floor"""
     pass
 
-class Room(House):
+class Room(Building):
     """Class for Room"""
     pass
 
