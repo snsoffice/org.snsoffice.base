@@ -23,7 +23,7 @@ from zope.component.hooks import getSite
 from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import modified
 from z3c.relationfield import RelationValue
-from z3c.relationfield.relation import create_relation
+# from z3c.relationfield.relation import create_relation
 
 import logging
 import mimetypes
@@ -33,6 +33,19 @@ from zipfile import ZipFile
 
 from org.snsoffice.base.interfaces import IHouseView
 from org.snsoffice.base.interfaces import IHouseFeature
+
+def create_relation(context, path):
+    portal_catalog = api.portal.get_tool('portal_catalog')
+    intids = component.getUtility(IIntIds)
+    # container = api.content.get(path=self.request.form['form.widgets.building'])
+    basepath = '/'.join(context.getPhysicalPath()[:2])
+    results = portal_catalog(path={
+        'query': basepath + path,
+        'depth': 0
+    })        
+    container = results[0].getObject() if results else None
+    object_id = intids.getId(container)
+    return RelationValue(object_id)
 
 class NewHouseWizard(BrowserView):
 
@@ -58,17 +71,6 @@ class ImportHouseView(BrowserView):
 
     """
     def __call__(self):
-        portal_catalog = api.portal.get_tool('portal_catalog')
-        intids = component.getUtility(IIntIds)
-        # container = api.content.get(path=self.request.form['form.widgets.building'])
-        basepath = '/'.join(self.context.getPhysicalPath()[:2])
-        results = portal_catalog(path={
-            'query': basepath + self.request.form['form.widgets.building'],
-            'depth': 1
-        })        
-        container = results[0].getObject() if results else None
-        object_id = intids.getId(container)
-        building = RelationValue(object_id)
         # building= create_relation(self.request.form['form.widgets.building'])
         title = self.request.form['form.widgets.title']
         coordinate = self.request.form['form.widgets.coordinate']
@@ -78,6 +80,7 @@ class ImportHouseView(BrowserView):
         data = self.request.form['form.widgets.file']
         transaction.begin()
         try:
+            building = create_relation(self.context, self.request.form['form.widgets.building'])
             house = self.import_entry_from_zip(building, title, coordinate, data)
             if area:
                 house.area = float(area)
