@@ -251,6 +251,17 @@ class HouseFeatureEditor(BrowserView):
 
     index = ViewPageTemplateFile("house_feature_editor.pt")
 
+    def build_view_url(self, view):
+        src = view.source
+        if not src:
+            contentFilter = { "portal_type" : "Image" }
+            images = view.getFolderContents(contentFilter, batch=True, b_size=1)
+            url = images[0].getURL() if len(images) else None
+        elif src.startswith('http://') or src.startswith('https://'):
+            return src
+        else:
+            return view.absolute_url() + '/' + src
+
     def __call__(self):
         views = []
         features = []
@@ -261,23 +272,17 @@ class HouseFeatureEditor(BrowserView):
                     'type': v.view_type,
                     'opacity': v.opacity,
                     'geometry': v.geometry,
-                    'url': v.absolute_url() + '/' + v.source,
+                    'url': self.build_view_url(v)
                 }
                 views.append(item)
 
             elif IHouseFeature.providedBy(v):
-                if v.source is None:
-                    contentFilter = { "portal_type" : "Image" }
-                    images = v.getFolderContents(contentFilter, batch=True, b_size=1)
-                    url = images[0].getURL() if len(images) else None
-                else:
-                    url = v.absolute_url() + '/' + v.source
                 item = {
                     'name': v.getId(),
                     'type': v.phase_type,
                     'coordinate': v.coordinate,
                     'angle': v.geoangle,
-                    'url': url,
+                    'url': self.build_view_url(v),
                 }
                 features.append(item)
 
