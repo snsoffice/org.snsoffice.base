@@ -233,7 +233,7 @@ class ConfigHelper(BrowserView):
         locations.reverse()
         return ' - '.join(locations)
 
-    def build_views(self context):
+    def build_views(self, context):
         portal_catalog = api.portal.get_tool('portal_catalog')
         path = '/'.join(context.getPhysicalPath())
         brains = portal_catalog.searchResults(
