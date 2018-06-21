@@ -9,6 +9,7 @@ from Products.CMFCore.interfaces import IFolderish
 from Products.Five import BrowserView
 from Products.Five.utilities.interfaces import IMarkerInterfaces
 from Products.statusmessages.interfaces import IStatusMessage
+from plone import api
 from zope import schema
 from zope.component import getMultiAdapter
 from z3c.form import button
@@ -221,6 +222,58 @@ class ConfigHelper(BrowserView):
         message = _(u'Build successfully.')
         IStatusMessage(self.request).addStatusMessage(message, 'info')
 
+    def get_locations(self, context):
+        locations = []
+        obj = self.building.to_object
+        while True:
+            locations.append('/'.join(obj.getPhysicalPath()))
+            if IOrganization.providedBy(obj):
+                break
+            obj = obj.__parent__
+        locations.reverse()
+        return ' - '.join(locations)
+
+    def build_views(self context):
+        portal_catalog = api.portal.get_tool('portal_catalog')
+        path = '/'.join(context.getPhysicalPath())
+        brains = portal_catalog.searchResults(
+            portal_type=('HouseView',),
+            path={'query': path, 'depth': 1},
+        )
+        views = []
+        for brain in brains:
+            v = brain.getObject()
+            views.append({
+                'name': v.getId(),
+                'type': v.view_type,
+                'opacity': v.opacity,
+                'geometry': v.geometry,
+                'url': v.absolute_url() + '/' + v.source,
+            })
+
+    def build_locations(self, context):
+        results = []
+        building = context.building.to_object
+        while True:
+            views = []
+            building = context.building.to_object
+            for v in building.contentValues():
+                if IHouseView.providedBy(v):
+                    views.append({
+                        'name': v.getId(),
+                        'type': v.view_type,
+                        'opacity': v.opacity,
+                        'geometry': v.geometry,
+                        'url': v.absolute_url() + '/' + v.source,
+                    })
+            results.append( { 'views': views } )
+
+            if IOrganization.providedBy(building):
+                break
+            building = building.__parent__
+
+        return results
+
     def build_config(self, userid=None):
         context = self.context
         result = {
@@ -240,7 +293,9 @@ class ConfigHelper(BrowserView):
                 'house_location': context.house_location(),
                 'house_area': context.house_area(),
                 'house_type': context.house_type,
+                'floor': context.floor,
             }
+            result['locations'] = self.build_locations(context)
 
         if hasattr(context, 'geometry') and context.geometry is not None:
             result['geometry'] = context.geometry

@@ -64,21 +64,21 @@ class IOrgSnsofficeBaseLayer(IDefaultBrowserLayer):
 class ISpot(model.Schema):
     """Schema for Spot content type."""
 
-    anchors = schema.Tuple(
-        title=_(u'label_anchors', u'Anchors'),
-        description=_(
-            u'help_anchors',
-            default=u"Persons responsible for living this house."
-        ),
-        value_type=schema.TextLine(),
-        required=False
-    )
+    # anchors = schema.Tuple(
+    #     title=_(u'label_anchors', u'Anchors'),
+    #     description=_(
+    #         u'help_anchors',
+    #         default=u"Persons responsible for living this house."
+    #     ),
+    #     value_type=schema.TextLine(),
+    #     required=False
+    # )
 
-    directives.widget(
-        'anchors',
-        AjaxSelectFieldWidget,
-        vocabulary='plone.app.vocabularies.Users'
-    )
+    # directives.widget(
+    #     'anchors',
+    #     AjaxSelectFieldWidget,
+    #     vocabulary='plone.app.vocabularies.Users'
+    # )
 
     geometry = schema.TextLine(
         title=_(u'label_geometry', default=u'Geometry'),
@@ -132,6 +132,12 @@ class IHouse(ISpot):
         title=_(u'label_house_area', default=u'Area'),
         description=_(u"House area (square meters)"),
         required=False,
+    )
+
+    model.fieldset(
+        'house',
+        label=_(u"label_tab_house", default=u'House'),
+        fields=['building', 'house_type', 'floor', 'area']
     )
 
 class IBuilding(ISpot):
