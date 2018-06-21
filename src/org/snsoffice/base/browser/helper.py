@@ -256,7 +256,6 @@ class ConfigHelper(BrowserView):
         building = context.building.to_object
         while True:
             views = []
-            building = context.building.to_object
             for v in building.contentValues():
                 if IHouseView.providedBy(v):
                     views.append({
