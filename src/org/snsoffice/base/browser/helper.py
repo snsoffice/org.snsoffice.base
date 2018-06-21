@@ -260,7 +260,7 @@ class ConfigHelper(BrowserView):
                 portal_type='Image',
             )
             if images:
-                return images[0].absolute_url()
+                return images[0].getURL()
         elif src.startswith('http://') or src.startswith('https://'):
             return src
         else:
