@@ -261,7 +261,7 @@ class ConfigHelper(BrowserView):
             )
             if images:
                 return images[0].absolute_url()
-        elif src.startswith('http://') or str.startswith('https://'):
+        elif src.startswith('http://') or src.startswith('https://'):
             return src
         else:
             return view.absolute_url() + '/' + src
