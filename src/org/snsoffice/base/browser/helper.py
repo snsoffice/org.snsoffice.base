@@ -248,8 +248,23 @@ class ConfigHelper(BrowserView):
                 'type': v.view_type,
                 'opacity': v.opacity,
                 'geometry': v.geometry,
-                'url': v.absolute_url() + '/' + v.source,
+                'url': self.build_views(v)
             })
+
+    def build_view_url(self, view):
+        src = view.source
+        if not src:
+            images = api.content.find(
+                context=view,
+                depth=1,
+                portal_type='Image',
+            )
+            if images:
+                return images[0].absolute_url()
+        elif src.startswith('http://') or str.startswith('https://'):
+            return src
+        else:
+            return view.absolute_url() + '/' + src
 
     def build_locations(self, context):
         results = []
@@ -258,12 +273,15 @@ class ConfigHelper(BrowserView):
             views = []
             for v in building.contentValues():
                 if IHouseView.providedBy(v):
+                    url = self.build_view_url(v)
+                    if url is None:
+                        continue
                     views.append({
                         'name': v.getId(),
                         'type': v.view_type,
                         'opacity': v.opacity,
                         'geometry': v.geometry,
-                        'url': v.absolute_url() + '/' + v.source,
+                        'url': url
                     })
             results.append( { 'views': views } )
 
@@ -304,12 +322,15 @@ class ConfigHelper(BrowserView):
         if (IContentish.providedBy(context) or IFolderish.providedBy(context)):
             for v in context.contentValues():
                 if IHouseView.providedBy(v):
+                    url = self.build_view_url(v)
+                    if url is None:
+                        continue
                     item = {
                         'name': v.getId(),
                         'type': v.view_type,
                         'opacity': v.opacity,
                         'geometry': v.geometry,
-                        'url': v.absolute_url() + '/' + v.source,
+                        'url': url
                     }
                     result['views'].append(item)
 
